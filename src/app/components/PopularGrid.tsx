@@ -24,7 +24,7 @@ const popular: Category[] = [
 export default function PopularGrid() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-6">
-      <h2 className="text-base font-semibold">Popular</h2>
+      <h2 className="text-[2.5rem] text-[var(--textColor1)] pb-[20px] leading-[2.5rem] font-bold w-full pl-[25px] text-left">Popular</h2>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
         {popular.map((c) => (
           <CategoryCard key={c.id} category={c} />

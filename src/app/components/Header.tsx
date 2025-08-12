@@ -24,16 +24,17 @@ export default function Header() {
           <Image
             src="/buyereviews-logo.webp"
             alt="BuyeReviews logo"
-            width={32}
-            height={32}
-            className="h-8 w-8 object-contain"
+            width={45}
+            height={45}
+            className="h-10 w-10 object-contain"
+            style={{ width: '45px', height: '45px' }}
             priority
           />
-          <span className="sr-only sm:not-sr-only">BuyeReviews</span>
+          <span className="sr-only sm:not-sr-only text-2xl">BuyeReviews</span>
         </Link>
 
         <div className="ml-auto flex items-center gap-2">
-          <nav className="hidden md:flex items-center gap-6 text-sm">
+          <nav className="hidden md:flex items-center gap-6 text-base font-semibold">
             {primaryNav.map((item) => (
               <Link key={item.href} href={item.href} className="hover:underline underline-offset-4">
                 {item.label}

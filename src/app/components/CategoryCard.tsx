@@ -36,7 +36,7 @@ export default function CategoryCard({
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
       <div className="absolute bottom-3 left-3 right-3 text-white">
-        <div className="text-lg font-semibold drop-shadow">{category.title}</div>
+        <div className=" font-semibold drop-shadow " style={{ fontSize: '2.2rem' }}>{category.title}</div>
       </div>
     </Link>
   );

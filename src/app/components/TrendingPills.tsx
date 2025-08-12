@@ -14,21 +14,21 @@ const items: Item[] = [
 export default function TrendingPills() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-4">
-      <h3 className="text-center font-semibold">Trending</h3>
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-3">
+      <h3 className="text-[2.2rem] text-[var(--textColor1)] pb-[20px] leading-[1] font-bold w-fit pl-0 text-center mx-auto">Trending</h3>
+      <div className="mt-4 w-full flex flex-row flex-wrap justify-center items-center gap-6">
         {items.map((i) => (
           <div
             key={i.id}
-            className="rounded-xl border border-black/10 bg-white p-3 text-sm shadow-sm hover:shadow flex items-center gap-2"
+            className="rounded-[12px] bg-white px-6 h-[88px] cursor-pointer text-sm flex items-center gap-[5%] drop-shadow-[0_0_8px_#ccc] w-full sm:w-[calc(50%-12px)] lg:w-[calc((100%-48px)/3)]"
           >
             <Image
               src={i.img}
               alt={i.label}
               width={60}
               height={60}
-              className="h-10 w-10 rounded object-cover"
+              className="h-12 w-12 rounded object-cover"
             />
-            <span className="line-clamp-2 uppercase text-base font-semibold p-[5px]">{i.label}</span>
+            <span className="flex-1 line-clamp-2 overflow-hidden uppercase text-[var(--text-base)] leading-[var(--text-base--line-height)] font-semibold p-[5px]">{i.label}</span>
           </div>
         ))}
       </div>

@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  products  Product[]
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  title       String
+  imageUrl    String
+  score       Float
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  highlights  Highlight[]
+  offers      Offer[]
+  reviewMeta  ReviewMeta?
+  createdAt   DateTime    @default(now())
+}
+
+model Highlight {
+  id        String   @id @default(cuid())
+  text      String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Offer {
+  id         String   @id @default(cuid())
+  retailer   String
+  url        String
+  badge      String?
+  discount   String?
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model ReviewMeta {
+  id           String  @id @default(cuid())
+  reviewsCount Int
+  boughtNote   String?
+  productId    String  @unique
+  product      Product @relation(fields: [productId], references: [id])
+}
+
+model NewsletterSubscription {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

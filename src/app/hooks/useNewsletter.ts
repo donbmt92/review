@@ -3,21 +3,33 @@
 import { useState } from "react";
 
 export function useNewsletter(): {
-  submit: (email: string) => Promise<void>;
+  submit: (email: string) => Promise<{ ok: boolean; error?: string }>;
   isSubmitting: boolean;
   error: string | null;
 } {
   const [isSubmitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function submit(email: string): Promise<void> {
+  async function submit(email: string): Promise<{ ok: boolean; error?: string }> {
     setSubmitting(true);
     setError(null);
     try {
-      // Replace with real API
-      await new Promise((r) => setTimeout(r, 400));
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const message: string = data?.error || "Failed to subscribe";
+        setError(message);
+        return { ok: false, error: message };
+      }
+      return { ok: true };
     } catch (e) {
-      setError("Failed to subscribe");
+      const message = e instanceof Error ? e.message : "Failed to subscribe";
+      setError(message);
+      return { ok: false, error: message };
     } finally {
       setSubmitting(false);
     }

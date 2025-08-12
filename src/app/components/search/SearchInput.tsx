@@ -32,11 +32,11 @@ export default function SearchInput() {
   }, [query]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[350px] self-center mx-auto">
       <input
         aria-label="Search products"
         placeholder="What are you searching for?"
-        className="w-full h-12 rounded-full border border-black/10 bg-white/95 px-5 pr-12 shadow-sm focus:outline-none focus:ring-2 focus:ring-black/20"
+        className="w-full h-10 sm:h-12 rounded-lg sm:rounded-[12px] border border-black/10 bg-white/95 px-3 sm:px-4 pr-10 sm:pr-12 text-sm sm:text-[14px] leading-tight sm:leading-[1.4285em] shadow-sm focus:outline-none focus:ring-2 focus:ring-black/20"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setFocused(true)}
@@ -44,17 +44,17 @@ export default function SearchInput() {
       />
       <button
         aria-label="Search"
-        className="absolute right-1 top-1 h-10 w-10 rounded-full bg-black text-white"
+        className="absolute right-1 top-1 h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-[12px] bg-black text-white text-sm sm:text-base hover:bg-black/90 transition-colors"
       >
         →
       </button>
       {focused && (
-        <div className="absolute z-10 mt-2 w-full rounded-xl border border-black/10 bg-white shadow-lg">
-          <ul className="py-2">
+        <div className="absolute z-10 mt-2 w-full rounded-lg sm:rounded-[12px] border border-black/10 bg-white shadow-lg">
+          <ul className="py-1 sm:py-2">
             {results.map((s) => (
               <li key={s.id}>
                 <button
-                  className="w-full px-4 py-2 text-left hover:bg-black/[.03]"
+                  className="w-full px-3 sm:px-4 py-2 text-left text-sm sm:text-base hover:bg-black/[.03] transition-colors"
                   onMouseDown={(e) => {
                     e.preventDefault();
                     setQuery(s.label);
@@ -67,7 +67,7 @@ export default function SearchInput() {
             ))}
           </ul>
           {displayQuery && (
-            <div className="border-t border-black/5 px-4 py-2 text-xs text-black/60">
+            <div className="border-t border-black/5 px-3 sm:px-4 py-2 text-xs text-black/60">
               Showing results for: {displayQuery}
             </div>
           )}

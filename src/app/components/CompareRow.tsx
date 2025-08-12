@@ -24,75 +24,116 @@ function Stars() {
 
 export default function CompareRow({ item }: { item: CompareItem }) {
   return (
-    <div className="relative rounded-xl border border-black/10 bg-white p-4 shadow-sm">
-      {/* Top-left badge */}
-      {item.badge && (
-        <div className="absolute left-10 -top-3 rounded-md bg-amber-400 px-2 py-0.5 text-xs font-semibold text-black shadow">
-          {item.badge}
+         <div className="relative rounded-xl bg-white p-0  shadow-sm overflow-visible w-full">
+      {/* Top row with rank and badge */}
+      <div className="flex items-center gap-3 p-4 sm:p-0 sm:gap-4 ml-4">
+        <div className="w-6 shrink-0 text-sm font-semibold text-black/70 sm:text-2xl">
+          {item.rank}
+        </div>
+        
+        {/* Top-left skewed ribbon badge */}
+        {item.badge && (
+          <div className="shrink-0">
+            <div className="skewed-ribbon">
+              <span className="ribbon-text">{item.badge}</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Mobile-only score bubble at top-right with attached discount */}
+      <div className="absolute -right-4 -top-3 z-10 block sm:hidden">
+        <div className="relative">
+          <div className="rounded-xl bg-sky-50 px-4 py-3 text-center shadow w-[140px]">
+            <div className="text-3xl font-bold text-black">{item.score.toFixed(1)}</div>
+            <Stars />
+            {typeof item.reviewsCount === "number" && (
+              <div className="mt-2 text-sm text-black/60">
+                ({item.reviewsCount.toLocaleString()} reviews)
+              </div>
+            )}
+          </div>
+          {item.discount && (
+            <div className="absolute right-[10px]  transform scale-[0.95] origin-bottom-right">
+              <div className="discount-ribbon">{item.discount}</div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Top-right discount for desktop/tablet */}
+      {item.discount && (
+        <div className="hidden sm:block absolute right-0 top-0 z-10">
+          <div className="discount-ribbon ">
+            {item.discount}
+          </div>
         </div>
       )}
 
-      <div className="flex items-center gap-4">
-        {/* Rank */}
-        <div className="w-6 shrink-0 text-sm font-semibold text-black/70">{item.rank}</div>
-
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-6 w-full px-4 sm:px-0 relative">
         {/* Image */}
-        <div className="shrink-0 overflow-hidden rounded-lg border border-black/10 bg-white">
-          <Image
-            src={item.image}
-            alt={item.title}
-            width={128}
-            height={128}
-            className="h-28 w-24 object-contain p-3 sm:h-32 sm:w-28"
-          />
+        <div className="w-full sm:w-auto flex-shrink-0 flex justify-center sm:justify-start pl-4">
+          <div className="w-48 h-48 sm:w-52 sm:h-52 rounded-lg  border-0 overflow-hidden bg-white">
+            <Image
+              src={item.image}
+              alt={item.title}
+              width={150}
+              height={150}
+              className="w-full h-full object-contain p-2"
+            />
+          </div>
         </div>
 
         {/* Info */}
-        <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold leading-snug">{item.title}</div>
-          <ul className="mt-1 space-y-1 text-[12px] text-black/80">
+        <div className="flex-1 min-w-0 w-full sm:w-auto">
+                     <h3 className="product-title text-base sm:text-lg md:text-xl font-bold text-left">{item.title}</h3>
+          <ul className="  sm:space-y-3 text-xs sm:text-sm md:text-base text-black/80">
             {item.highlights.slice(0, 3).map((h, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="mt-[2px] text-emerald-600">✓</span>
-                <span>{h}</span>
+              <li key={i} className="flex items-start gap-3 sm:gap-3">
+                <span className="mt-[2px] text-emerald-600 flex-shrink-0">✓</span>
+                <span className="min-w-0 text-left">{h}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Score */}
-        <div className="shrink-0 rounded-xl bg-sky-50 px-3 py-2 text-center">
-          <div className="text-2xl font-bold text-sky-700">{item.score.toFixed(1)}</div>
+        {/* Score - desktop/tablet only */}
+        <div className="hidden sm:block flex-shrink-0 rounded-xl bg-sky-50 px-4 sm:px-6 py-4 sm:py-5 text-center w-full sm:w-auto">
+          <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-black">
+            {item.score.toFixed(1)}
+          </div>
           <Stars />
           {typeof item.reviewsCount === "number" && (
-            <div className="mt-1 text-[11px] text-black/60">({item.reviewsCount.toLocaleString()} reviews)</div>
+            <div className="mt-3 sm:mt-4 text-sm sm:text-lg text-black/60">
+              ({item.reviewsCount.toLocaleString()} reviews)
+            </div>
           )}
         </div>
 
         {/* CTA */}
-        <div className="flex shrink-0 flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-4 sm:gap-4 flex-shrink-0 min-h-0 w-full sm:w-auto">
           <a
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700"
+            className="inline-flex items-center justify-center rounded-md bg-sky-600 px-6 sm:px-8 py-3 sm:py-5 text-base sm:text-lg md:text-xl font-medium text-white hover:bg-sky-700 w-full sm:w-auto"
           >
             Check Price
           </a>
-          <div className="text-base font-extrabold tracking-tight">amazon</div>
+          <div className="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight">
+            <Image
+              src="/Amazon_logo.svg"
+              alt="Amazon"
+              width={80}
+              height={24}
+              className="h-5 sm:h-6 w-auto"
+            />
+          </div>
           {item.boughtNote && (
-            <div className="text-[11px] text-black/60">{item.boughtNote}</div>
+            <div className="text-sm sm:text-base md:text-lg text-black/60 text-center leading-tight">{item.boughtNote}</div>
           )}
         </div>
       </div>
-
-      {item.discount && (
-        <div className="absolute right-2 top-2 rounded bg-red-500 px-2 py-0.5 text-[11px] font-semibold text-white">
-          {item.discount}
-        </div>
-      )}
     </div>
   );
 }
-
-
