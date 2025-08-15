@@ -10,12 +10,35 @@ export default function Footer() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
+    if (!email.trim()) return;
+    
     try {
-      // Placeholder for API call
-      await new Promise((r) => setTimeout(r, 400));
-      setStatus("success");
-      setEmail("");
-    } catch {
+      setStatus("idle");
+      
+      // Lưu email vào localStorage
+      const existingEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
+      if (!existingEmails.includes(email)) {
+        existingEmails.push(email);
+        localStorage.setItem('newsletter_emails', JSON.stringify(existingEmails));
+      }
+      
+             // Lưu vào database qua API
+       const response = await fetch('/api/newsletter', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ 
+           email: email.trim()
+         })
+       });
+      
+      if (response.ok) {
+        setStatus("success");
+        setEmail("");
+      } else {
+        throw new Error('Failed to save email');
+      }
+    } catch (error) {
+      console.error('Newsletter signup error:', error);
       setStatus("error");
     }
   }
