@@ -19,7 +19,7 @@ export const airPurifiersData = {
       ],
       score: 9.9,
       retailer: "amazon",
-      url: "https://buyereviews.com/api/openamzurl?asin=B0998FWTHP&type=SR&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249MCZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA5OThGV1RIUCxCMEIyODZCRlpRLEIwQk4yTUdWNUgsQjBDM0ZYWkxaNSxCMEMxTVBEVEc3LEIwNzVaWk5EOEIsQjA3M1dKTDk5VyxCMENMUlNYOERSLEIwOFBDWEpWRkgsQjA4Rko2NzhZSyZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL2Fpci1wdXJpZmllcnMmYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+      url: "https://www.amazon.com/dp/B07YMJLTR6?maas=mmaas_adg_api_581399919690488786_static_9_129&aa_campaignid=lv_IbhvkJxtDzk7Xtus3p&aa_adgroupid=lv_vi4xCY2OKf7FM5uMea&aa_creativeid=lv_IFwgyHEjnmIfwzwTN8&m=A1PNQ3Z7C9295U&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=3edeb4d2b697c460f42fb247798e02a9e=en_US&ref_=as_li_ss_tl",
       badge: "Best Overall",
       discount: "20% off",
       reviewsCount: 13721,

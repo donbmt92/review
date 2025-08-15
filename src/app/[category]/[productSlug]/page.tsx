@@ -47,7 +47,7 @@ export default function ProductSlugPage() {
       // Redirect sang URL thực tế sau 1 giây (để user có thể thấy slug)
       setTimeout(() => {
         window.location.href = product.url;
-      }, 1000);
+      }, 500);
     } else {
       console.error('Product not found for slug:', productSlug);
       // Redirect về trang chủ nếu không tìm thấy sản phẩm

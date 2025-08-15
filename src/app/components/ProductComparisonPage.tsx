@@ -50,7 +50,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const { trackEvent } = useGoogleAnalytics();
   const router = useRouter();
-
+  
   // Function để tạo slug từ tên sản phẩm
   const createProductSlug = (title: string): string => {
     return title
@@ -71,7 +71,8 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
     
     // Tạo URL với slug
     const slugUrl = `/${category}/${productSlug}`;
-    
+      console.log(slugUrl);
+      
     // Navigate đến slug page (sẽ tự động redirect sang URL thực tế)
     router.push(slugUrl);
   };
