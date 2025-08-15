@@ -3,6 +3,10 @@ import DashboardStats from "./components/DashboardStats";
 import RecentProducts from "./components/RecentProducts";
 import RecentNewsletters from "./components/RecentNewsletters";
 
+// Disable prerendering for admin pages
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function AdminDashboard() {
   return (
     <div className="space-y-6">
