@@ -861,7 +861,7 @@ body {
       height: 40px;
       border-radius: 45px;
       border: none;
-      font-size: 1.1rem;
+      /* font-size: 1.1rem; */
       color: #fff;
       padding: 5px 25px;
       width: 300px;
@@ -954,7 +954,7 @@ body {
       height: 40px;
       border-radius: 45px;
       border: none;
-      font-size: 1.1rem;
+      /* font-size: 1.1rem; */
       color: #fff;
       padding: 5px 25px;
       width: 160px;
@@ -1197,7 +1197,7 @@ body {
       height: 40px;
       border-radius: 5px;
       border: none;
-      font-size: 1.2rem;
+      /* font-size: 1.2rem; */
       color: #fff;
       padding: 5px 25px;
       width: 300px;

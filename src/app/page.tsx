@@ -11,7 +11,7 @@ export default function Home() {
       <PopularGrid />
       <TrendingPills />
       <CategoriesSection />
-      <NewsletterCTA />
+      {/* <NewsletterCTA /> */}
     </div>
   );
 }

@@ -48,6 +48,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   relatedProducts = [],
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState('');
   const { trackEvent } = useGoogleAnalytics();
   const router = useRouter();
   
@@ -134,11 +135,37 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
             <div className="beehive-subscription-form-container">
               <input
                 className="beehive-subscription-form-input"
-                type="text"
+                type="email"
                 placeholder="Your Email Address"
-                value=""
-              ></input>
-              <button className="beehive-subscription-form-button">
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button 
+                className="beehive-subscription-form-button"
+                onClick={() => {
+                  if (email) {
+                    // Track event
+                    trackEvent('newsletter_signup', 'engagement', email);
+                    
+                    // Lưu email vào localStorage
+                    const existingEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
+                    if (!existingEmails.includes(email)) {
+                      existingEmails.push(email);
+                      localStorage.setItem('newsletter_emails', JSON.stringify(existingEmails));
+                    }
+                    
+                    // Lưu vào database (nếu có API)
+                    fetch('/api/newsletter', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email, category, source: 'product_page' })
+                    }).catch(console.error);
+                    
+                    setEmail('');
+                    alert('Thank you for subscribing! Your email has been saved.');
+                  }
+                }}
+              >
                 Send Me Deals
               </button>
             </div>
