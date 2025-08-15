@@ -18,8 +18,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BuyeReviews - Home Page",
+  title: "BuyeReview - Home Page",
   description: "Top products in every category so you can compare what truly matters and choose the best for you.",
+  icons: {
+    icon: [
+      { url: '/buyereviews-logo.webp', sizes: 'any', type: 'image/webp' },
+      { url: '/buyereviews-logo.png', sizes: 'any', type: 'image/png' },
+    ],
+    shortcut: '/buyereviews-logo.webp',
+    apple: '/buyereviews-logo.webp',
+  },
+  openGraph: {
+    title: "BuyeReviews - Home Page",
+    description: "Top products in every category so you can compare what truly matters and choose the best for you.",
+    url: "https://buyereviews.com",
+    siteName: "BuyeReviews",
+    images: [
+      {
+        url: '/buyereviews-logo.webp',
+        width: 1200,
+        height: 630,
+        alt: 'BuyeReviews Logo',
+      },
+    ],
+    locale: 'vi_VN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "BuyeReviews - Home Page",
+    description: "Top products in every category so you can compare what truly matters and choose the best for you.",
+    images: ['/buyereviews-logo.webp'],
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({

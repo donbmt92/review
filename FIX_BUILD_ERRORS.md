@@ -68,3 +68,4 @@ review/
 2. Đảm bảo file `.env` đã được tạo đúng
 3. Restart server sau khi tạo file môi trường
 4. Kiểm tra database connection
+
