@@ -124,10 +124,10 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
 
       <div className="compare-actions">
         <a
-          href={item.url}
           rel="nofollow sponsored noopener"
           target="_blank"
           className="action-button"
+          onClick={() => onProductClick(item)}
         >
           Check Out Lastest Price
         </a>

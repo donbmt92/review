@@ -459,4 +459,4 @@ Nếu gặp vấn đề trong quá trình deploy:
 ---
 
 **Lưu ý**: Đảm bảo thay đổi tất cả password mặc định và cấu hình bảo mật phù hợp cho production environment.
-pm2 restart buyereviews
+pm2 restart buyereview

@@ -71,10 +71,10 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
     
     // Tạo URL với slug
     const slugUrl = `/${category}/${productSlug}`;
-      console.log(slugUrl);
+    console.log(slugUrl);
       
-    // Navigate đến slug page (sẽ tự động redirect sang URL thực tế)
-    router.push(slugUrl);
+    // Mở tab mới với slug page
+    window.open(slugUrl, '_blank');
   };
 
   return (
