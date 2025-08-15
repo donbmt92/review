@@ -75,10 +75,7 @@ const DealPopup: React.FC<DealPopupProps> = ({
   if (!shouldShow) return null;
 
   // Build URLs for different platforms
-  const buildUrl = (platform: "desktop" | "mobile") => {
-    const position = platform === "desktop" ? "popup-desktop" : "popup-mobile";
-    return `/api/openamzurl?asin=${product.asin}&type=${product.type}&prps=${product.prps}&position=${position}`;
-  };
+  
 
   return (
     <div className={styles.dealPopupContainer}>
@@ -160,7 +157,7 @@ const DealPopup: React.FC<DealPopupProps> = ({
               <div className={styles.arrowLeft} />
               <div className={styles.rightBackground}>
                 <p className={styles.ribbon}>
-                  <a href={buildUrl("mobile")} rel="nofollow" target="_blank">
+                  <a onClick={() => onProductClick(product, 'button-popup')}>
                     <span className={styles.text}>
                       <strong className={styles.bold}>
                         {product.discount}
