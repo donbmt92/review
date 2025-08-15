@@ -25,31 +25,7 @@ const DealPopupDemo: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>Deal Popup Demo</h1>
-      <p>Click the button below to open the deal popup</p>
-      
-      <button 
-        onClick={openPopup}
-        style={{
-          padding: '12px 24px',
-          fontSize: '16px',
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer'
-        }}
-      >
-        Open Deal Popup
-      </button>
-
-      <DealPopup 
-        isOpen={isPopupOpen} 
-        onClose={closePopup}
-        product={mockProduct}
-      />
-    </div>
+    <></>
   );
 };
 

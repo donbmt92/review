@@ -241,8 +241,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
         <DealPopup
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          onProductClick={handleProductClick}
-          product={{
+          onProductClick={handleProductClick}          product={{
             title: items[0].title,
             image: items[0].image,
             discount: items[0].discount || "Special Offer",

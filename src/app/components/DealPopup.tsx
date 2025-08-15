@@ -2,6 +2,7 @@
 
 import React from "react";
 import styles from "./DealPopup.module.css";
+import { CompareItem } from "./CompareRow";
 
 interface ProductData {
   title: string;
@@ -18,7 +19,7 @@ interface DealPopupProps {
   product: ProductData;
   showOnMobile?: boolean;
   showOnDesktop?: boolean;
-  onProductClick: (product: ProductData, clickType: string) => void;
+  onProductClick: (product: any, clickType: string) => void;
 }
 
 const DealPopup: React.FC<DealPopupProps> = ({
