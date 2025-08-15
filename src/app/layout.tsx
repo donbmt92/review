@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: "BuyeReview - Home Page",
   description: "Top products in every category so you can compare what truly matters and choose the best for you.",
   icons: {
@@ -29,16 +30,16 @@ export const metadata: Metadata = {
     apple: '/buyereviews-logo.webp',
   },
   openGraph: {
-    title: "BuyeReviews - Home Page",
+    title: "BuyeReview - Home Page",
     description: "Top products in every category so you can compare what truly matters and choose the best for you.",
     url: "https://buyereviews.com",
-    siteName: "BuyeReviews",
+    siteName: "BuyeReview",
     images: [
       {
         url: '/buyereviews-logo.webp',
         width: 1200,
         height: 630,
-        alt: 'BuyeReviews Logo',
+        alt: 'BuyeReview Logo',
       },
     ],
     locale: 'vi_VN',
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "BuyeReviews - Home Page",
+    title: "BuyeReview - Home Page",
     description: "Top products in every category so you can compare what truly matters and choose the best for you.",
     images: ['/buyereviews-logo.webp'],
   },
