@@ -21,7 +21,7 @@ export const vitaminD3K2Data = {
         "reviewsCount": 39555,
         "boughtNote": "20K+ bought in past month",
         "discount": "10% Coupon",
-        "url": "https://buyereviews.com/api/openamzurl?asin=B07YMJLTR6&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249MCZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B07YMJLTR6?maas=mmaas_adg_api_581399919690488786_static_9_129&aa_campaignid=lv_IbhvkJxtDzk7Xtus3p&aa_adgroupid=lv_vi4xCY2OKf7FM5uMea&aa_creativeid=lv_IFwgyHEjnmIfwzwTN8&m=A1PNQ3Z7C9295U&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=3edeb4d2b697c460f42fb247798e02a9e=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -36,7 +36,7 @@ export const vitaminD3K2Data = {
         "score": 9.6,
         "reviewsCount": 15180,
         "discount": "20% Coupon",
-        "url": "https://buyereviews.com/api/openamzurl?asin=B0B31QZV6H&type=OT&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249MSZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B0B31QZV6H?th=1&linkCode=ll1&tag=golftesters0e-20&linkId=124ed861776b7ae1eaaf07e973e15925&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -52,7 +52,7 @@ export const vitaminD3K2Data = {
         "score": 9.2,
         "reviewsCount": 47752,
         "discount": "40% Coupon",
-        "url": "https://buyereviews.com/api/openamzurl?asin=B07255MPRN&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249MiZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B07255MPRN?maas=maas_adg_api_589443220162898285_static_9_129&aa_campaignid=lv_tWsiNO23rPdFC1NAzY&aa_adgroupid=lv_GpQEGCSy2IFsrqVack&aa_creativeid=lv_BmulTE2X3B0boBGf0G&m=AQAIDN8YDF665&th=1&linkCode=ll1&tag=golftesters0e-20&linkId=c27fca554464b107a6398f895265017e&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -66,7 +66,7 @@ export const vitaminD3K2Data = {
         ],
         "score": 8.8,
         "reviewsCount": 905,
-        "url": "https://buyereviews.com/api/openamzurl?asin=B01FKPHD40&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249MyZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B0764MS2Q2?maas=maas_adg_api_589660094454816635_static_9_129&aa_campaignid=lv_3BI1nuUZZfIU8hD5C0&aa_adgroupid=lv_4mqz5qmmxBiC7AknZm&aa_creativeid=lv_k2AW51JoFRX55FEYBi&m=A2YD2H3KGK1F4L&th=1&linkCode=ll1&tag=golftesters0e-20&linkId=ad50c14d97c6496723816352dbea49b4&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -81,7 +81,7 @@ export const vitaminD3K2Data = {
         ],
         "score": 8.7,
         "reviewsCount": 3507,
-        "url": "https://buyereviews.com/api/openamzurl?asin=B0764MS2Q2&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249NCZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B01FKPHD40?maas=maas_adg_api_582533400757924686_static_9_129&aa_campaignid=lv_0dmj6VvqD73X2E5gxs&aa_adgroupid=lv_0Bh6PjeE1kKlAJHLjN&aa_creativeid=lv_4qxqeaJRV2H6RORLGY&m=AU6W6XEKMQVCW&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=02e213af1d9e140082763380609b7415&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -97,7 +97,7 @@ export const vitaminD3K2Data = {
         "score": 8.4,
         "reviewsCount": 1932,
         "discount": "43% off",
-        "url": "https://buyereviews.com/api/openamzurl?asin=B0DDH186BL&type=OT&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249NSZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B0DDH186BL?th=1&linkCode=ll1&tag=golftesters0e-20&linkId=4d286046df3d19a3f6b1497f18acec29&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -111,7 +111,7 @@ export const vitaminD3K2Data = {
         ],
         "score": 8.2,
         "reviewsCount": 2731,
-        "url": "https://buyereviews.com/api/openamzurl?asin=B07K3VFVJC&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249NiZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B07K3VFVJC?maas=maas_adg_api_589660094454816635_static_9_129&aa_campaignid=lv_E3Kdj88fw3LkCZHA5w&aa_adgroupid=lv_MYwpg9ZeFkqIsZF7Kp&aa_creativeid=lv_wxomhYWlik1zbFoMKA&m=A2YD2H3KGK1F4L&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=b346a50d386e86f2565fa5f028d90c48&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -126,7 +126,7 @@ export const vitaminD3K2Data = {
         "score": 8.0,
         "reviewsCount": 363,
         "discount": "17% off + 10% Coupon",
-        "url": "https://buyereviews.com/api/openamzurl?asin=B0D7B94P8D&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249NyZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B0D7B94P8D?maas=maas_adg_api_585261468235723423_static_9_129&aa_campaignid=lv_UJze9o9XBs4e4ATa3Z&aa_adgroupid=lv_TQB1Rl0ymqSGow6QVW&aa_creativeid=lv_JXhXlfg3IHTZhlNGll&m=AQZ1IMSKWJKJS&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=2fba5aa56d2fd9ec7929efcdc077097e&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -141,7 +141,7 @@ export const vitaminD3K2Data = {
         "score": 7.9,
         "reviewsCount": 3028,
         "discount": "10% Coupon",
-        "url": "https://buyereviews.com/api/openamzurl?asin=B0C6WY48KJ&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249OCZzZXNzaW9uQ29va2llVmFsdWU9ZW1wdHkmbGluZXVwU25hcHNob3Q9QjA3WU1KTFRSNixCMEIzMVFaVjZILEIwNzI1NU1QUk4sQjAxRktQSEQ0MCxCMDc2NE1TMlEyLEIwRERIMTg2QkwsQjA3SzNWRlZKQyxCMEQ3Qjk0UDhELEIwQzZXWTQ4S0osQjAwM0NGN1RPQSZhcnRpY2xlVXJsPWh0dHBzOi8vYnV5ZXJldmlld3MuY29tL3ZpdGFtaW4tZDMtazImYXJ0aWNsZUFmZmlsaWF0aW9uVHlwZT1BVVRPJnBhcnRuZXJUeXBlPUFVVE8=",
+        "url": "https://www.amazon.com/dp/B0C6WY48KJ?maas=maas_adg_api_585261468235723423_static_9_129&aa_campaignid=lv_fSBdLfjN5YuVyA8w6A&aa_adgroupid=lv_5eE7sEgpu7dCzwD986&aa_creativeid=lv_fyTEMfIJhpwmf0xkNI&m=AQZ1IMSKWJKJS&th=1&linkCode=ll1&tag=golftesters0e-20&linkId=583d7edefb8234d45cbb5644ce60569f&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -155,7 +155,7 @@ export const vitaminD3K2Data = {
         ],
         "score": 7.5,
         "reviewsCount": 3601,
-        "url": "https://buyereviews.com/api/openamzurl?asin=B003CF7TOA&type=LV&prps=d2Vic2l0ZUlkPTExJmdjbGlkPWVtcHR5JnRhZz10YWc9aG9tZWRpeTAwLTIwJmFkc1R5cGU9ZW1wdHkmcG9zaXRpb249MTAmc2Vzc2lvbkNvb2tpZVZhbHVlPWVtcHR5JmxpbmV1cFNuYXBzaG90PUIwN1lNSkxUUjYsQjBCMzFRWlY2SCxCMDcyNTVNUFJOLEIwMUZLUEhENDAsQjA3NjRNUzJRMixCMERESDE4NkJMLEIwN0szVkZWSkMsQjBEN0I5NFA4RCxCMEM2V1k0OEtKLEIwMDNDRjdUT0EmYXJ0aWNsZVVybD1odHRwczovL2J1eWVyZXZpZXdzLmNvbS92aXRhbWluLWQzLWsyJmFydGljbGVBZmZpbGlhdGlvblR5cGU9QVVUTyZwYXJ0bmVyVHlwZT1BVVRP)",
+        "url": "https://www.amazon.com/dp/B003CF7TOA?maas=maas_adg_api_581399919690488786_static_9_129&aa_campaignid=lv_IbhvkJxtDzk7Xtus3p&aa_adgroupid=lv_vi4xCY2OKf7FM5uMea&aa_creativeid=lv_IFwgyHEjnmIfwzwTN8&m=A1PNQ3Z7C9295U&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=3edeb4d2b697c460f42fb247798e02a9&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       }
     ],
