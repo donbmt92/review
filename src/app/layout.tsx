@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BuyeReview - Đánh giá sản phẩm uy tín",
-  description: "Nền tảng đánh giá sản phẩm uy tín, giúp bạn đưa ra quyết định mua sắm thông minh",
+  title: "BuyeReviews - Home Page",
+  description: "Top products in every category so you can compare what truly matters and choose the best for you.",
 };
 
 export default function RootLayout({
