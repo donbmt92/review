@@ -76,7 +76,7 @@ export default function Header() {
             style={{ width: "45px", height: "45px" }}
             priority
           />
-          <span className="sr-only sm:not-sr-only text-2xl">BuyeReview</span>
+          <span className=" text-2xl">BuyeReview</span>
         </Link>
 
         <div className="ml-auto flex items-center gap-2">

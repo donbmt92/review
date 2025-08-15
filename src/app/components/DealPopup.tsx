@@ -67,52 +67,103 @@ const DealPopup: React.FC<DealPopupProps> = ({
     <div className={styles.dealPopupContainer}>
       <div className={styles.dealPopupOnLeaveContainer}>
         <div className={styles.popupCenterContainer}>
-          <div className={styles.leftSidePopup}>
-            <div className={styles.popupTitle}>{product.title}</div>
-            <div className={styles.middleTitle}>
-              Today's deals will end soon..
+          {/* Mobile Layout */}
+          <div className={styles.mobilePopup}>
+            {/* Header - Black Section */}
+            <div className={styles.mobilePopupHeader}>
+              <div className={styles.mobilePopupTitle}>{product.title}</div>
+              <div className={styles.mobilePopupRating}>
+                <span className={styles.ratingNumber}>9.8</span>
+                <div className={styles.starsContainer}>
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={styles.star}>★</span>
+                  ))}
+                </div>
+              </div>
+              <button className={styles.mobileCloseButton} onClick={handleClose}>
+                ✕
+              </button>
             </div>
-            <a
-              href={buildUrl("desktop")}
-              rel="nofollow"
-              target="_blank"
-              className={styles.popupBtnClick}
-            >
-              Check Out Lastest Price{" "}
-            </a>
-          </div>
-          <div className={styles.rightSidePopup}>
-            <div className={styles.arrowLeft} />
-            <div className={styles.rightBackground}>
+            
+            {/* Body - White Section */}
+            <div className={styles.mobilePopupBody}>
+              {/* Discount Badge */}
               <p className={styles.ribbon}>
-                <a href={buildUrl("mobile")} rel="nofollow" target="_blank">
-                  <span className={styles.text}>
-                    <strong className={styles.bold}>{product.discount}</strong>
-                  </span>
-                </a>
+                <span className={styles.text}>
+                  <strong className={styles.bold}>{product.discount}</strong>
+                </span>
               </p>
-              <div className={styles.popUpImgContainer}>
+              
+              {/* Product Image */}
+              <div className={styles.mobileProductImage}>
                 <img
                   alt={product.title}
-                  loading="lazy"
-                  width={500}
-                  height={500}
-                  decoding="async"
-                  data-nimg={1}
-                  className="ui image"
-                  srcSet={`/_next/image?url=${encodeURIComponent(
-                    product.image
-                  )}&w=640&q=75 1x, /_next/image?url=${encodeURIComponent(
-                    product.image
-                  )}&w=1080&q=75 2x`}
-                  src={`/_next/image?url=${encodeURIComponent(
-                    product.image
-                  )}&w=1080&q=75`}
-                  style={{ color: "transparent", height: "100%" }}
+                  src={product.image}
+                  className={styles.productImg}
                 />
               </div>
-              <div className={styles.closePopup} onClick={handleClose}>
-                X
+              
+              {/* CTA Button */}
+              <a
+                href={buildUrl("mobile")}
+                rel="nofollow"
+                target="_blank"
+                className={styles.mobileCtaButton}
+              >
+                View on Amazon
+              </a>
+            </div>
+          </div>
+          
+          {/* Desktop Layout - Keep existing */}
+          <div className={styles.desktopPopup}>
+            <div className={styles.leftSidePopup}>
+              <div className={styles.popupTitle}>{product.title}</div>
+              <div className={styles.middleTitle}>
+                Today's deals will end soon..
+              </div>
+              <a
+                href={buildUrl("desktop")}
+                rel="nofollow"
+                target="_blank"
+                className={styles.popupBtnClick}
+              >
+                Check Out Lastest Price{" "}
+              </a>
+            </div>
+            <div className={styles.rightSidePopup}>
+              <div className={styles.arrowLeft} />
+              <div className={styles.rightBackground}>
+                <p className={styles.ribbon}>
+                  <a href={buildUrl("mobile")} rel="nofollow" target="_blank">
+                    <span className={styles.text}>
+                      <strong className={styles.bold}>{product.discount}</strong>
+                    </span>
+                  </a>
+                </p>
+                <div className={styles.popUpImgContainer}>
+                  <img
+                    alt={product.title}
+                    loading="lazy"
+                    width={500}
+                    height={500}
+                    decoding="async"
+                    data-nimg={1}
+                    className="ui image"
+                    srcSet={`/_next/image?url=${encodeURIComponent(
+                      product.image
+                    )}&w=640&q=75 1x, /_next/image?url=${encodeURIComponent(
+                      product.image
+                    )}&w=1080&q=75 2x`}
+                    src={`/_next/image?url=${encodeURIComponent(
+                      product.image
+                    )}&w=1080&q=75`}
+                    style={{ color: "transparent", height: "100%" }}
+                  />
+                </div>
+                <div className={styles.closePopup} onClick={handleClose}>
+                  X
+                </div>
               </div>
             </div>
           </div>
