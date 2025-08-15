@@ -1,0 +1,41 @@
+<div class="compare-row">
+  <div class="rank-badge">{rank}</div>
+
+  <div class="image-wrapper">
+    <a href="{url}" rel="nofollow sponsored" target="_blank">
+      <img class="product-image-container" src="{image}" alt="{title}" />
+      <!-- Optional discount ribbon -->
+      <!-- {discount} -->
+      <span class="discount-ribbon">{discount}</span>
+      <!-- Optional badge ribbon -->
+      <span class="skewed-ribbon"><span class="ribbon-text">{badge}</span></span>
+    </a>
+  </div>
+
+  <div class="info-container">
+    <a class="product-title" href="{url}" rel="nofollow sponsored" target="_blank">{title}</a>
+
+    <div class="info-list">
+      <div class="info-list-item">{highlight_1}</div>
+      <div class="info-list-item">{highlight_2}</div>
+      <div class="info-list-item">{highlight_3}</div>
+      <!-- ... -->
+    </div>
+  </div>
+
+  <div class="rating-box">
+    <div class="rating-number">{score}</div>
+    <div class="grade-string">{grade}</div>
+    <div class="stars-rating">★★★★★</div>
+    <div class="reviews-count">{reviewsCount} reviews</div>
+  </div>
+
+  <div class="compare-actions">
+    <div class="coupon-label">{boughtNote}</div>
+    <a class="action-button" href="{url}" rel="nofollow sponsored" target="_blank">View on {retailer}</a>
+    <div class="retailer-row">
+      <img class="retailer-logo" src="/Amazon_logo.svg" alt="{retailer}" />
+      <span class="retailer-discount">{discount}</span>
+    </div>
+  </div>
+</div>

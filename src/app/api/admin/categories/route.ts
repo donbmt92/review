@@ -17,6 +17,7 @@ export async function GET() {
       id: category.id,
       name: category.name,
       slug: category.slug,
+      icon: (category as any).icon ?? null,
       createdAt: category.createdAt,
       productsCount: category._count.products
     }));
@@ -34,7 +35,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, slug } = body;
+    const { name, slug, icon } = body;
 
     // Validate input
     if (!name || !slug) {
@@ -65,6 +66,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         slug,
+        icon,
       },
     });
 

@@ -5,12 +5,14 @@ import { useState } from "react";
 interface CategoryForm {
   name: string;
   slug: string;
+  icon?: string;
 }
 
 export default function AddCategoryForm() {
   const [form, setForm] = useState<CategoryForm>({
     name: "",
     slug: "",
+    icon: "",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -51,6 +53,7 @@ export default function AddCategoryForm() {
         setForm({
           name: "",
           slug: "",
+          icon: "",
         });
         // Trigger refresh of categories list
         window.location.reload();
@@ -100,6 +103,22 @@ export default function AddCategoryForm() {
           />
           <p className="text-xs text-gray-500 mt-1">
             Slug sẽ được tạo tự động từ tên danh mục
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Icon URL (tùy chọn)
+          </label>
+          <input
+            type="text"
+            value={form.icon ?? ""}
+            onChange={(e) => setForm(prev => ({ ...prev, icon: e.target.value }))}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="/categories/appliances.png"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Nếu để trống, có thể cập nhật sau. Nên dùng đường dẫn dưới `public/` ví dụ: /categories/xxx.png
           </p>
         </div>
 

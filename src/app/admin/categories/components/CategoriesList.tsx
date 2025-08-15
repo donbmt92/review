@@ -7,6 +7,7 @@ interface Category {
   id: string;
   name: string;
   slug: string;
+  icon?: string | null;
   productsCount: number;
   createdAt: string;
 }
@@ -65,6 +66,9 @@ export default function CategoriesList() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Icon
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Tên danh mục
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -84,6 +88,19 @@ export default function CategoriesList() {
           <tbody className="bg-white divide-y divide-gray-200">
             {categories.map((category) => (
               <tr key={category.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {category.icon ? (
+                    <img
+                      src={category.icon}
+                      alt={category.name}
+                      className="h-8 w-8 object-contain"
+                      width={32}
+                      height={32}
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded bg-gray-100 border border-gray-200" />
+                  )}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
                     {category.name}

@@ -14,6 +14,7 @@ model Category {
   id        String   @id @default(cuid())
   name      String   @unique
   slug      String   @unique
+  icon      String?
   products  Product[]
   createdAt DateTime @default(now())
 }
@@ -25,6 +26,7 @@ model Product {
   score       Float
   categoryId  String
   category    Category    @relation(fields: [categoryId], references: [id])
+  list        Json?
   highlights  Highlight[]
   offers      Offer[]
   reviewMeta  ReviewMeta?

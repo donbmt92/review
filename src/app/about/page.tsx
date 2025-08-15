@@ -2,13 +2,13 @@ export const dynamic = "force-static";
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-7xl px-5 py-8 text-base">
+    <div className="mx-auto max-w-6xl px-5 py-8 text-base">
       <div className="rounded-xl border border-black/10 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold">About Us</h1>
+        <h1 className="text-[2.25rem] leading-[1.1] font-bold text-[rgba(0,140,255,0.82)] p-0 no-underline mt-[15px] mr-auto mb-[10px] ml-0">About Us</h1>
         <br />
-        <div className="prose prose-p:my-3 max-w-none text-black/80">
+        <div className="text-sm leading-6 text-[var(--textColor1)] whitespace-pre-wrap font-normal pt-6 pr-6 pb-6 pl-0">
           <p>
-            Welcome to BuyeReviews website! We are a team of experts who are
+            Welcome to BuyeReview website! We are a team of experts who are
             passionate about providing consumers with accurate and unbiased
             information to help them make informed decisions when it comes to
             purchasing products and services.
