@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useGoogleAnalytics } from "../../hooks/useGoogleAnalytics";
 
 type Suggestion = {
   id: string;
@@ -17,6 +18,7 @@ const demoSuggestions: Suggestion[] = [
 export default function SearchInput() {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
+  const { trackSearch } = useGoogleAnalytics();
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -31,6 +33,12 @@ export default function SearchInput() {
     return () => clearTimeout(t);
   }, [query]);
 
+  const handleSearch = (searchTerm: string) => {
+    if (searchTerm.trim()) {
+      trackSearch(searchTerm);
+    }
+  };
+
   return (
     <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[350px] self-center mx-auto">
       <input
@@ -41,10 +49,16 @@ export default function SearchInput() {
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch(query);
+          }
+        }}
       />
       <button
         aria-label="Search"
         className="absolute right-1 top-1 h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-[12px] bg-black text-white text-sm sm:text-base hover:bg-black/90 transition-colors"
+        onClick={() => handleSearch(query)}
       >
         →
       </button>
@@ -59,6 +73,7 @@ export default function SearchInput() {
                     e.preventDefault();
                     setQuery(s.label);
                     setFocused(false);
+                    handleSearch(s.label);
                   }}
                 >
                   {s.label}
