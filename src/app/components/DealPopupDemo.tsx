@@ -6,6 +6,16 @@ import DealPopup from './DealPopup';
 const DealPopupDemo: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  // Mock product data cho demo
+  const mockProduct = {
+    title: "Sample Product - Amazing Deal!",
+    image: "/image.png",
+    discount: "50% OFF",
+    asin: "B08N5WRWNW",
+    type: "product",
+    prps: "demo"
+  };
+
   const openPopup = () => {
     setIsPopupOpen(true);
   };
@@ -36,7 +46,8 @@ const DealPopupDemo: React.FC = () => {
 
       <DealPopup 
         isOpen={isPopupOpen} 
-        onClose={closePopup} 
+        onClose={closePopup}
+        product={mockProduct}
       />
     </div>
   );
