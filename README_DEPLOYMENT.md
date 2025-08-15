@@ -287,7 +287,7 @@ nano webhook.sh
 Nội dung webhook.sh:
 ```bash
 #!/bin/bash
-cd /var/www/buyereviews
+cd /var/www/buyereview
 ./deploy.sh
 ```
 
