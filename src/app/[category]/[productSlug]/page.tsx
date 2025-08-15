@@ -75,9 +75,7 @@ export default function ProductSlugPage() {
         <p className="text-gray-600">
           Bạn sẽ được chuyển đến trang sản phẩm trong giây lát
         </p>
-        <div className="mt-4 text-sm text-gray-500">
-          Slug: /{category}/{productSlug}
-        </div>
+       
       </div>
     </div>
   );
