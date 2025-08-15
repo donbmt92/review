@@ -116,14 +116,14 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
         </div>
 
         {/* Deal Popup Trigger Button */}
-        <div className="mt-6 text-center">
+        {/* <div className="mt-6 text-center">
           <button
             onClick={() => setIsOpen(true)}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
           >
             🎉 View Special Deals
           </button>
-        </div>
+        </div> */}
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
