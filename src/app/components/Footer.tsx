@@ -136,7 +136,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-6 sm:mt-8 border-t border-white/20 pt-4 text-xs text-center sm:text-left">
-          © {new Date().getFullYear()} BuyeReviews.
+          © BuyeReview.
         </div>
       </div>
     </footer>

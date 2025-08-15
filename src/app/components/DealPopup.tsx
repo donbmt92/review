@@ -28,6 +28,7 @@ const DealPopup: React.FC<DealPopupProps> = ({
   showOnDesktop = true,
 }) => {
   const [autoOpen, setAutoOpen] = React.useState(false);
+  const [hasShown, setHasShown] = React.useState(false);
 
   // Memoize the close handler to prevent unnecessary re-renders
   const handleClose = React.useCallback(() => {
@@ -35,18 +36,27 @@ const DealPopup: React.FC<DealPopupProps> = ({
     setAutoOpen(false);
   }, [onClose]);
 
-  // Auto open popup every 10 seconds
+  // Auto open popup with different timing logic
   React.useEffect(() => {
-    console.log("Setting up timer - popup will open in 10 seconds");
+    const isFirstTime = !localStorage.getItem('popupShown');
+    const delay = isFirstTime ? 5000 : 45000; // 5s first time, 45s after
     
-    const interval = setInterval(() => {
+    console.log(`Setting up timer - popup will open in ${delay/1000} seconds (${isFirstTime ? 'first time' : 'subsequent times'})`);
+    
+    const timer = setTimeout(() => {
       console.log("Timer triggered - opening popup");
       setAutoOpen(true);
-    }, 10000); // 10 seconds
+      setHasShown(true);
+      
+      // Mark as shown in localStorage
+      if (isFirstTime) {
+        localStorage.setItem('popupShown', 'true');
+      }
+    }, delay);
 
     return () => {
       console.log("Cleaning up timer");
-      clearInterval(interval);
+      clearTimeout(timer);
     };
   }, []);
 
