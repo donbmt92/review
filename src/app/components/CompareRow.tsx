@@ -17,7 +17,7 @@ export type CompareItem = {
 
 interface CompareRowProps {
   item: CompareItem;
-  onProductClick: (product: CompareItem) => void;
+  onProductClick: (product: CompareItem, clickType: string) => void;
 }
 
 function Stars() {
@@ -52,7 +52,7 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
       ) : null}
       <div className="image-wrapper">
         <button
-          onClick={() => onProductClick(item)}
+          onClick={() => onProductClick(item, 'image')}
           className="cursor-pointer border-none bg-transparent p-0"
           aria-label={`View details for ${item.title}`}
         >
@@ -68,7 +68,7 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
 
       <div className="info-container">
         <button
-          onClick={() => onProductClick(item)}
+          onClick={() => onProductClick(item, 'title')}
           className="product-title cursor-pointer border-none bg-transparent p-0 text-left hover:underline"
           aria-label={`View details for ${item.title}`}
         >
@@ -127,7 +127,7 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
           rel="nofollow sponsored noopener"
           target="_blank"
           className="action-button"
-          onClick={() => onProductClick(item)}
+          onClick={() => onProductClick(item, 'button')}
         >
           Check Out Lastest Price
         </a>

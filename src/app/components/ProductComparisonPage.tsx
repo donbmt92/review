@@ -62,9 +62,9 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   };
 
   // Function để xử lý click vào sản phẩm
-  const handleProductClick = (product: CompareItem) => {
-    // Track sự kiện click sản phẩm
-    trackEvent('product_click', 'ecommerce', product.title);
+  const handleProductClick = (product: CompareItem, clickType: string) => {
+    // Track sự kiện click sản phẩm với loại click
+    trackEvent('product_click', 'ecommerce', `${product.title} - ${clickType}`);
     
     // Tạo slug từ tên sản phẩm
     const productSlug = createProductSlug(product.title);
@@ -201,7 +201,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
             {items.slice(0, 3).map((it) => (
               <li key={it.rank}>
                 <button
-                  onClick={() => handleProductClick(it)}
+                  onClick={() => handleProductClick(it, 'list')}
                   className="one-line-title text-left hover:underline cursor-pointer"
                 >
                   {it.title}
