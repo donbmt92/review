@@ -39,7 +39,7 @@ const DealPopup: React.FC<DealPopupProps> = ({
   // Auto open popup with different timing logic
   React.useEffect(() => {
     const isFirstTime = !localStorage.getItem('popupShown');
-    const delay = isFirstTime ? 5000 : 45000; // 5s first time, 45s after
+    const delay = isFirstTime ? 15000 : 45000; // 5s first time, 45s after
     
     console.log(`Setting up timer - popup will open in ${delay/1000} seconds (${isFirstTime ? 'first time' : 'subsequent times'})`);
     

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import CompareRow, { type CompareItem } from "./CompareRow";
 import Image from "next/image";
 import AdvertisingDisclosure from "./AdvertisingDisclosure";
 import DealPopup from "./DealPopup";
+import { useGoogleAnalytics } from "../hooks/useGoogleAnalytics";
 
 interface ProductComparisonPageProps {
   category: string;
@@ -46,6 +48,33 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   relatedProducts = [],
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { trackEvent } = useGoogleAnalytics();
+  const router = useRouter();
+
+  // Function để tạo slug từ tên sản phẩm
+  const createProductSlug = (title: string): string => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, '-') // Thay thế khoảng trắng bằng dấu gạch ngang
+      .replace(/-+/g, '-') // Loại bỏ dấu gạch ngang liên tiếp
+      .trim(); // Loại bỏ khoảng trắng đầu cuối
+  };
+
+  // Function để xử lý click vào sản phẩm
+  const handleProductClick = (product: CompareItem) => {
+    // Track sự kiện click sản phẩm
+    trackEvent('product_click', 'ecommerce', product.title);
+    
+    // Tạo slug từ tên sản phẩm
+    const productSlug = createProductSlug(product.title);
+    
+    // Tạo URL với slug
+    const slugUrl = `/${category}/${productSlug}`;
+    
+    // Navigate đến slug page (sẽ tự động redirect sang URL thực tế)
+    router.push(slugUrl);
+  };
 
   return (
     <>
@@ -90,7 +119,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
         {/* Product List */}
         <div className="mt-7 space-y-3 sm:space-y-4 ">
           {items.map((it) => (
-            <CompareRow key={it.rank} item={it} />
+            <CompareRow key={it.rank} item={it} onProductClick={handleProductClick} />
           ))}
         </div>
 
@@ -135,6 +164,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
                   key={index}
                   href={product.url}
                   className="rounded-xl border border-black/10 bg-white p-3 sm:p-4 text-center shadow-sm hover:shadow"
+                  onClick={() => trackEvent('related_product_click', 'ecommerce', product.title)}
                 >
                   <div className="relative mx-auto h-[120px] w-[120px] overflow-hidden rounded">
                     <Image
@@ -169,14 +199,12 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
           <ul className="mt-2 list-disc pl-4 sm:pl-5 text-sm sm:text-base text-black/80">
             {items.slice(0, 3).map((it) => (
               <li key={it.rank}>
-                <a
-                  href={it.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="one-line-title"
+                <button
+                  onClick={() => handleProductClick(it)}
+                  className="one-line-title text-left hover:underline cursor-pointer"
                 >
                   {it.title}
-                </a>
+                </button>
               </li>
             ))}
           </ul>

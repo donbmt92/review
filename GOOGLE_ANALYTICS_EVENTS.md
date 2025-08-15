@@ -37,37 +37,58 @@
 - **Vị trí:** `TrendingPills.tsx`
 - **Kích hoạt:** Khi người dùng click vào item trending
 
+### 6. Product Click Tracking
+- **Sự kiện:** `product_click`
+- **Category:** `ecommerce`
+- **Label:** Tên sản phẩm
+- **Vị trí:** `ProductComparisonPage.tsx`, `CompareRow.tsx`
+- **Kích hoạt:** Khi người dùng click vào sản phẩm trong comparison page
+
+### 7. Related Product Click Tracking
+- **Sự kiện:** `related_product_click`
+- **Category:** `ecommerce`
+- **Label:** Tên sản phẩm liên quan
+- **Vị trí:** `ProductComparisonPage.tsx`
+- **Kích hoạt:** Khi người dùng click vào sản phẩm liên quan
+
+### 8. Product View via Slug
+- **Sự kiện:** `product_view_via_slug`
+- **Category:** `ecommerce`
+- **Label:** Tên sản phẩm
+- **Vị trí:** `[category]/[productSlug]/page.tsx`
+- **Kích hoạt:** Khi người dùng xem sản phẩm thông qua slug URL
+
 ## 📝 **Sự kiện Form (Form Events)**
 
-### 6. Newsletter Form Focus
+### 9. Newsletter Form Focus
 - **Sự kiện:** `form_focus`
 - **Category:** `engagement`
 - **Label:** `newsletter_email`
 - **Vị trí:** `NewsletterCTA.tsx`
 - **Kích hoạt:** Khi người dùng focus vào input email
 
-### 7. Newsletter Form Input
+### 10. Newsletter Form Input
 - **Sự kiện:** `form_input`
 - **Category:** `engagement`
 - **Label:** `newsletter_email`
 - **Vị trí:** `NewsletterCTA.tsx`
 - **Kích hoạt:** Khi người dùng nhập text vào input email
 
-### 8. Newsletter Form Submit
+### 11. Newsletter Form Submit
 - **Sự kiện:** `form_submit`
 - **Category:** `engagement`
 - **Label:** `newsletter_form`
 - **Vị trí:** `NewsletterCTA.tsx`
 - **Kích hoạt:** Khi người dùng submit form
 
-### 9. Newsletter Form Error
+### 12. Newsletter Form Error
 - **Sự kiện:** `form_error`
 - **Category:** `engagement`
 - **Label:** `newsletter_form`
 - **Vị trí:** `NewsletterCTA.tsx`
 - **Kích hoạt:** Khi form gặp lỗi
 
-### 10. Newsletter Signup Success
+### 13. Newsletter Signup Success
 - **Sự kiện:** `sign_up`
 - **Category:** `engagement`
 - **Label:** Nguồn đăng ký (homepage, etc.)
@@ -76,7 +97,7 @@
 
 ## 🎯 **Sự kiện Button (Button Events)**
 
-### 11. Button Click Tracking
+### 14. Button Click Tracking
 - **Sự kiện:** `button_click`
 - **Category:** `engagement`
 - **Label:** Tên button (newsletter_submit, etc.)
@@ -135,17 +156,41 @@ const handleVideoPlay = () => {
 - **Newsletter Signup Rate:** Tỷ lệ đăng ký newsletter
 - **Search Usage:** Tần suất sử dụng tính năng tìm kiếm
 - **Category Click Rate:** Tỷ lệ click vào danh mục
+- **Product Click Rate:** Tỷ lệ click vào sản phẩm
+- **Slug to Product Conversion:** Tỷ lệ chuyển đổi từ slug sang sản phẩm
 
 ## 🚀 **Tối ưu hóa dựa trên dữ liệu**
 
 ### 1. Content Optimization
 - Xem sản phẩm nào được click nhiều nhất
 - Tối ưu nội dung dựa trên từ khóa tìm kiếm phổ biến
+- Phân tích hiệu quả của slug URLs
 
 ### 2. User Experience
 - Cải thiện form dựa trên tỷ lệ completion
 - Tối ưu navigation dựa trên hành vi click
+- Cải thiện product discovery flow
 
 ### 3. Performance
 - Theo dõi thời gian tải trang
 - Tối ưu dựa trên bounce rate và session duration
+- Đo lường hiệu quả của slug redirect system
+
+## 🔗 **Slug System Flow**
+
+### 1. User clicks product
+- **Sự kiện:** `product_click`
+- **URL:** Từ `/vitamin-d3-k2` → `/vitamin-d3-k2/micro-ingredients-vitamin-d3-10000-iu-plus-k2`
+
+### 2. Slug page loads
+- **Sự kiện:** `page_view` + `product_view_via_slug`
+- **Hiển thị:** Loading spinner với thông tin slug
+
+### 3. Auto-redirect
+- **Thời gian:** Sau 1 giây
+- **Đích:** URL thực tế của sản phẩm (Amazon, etc.)
+
+### 4. Benefits
+- **SEO:** Tạo URL thân thiện với search engine
+- **Analytics:** Track được user journey chi tiết
+- **UX:** User có thể bookmark và share slug URLs

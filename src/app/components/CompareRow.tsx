@@ -15,6 +15,11 @@ export type CompareItem = {
   boughtNote?: string;
 };
 
+interface CompareRowProps {
+  item: CompareItem;
+  onProductClick: (product: CompareItem) => void;
+}
+
 function Stars() {
   return (
     <div className="leading-none text-amber-400" aria-label="5 stars">
@@ -27,7 +32,7 @@ function gradeFromScore(score: number): number {
   return score;
 }
 
-export default function CompareRow({ item }: { item: CompareItem }) {
+export default function CompareRow({ item, onProductClick }: CompareRowProps) {
   const safeHighlights = Array.isArray(item.highlights)
     ? item.highlights.filter(Boolean)
     : [];
@@ -46,7 +51,11 @@ export default function CompareRow({ item }: { item: CompareItem }) {
         <span className="discount-ribbon">{item.discount}</span>
       ) : null}
       <div className="image-wrapper">
-        <Link href={item.url} target="_blank" rel="nofollow sponsored noopener">
+        <button
+          onClick={() => onProductClick(item)}
+          className="cursor-pointer border-none bg-transparent p-0"
+          aria-label={`View details for ${item.title}`}
+        >
           <Image
             src={item.image}
             alt={item.title}
@@ -54,20 +63,19 @@ export default function CompareRow({ item }: { item: CompareItem }) {
             height={160}
             className="product-image-container"
           />
-        </Link>
+        </button>
       </div>
 
       <div className="info-container">
-        <Link
-          href={item.url}
-          target="_blank"
-          rel="nofollow sponsored noopener"
-          className="product-title"
+        <button
+          onClick={() => onProductClick(item)}
+          className="product-title cursor-pointer border-none bg-transparent p-0 text-left hover:underline"
+          aria-label={`View details for ${item.title}`}
         >
           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-left">
             {item.title}
           </h3>
-        </Link>
+        </button>
 
         <div className="info-list">
           {safeHighlights.slice(0, 3).map((text, index) => (
