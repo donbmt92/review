@@ -1,4 +1,7 @@
+'use client';
+
 import Image from "next/image";
+import { useGoogleAnalytics } from "../hooks/useGoogleAnalytics";
 
 type Item = { id: string; label: string; img: string };
 
@@ -12,6 +15,12 @@ const items: Item[] = [
 ];
 
 export default function TrendingPills() {
+  const { trackEvent } = useGoogleAnalytics();
+
+  const handleTrendingClick = (item: Item) => {
+    trackEvent('trending_click', 'engagement', item.label);
+  };
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-4">
       <h3 className="text-[2.2rem] text-[var(--textColor1)] pb-[20px] leading-[1] font-bold w-fit pl-0 text-center mx-auto">Trending</h3>
@@ -20,6 +29,14 @@ export default function TrendingPills() {
           <div
             key={i.id}
             className="rounded-[12px] bg-white px-6 h-[88px] cursor-pointer text-sm flex items-center gap-[5%] drop-shadow-[0_0_8px_#ccc] w-full sm:w-[calc(50%-12px)] lg:w-[calc((100%-48px)/3)]"
+            onClick={() => handleTrendingClick(i)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                handleTrendingClick(i);
+              }
+            }}
           >
             <Image
               src={i.img}

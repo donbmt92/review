@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import ScrollTracker from "./components/ScrollTracker";
 
 const lato = Lato({
   variable: "--font-lato",
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="vi">
       <body className={`${lato.variable} ${geistMono.variable} antialiased bg-white text-black`}>
         <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ''} />
+        <ScrollTracker />
         <Header />
         <main>{children}</main>
         <Footer />

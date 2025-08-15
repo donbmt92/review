@@ -1,5 +1,8 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
+import { useGoogleAnalytics } from "../hooks/useGoogleAnalytics";
 
 export type Category = {
   id: string;
@@ -16,12 +19,19 @@ export default function CategoryCard({
   category: Category;
   hrefBase?: string;
 }) {
+  const { trackEvent } = useGoogleAnalytics();
   const href = `/${category.slug}`;
+
+  const handleCategoryClick = () => {
+    trackEvent('category_click', 'navigation', category.title);
+  };
+
   return (
     <Link
       href={href}
       className="group relative block overflow-hidden rounded-2xl border border-black/10 shadow-sm hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-black/20"
       aria-label={category.title}
+      onClick={handleCategoryClick}
     >
       {category.img ? (
         <Image
