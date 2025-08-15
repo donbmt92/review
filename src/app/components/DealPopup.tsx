@@ -18,12 +18,14 @@ interface DealPopupProps {
   product: ProductData;
   showOnMobile?: boolean;
   showOnDesktop?: boolean;
+  onProductClick: (product: ProductData, clickType: string) => void;
 }
 
 const DealPopup: React.FC<DealPopupProps> = ({
   isOpen,
   onClose,
   product,
+  onProductClick,
   showOnMobile = true,
   showOnDesktop = true,
 }) => {
@@ -38,19 +40,23 @@ const DealPopup: React.FC<DealPopupProps> = ({
 
   // Auto open popup with different timing logic
   React.useEffect(() => {
-    const isFirstTime = !localStorage.getItem('popupShown');
+    const isFirstTime = !localStorage.getItem("popupShown");
     const delay = isFirstTime ? 15000 : 45000; // 5s first time, 45s after
-    
-    console.log(`Setting up timer - popup will open in ${delay/1000} seconds (${isFirstTime ? 'first time' : 'subsequent times'})`);
-    
+
+    console.log(
+      `Setting up timer - popup will open in ${delay / 1000} seconds (${
+        isFirstTime ? "first time" : "subsequent times"
+      })`
+    );
+
     const timer = setTimeout(() => {
       console.log("Timer triggered - opening popup");
       setAutoOpen(true);
       setHasShown(true);
-      
+
       // Mark as shown in localStorage
       if (isFirstTime) {
-        localStorage.setItem('popupShown', 'true');
+        localStorage.setItem("popupShown", "true");
       }
     }, delay);
 
@@ -62,7 +68,7 @@ const DealPopup: React.FC<DealPopupProps> = ({
 
   // Show popup if either manually opened or auto-opened
   const shouldShow = isOpen || autoOpen;
-  
+
   console.log("Popup state:", { isOpen, autoOpen, shouldShow });
 
   if (!shouldShow) return null;
@@ -86,15 +92,20 @@ const DealPopup: React.FC<DealPopupProps> = ({
                 <span className={styles.ratingNumber}>9.8</span>
                 <div className={styles.starsContainer}>
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className={styles.star}>★</span>
+                    <span key={i} className={styles.star}>
+                      ★
+                    </span>
                   ))}
                 </div>
               </div>
-              <button className={styles.mobileCloseButton} onClick={handleClose}>
+              <button
+                className={styles.mobileCloseButton}
+                onClick={handleClose}
+              >
                 ✕
               </button>
             </div>
-            
+
             {/* Body - White Section */}
             <div className={styles.mobilePopupBody}>
               {/* Discount Badge */}
@@ -103,28 +114,30 @@ const DealPopup: React.FC<DealPopupProps> = ({
                   <strong className={styles.bold}>{product.discount}</strong>
                 </span>
               </p>
-              
+
               {/* Product Image */}
               <div className={styles.mobileProductImage}>
                 <img
+                  onClick={() => onProductClick(product, 'image-popup')}
                   alt={product.title}
                   src={product.image}
                   className={styles.productImg}
                 />
               </div>
-              
+
               {/* CTA Button */}
               <a
-                href={buildUrl("mobile")}
+                // href={buildUrl("mobile")}
+                onClick={() => onProductClick(product, "button-popup")}
                 rel="nofollow"
                 target="_blank"
                 className={styles.mobileCtaButton}
               >
-                View on Amazon
+                Check Out Lastest Price{" "}
               </a>
             </div>
           </div>
-          
+
           {/* Desktop Layout - Keep existing */}
           <div className={styles.desktopPopup}>
             <div className={styles.leftSidePopup}>
@@ -133,7 +146,8 @@ const DealPopup: React.FC<DealPopupProps> = ({
                 Today's deals will end soon..
               </div>
               <a
-                href={buildUrl("desktop")}
+                // href={buildUrl("desktop")}
+                onClick={() => onProductClick(product, "button-popup")}
                 rel="nofollow"
                 target="_blank"
                 className={styles.popupBtnClick}
@@ -147,13 +161,15 @@ const DealPopup: React.FC<DealPopupProps> = ({
                 <p className={styles.ribbon}>
                   <a href={buildUrl("mobile")} rel="nofollow" target="_blank">
                     <span className={styles.text}>
-                      <strong className={styles.bold}>{product.discount}</strong>
+                      <strong className={styles.bold}>
+                        {product.discount}
+                      </strong>
                     </span>
                   </a>
                 </p>
                 <div className={styles.popUpImgContainer}>
                   <img
-                    alt={product.title}
+                    onClick={() => onProductClick(product, 'image-popup')}
                     loading="lazy"
                     width={500}
                     height={500}

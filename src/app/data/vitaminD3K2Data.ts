@@ -66,7 +66,7 @@ export const vitaminD3K2Data = {
         ],
         "score": 8.8,
         "reviewsCount": 905,
-        "url": "https://www.amazon.com/dp/B0764MS2Q2?maas=maas_adg_api_589660094454816635_static_9_129&aa_campaignid=lv_3BI1nuUZZfIU8hD5C0&aa_adgroupid=lv_4mqz5qmmxBiC7AknZm&aa_creativeid=lv_k2AW51JoFRX55FEYBi&m=A2YD2H3KGK1F4L&th=1&linkCode=ll1&tag=golftesters0e-20&linkId=ad50c14d97c6496723816352dbea49b4&language=en_US&ref_=as_li_ss_tl",
+        "url": "https://www.amazon.com/dp/B01FKPHD40?maas=maas_adg_api_582533400757924686_static_9_129&aa_campaignid=lv_0dmj6VvqD73X2E5gxs&aa_adgroupid=lv_0Bh6PjeE1kKlAJHLjN&aa_creativeid=lv_4qxqeaJRV2H6RORLGY&m=AU6W6XEKMQVCW&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=02e213af1d9e140082763380609b7415&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
@@ -81,7 +81,7 @@ export const vitaminD3K2Data = {
         ],
         "score": 8.7,
         "reviewsCount": 3507,
-        "url": "https://www.amazon.com/dp/B01FKPHD40?maas=maas_adg_api_582533400757924686_static_9_129&aa_campaignid=lv_0dmj6VvqD73X2E5gxs&aa_adgroupid=lv_0Bh6PjeE1kKlAJHLjN&aa_creativeid=lv_4qxqeaJRV2H6RORLGY&m=AU6W6XEKMQVCW&th=1&psc=1&linkCode=ll1&tag=golftesters0e-20&linkId=02e213af1d9e140082763380609b7415&language=en_US&ref_=as_li_ss_tl",
+        "url": "https://www.amazon.com/dp/B0764MS2Q2?maas=maas_adg_api_589660094454816635_static_9_129&aa_campaignid=lv_3BI1nuUZZfIU8hD5C0&aa_adgroupid=lv_4mqz5qmmxBiC7AknZm&aa_creativeid=lv_k2AW51JoFRX55FEYBi&m=A2YD2H3KGK1F4L&th=1&linkCode=ll1&tag=golftesters0e-20&linkId=ad50c14d97c6496723816352dbea49b4&language=en_US&ref_=as_li_ss_tl",
         "retailer": "amazon"
       },
       {
