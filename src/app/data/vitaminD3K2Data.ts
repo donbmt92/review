@@ -4,7 +4,7 @@ export const vitaminD3K2Data = {
     "category": "vitamin-d3-k2",
     "categoryTitle": "10 Best Vitamin D3 K2",
     "categoryDescription": "Unlock the power of sunshine with Vitamin D3 K2. Discover the ultimate comparison to boost your health and wellbeing. Don't miss out!",
-    "updatedDate": "Aug 7, 2025",
+    "updatedDate": "Aug 9, 2025",
     "breadcrumbPath": "HEALTH HOUSEHOLD BABY CARE",
     "items": [
       {

@@ -52,6 +52,15 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   const { trackEvent } = useGoogleAnalytics();
   const router = useRouter();
   
+  // Format updatedDate theo thời gian thực "Aug 3, 2025"
+  const formatUpdatedDate = () => {
+    return new Date().toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+  
   // Function để tạo slug từ tên sản phẩm
   const createProductSlug = (title: string): string => {
     return title
@@ -113,7 +122,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
             <AdvertisingDisclosure />
             <div className="text-xs sm:text-sm italic text-black/60">
               Updated At{" "}
-              <span className="not-italic font-medium">{updatedDate}</span>
+              <span className="not-italic font-medium">{formatUpdatedDate()}</span>
             </div>
           </div>
         </div>

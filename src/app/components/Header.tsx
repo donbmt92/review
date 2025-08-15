@@ -66,7 +66,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black text-white">
       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-semibold ml-5">
+        {/* <Link href="/" className="flex items-center gap-2 font-semibold ml-5"> */}
           <Image
             src="/buyereviews-logo.webp"
             alt="BuyeReview logo"
@@ -76,8 +76,8 @@ export default function Header() {
             style={{ width: "45px", height: "45px" }}
             priority
           />
-          <span className=" text-2xl">BuyeReview</span>
-        </Link>
+          <span className="font-semibold text-2xl ml-2">BuyeReview</span>
+        {/* </Link> */}
 
         <div className="ml-auto flex items-center gap-2">
           {/* Search Icon and Input */}
@@ -240,12 +240,11 @@ export default function Header() {
                      <div className="p-6">
                        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
                          {categories.map((category) => (
-                           <Link
-                             key={category.id}
-                             href={category.href}
-                             className="flex flex-col items-center gap-3 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
-                             onClick={() => setShowCategoriesDropdown(false)}
-                           >
+                          //  <Link
+                          //    key={category.id}
+                          //    href={category.href}
+                          //    className="flex flex-col items-center gap-3 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+                           <div key={category.id} className="flex flex-col items-center gap-3 p-4 rounded-lg hover:bg-gray-50 transition-colors group">
                              <div className="w-16 h-16 flex items-center justify-center">
                                <Image
                                  src={category.icon}
@@ -258,7 +257,7 @@ export default function Header() {
                              <span className="text-sm font-medium text-gray-700 text-center leading-tight">
                                {category.label}
                              </span>
-                           </Link>
+                           </div>
                          ))}
                        </div>
                      </div>
@@ -305,13 +304,14 @@ export default function Header() {
                     </svg>
                   </button>
                 ) : (
-                  <Link
-                    href={item.href}
-                    className="py-2 flex items-center justify-between"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
+                  // <Link
+                  //   href={item.href}
+                  //   className="py-2 flex items-center justify-between"
+                  //   onClick={() => setIsOpen(false)}
+                  // >
+                  //   {item.label}
+                  // </Link>
+                  <></>
                 )}
                 
                                  {/* Mobile Categories Dropdown */}
@@ -320,18 +320,19 @@ export default function Header() {
                      <h4 className="text-sm font-semibold text-gray-200 mb-3 text-center">Categories</h4>
                      <div className="grid grid-cols-3 gap-3">
                        {categories.map((category) => (
-                         <Link
-                           key={category.id}
-                           href={category.href}
-                           className="flex flex-col items-center gap-1 p-2 rounded-md hover:bg-gray-700 transition-colors"
-                           onClick={() => {
-                             setIsOpen(false);
-                             setShowCategoriesDropdown(false);
-                           }}
-                         >
+                        //  <Link
+                        //    key={category.id}
+                        //    href={category.href}
+                        //    className="flex flex-col items-center gap-1 p-2 rounded-md hover:bg-gray-700 transition-colors"
+                        //    onClick={() => {
+                        //      setIsOpen(false);
+                        //      setShowCategoriesDropdown(false);
+                        //    }}
+                        //  >
+                         <div key={category.id} className="flex flex-col items-center gap-1 p-2 rounded-md hover:bg-gray-700 transition-colors">
                            <div className="w-8 h-8 flex items-center justify-center">
                              <Image
-                               src={category.icon}
+                               src={category.icon}  
                                alt={category.label}
                                width={24}
                                height={24}
@@ -341,7 +342,8 @@ export default function Header() {
                            <span className="text-xs text-gray-200 text-center leading-tight">
                              {category.label}
                            </span>
-                         </Link>
+                         </div>
+                        //  </Link>
                        ))}
                      </div>
                    </div>
