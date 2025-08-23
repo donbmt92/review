@@ -36,7 +36,8 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
   const safeHighlights = Array.isArray(item.highlights)
     ? item.highlights.filter(Boolean)
     : [];
-
+  console.log("item",item);
+  
   return (
     <div className={`compare-row`}>
       <div className="corner-left mb-4">
