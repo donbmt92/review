@@ -24,7 +24,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, slug, icon } = await request.json();
+    const { name, slug, icon, iconImage } = await request.json();
 
     // Validation
     if (!name?.trim()) {
@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
         name: name.trim(),
         slug: slug.trim(),
         icon: icon?.trim() || null,
+        iconImage: iconImage?.trim() || null,
       }
     });
 

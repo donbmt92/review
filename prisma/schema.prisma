@@ -15,6 +15,7 @@ model Category {
   name      String   @unique
   slug      String   @unique
   icon      String?
+  iconImage String?  // URL của hình ảnh icon
   products  Product[]
   content   CategoryContent?
   createdAt DateTime @default(now())

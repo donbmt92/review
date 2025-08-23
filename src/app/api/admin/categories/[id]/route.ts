@@ -39,7 +39,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params;
-    const { name, slug, icon } = await request.json();
+    const { name, slug, icon, iconImage } = await request.json();
 
     // Validation
     if (!name?.trim()) {
@@ -104,6 +104,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         name: name.trim(),
         slug: slug.trim(),
         icon: icon?.trim() || null,
+        iconImage: iconImage?.trim() || null,
       }
     });
 

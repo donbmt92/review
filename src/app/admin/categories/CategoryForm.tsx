@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ImageUpload from '../components/ImageUpload';
 
 interface CategoryFormProps {
   category?: {
@@ -10,6 +11,7 @@ interface CategoryFormProps {
     name: string;
     slug: string;
     icon?: string | null;
+    iconImage?: string | null;
   };
   isEdit?: boolean;
 }
@@ -19,6 +21,7 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
     name: category?.name || '',
     slug: category?.slug || '',
     icon: category?.icon || '',
+    iconImage: category?.iconImage || '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -130,21 +133,36 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="icon" className="form-label">
-            Icon (Emoji)
-          </label>
-          <input
-            type="text"
-            id="icon"
-            className="form-input"
-            value={formData.icon}
-            onChange={(e) => setFormData(prev => ({ ...prev, icon: e.target.value }))}
-            placeholder="🏠 (tùy chọn)"
-            style={{ width: '100px' }}
-          />
-          <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
-            Sử dụng emoji để làm icon cho danh mục
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="form-group">
+            <label htmlFor="icon" className="form-label">
+              Icon (Emoji)
+            </label>
+            <input
+              type="text"
+              id="icon"
+              className="form-input"
+              value={formData.icon}
+              onChange={(e) => setFormData(prev => ({ ...prev, icon: e.target.value }))}
+              placeholder="🏠 (tùy chọn)"
+              style={{ width: '100px' }}
+            />
+            <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+              Sử dụng emoji để làm icon cho danh mục
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">
+              Icon hình ảnh
+            </label>
+            <ImageUpload
+              currentImageUrl={formData.iconImage}
+              onImageChange={(imageUrl) => setFormData(prev => ({ ...prev, iconImage: imageUrl }))}
+              label=""
+              required={false}
+              size="small"
+            />
           </div>
         </div>
 
@@ -175,7 +193,15 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
             Xem trước
           </h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            {formData.icon && <span style={{ fontSize: '1.5rem' }}>{formData.icon}</span>}
+            {formData.iconImage ? (
+              <img 
+                src={formData.iconImage} 
+                alt="Icon" 
+                style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '4px' }}
+              />
+            ) : formData.icon ? (
+              <span style={{ fontSize: '1.5rem' }}>{formData.icon}</span>
+            ) : null}
             <strong>{formData.name}</strong>
           </div>
           <div style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '0.5rem' }}>

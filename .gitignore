@@ -70,3 +70,7 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+
+# Uploaded files
+public/uploads/*
+!public/uploads/.gitkeep

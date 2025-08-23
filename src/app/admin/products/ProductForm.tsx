@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ImageUpload from '../components/ImageUpload';
 
 interface Category {
   id: string;
@@ -47,6 +48,8 @@ export default function ProductForm({ categories, product, isEdit = false }: Pro
     retailer: product?.retailer || '',
   });
 
+  const [uploadedFile, setUploadedFile] = useState<File | undefined>(undefined);
+
   const [highlights, setHighlights] = useState<string[]>(
     product?.highlights?.map(h => h.text) || ['']
   );
@@ -62,6 +65,11 @@ export default function ProductForm({ categories, product, isEdit = false }: Pro
 
   const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageChange = (imageUrl: string, file?: File) => {
+    setFormData(prev => ({ ...prev, imageUrl }));
+    setUploadedFile(file);
   };
 
   const addHighlight = () => {
@@ -98,7 +106,7 @@ export default function ProductForm({ categories, product, isEdit = false }: Pro
     // Validation
     const newErrors: Record<string, string> = {};
     if (!formData.title.trim()) newErrors.title = 'Tên sản phẩm là bắt buộc';
-    if (!formData.imageUrl.trim()) newErrors.imageUrl = 'URL hình ảnh là bắt buộc';
+    if (!formData.imageUrl.trim()) newErrors.imageUrl = 'Hình ảnh sản phẩm là bắt buộc';
     if (!formData.categoryId) newErrors.categoryId = 'Danh mục là bắt buộc';
     if (formData.score < 0 || formData.score > 10) newErrors.score = 'Điểm phải từ 0 đến 10';
 
@@ -179,30 +187,13 @@ export default function ProductForm({ categories, product, isEdit = false }: Pro
             {errors.title && <div className="form-error">{errors.title}</div>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="imageUrl" className="form-label">URL hình ảnh *</label>
-            <input
-              type="url"
-              id="imageUrl"
-              className="form-input"
-              value={formData.imageUrl}
-              onChange={(e) => handleInputChange('imageUrl', e.target.value)}
-              placeholder="https://example.com/image.jpg"
-            />
-            {errors.imageUrl && <div className="form-error">{errors.imageUrl}</div>}
-            {formData.imageUrl && (
-              <div style={{ marginTop: '0.5rem' }}>
-                <img 
-                  src={formData.imageUrl} 
-                  alt="Preview" 
-                  style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '0.375rem' }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
-              </div>
-            )}
-          </div>
+          <ImageUpload
+            currentImageUrl={formData.imageUrl}
+            onImageChange={handleImageChange}
+            label="Hình ảnh sản phẩm"
+            required={true}
+          />
+          {errors.imageUrl && <div className="form-error">{errors.imageUrl}</div>}
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div className="form-group">
