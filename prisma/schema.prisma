@@ -16,6 +16,7 @@ model Category {
   slug      String   @unique
   icon      String?
   products  Product[]
+  content   CategoryContent?
   createdAt DateTime @default(now())
 }
 
@@ -26,10 +27,16 @@ model Product {
   score       Float
   categoryId  String
   category    Category    @relation(fields: [categoryId], references: [id])
-  list        Json?
+  rank        Int?        // Thứ hạng sản phẩm
+  badge       String?     // Badge (Best Overall, Popular, etc.)
   highlights  Highlight[]
   offers      Offer[]
   reviewMeta  ReviewMeta?
+  reviewsCount Int?       // Số lượng đánh giá
+  boughtNote  String?     // Ghi chú về số lượng mua
+  discount    String?     // Thông tin giảm giá
+  retailer    String?     // Nhà bán lẻ
+  list        Json?       // Dữ liệu JSON từ Buyereviews
   createdAt   DateTime    @default(now())
 }
 
@@ -62,4 +69,33 @@ model NewsletterSubscription {
   id        String   @id @default(cuid())
   email     String   @unique
   createdAt DateTime @default(now())
+}
+
+model CategoryContent {
+  id                    String   @id @default(cuid())
+  categoryId            String   @unique
+  category              Category @relation(fields: [categoryId], references: [id])
+  
+  // SEO & Meta
+  customTitle           String?  // Override default title
+  customDescription     String?  // Override default description
+  customBreadcrumb     String?  // Override default breadcrumb
+  
+  // Content
+  overviewTitle         String?
+  overviewParagraphs    Json?    // Array of paragraphs as JSON
+  
+  topProductsTitle      String?
+  topProductsParagraphs Json?    // Array of paragraphs as JSON
+  
+  // FAQ
+  faqItems             Json?    // Array of {question: string, answer: string}
+  
+  // Keywords & SEO
+  keywords              String?
+  metaTitle             String?
+  metaDescription       String?
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 }

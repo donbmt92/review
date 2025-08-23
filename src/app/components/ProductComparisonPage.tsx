@@ -51,9 +51,15 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   const [email, setEmail] = useState('');
   const { trackEvent } = useGoogleAnalytics();
   const router = useRouter();
-  
+  console.log(overviewContent);
   // Format updatedDate theo thời gian thực "Aug 3, 2025"
   const formatUpdatedDate = () => {
+    // Nếu có updatedDate từ props, sử dụng nó
+    if (updatedDate) {
+      return updatedDate;
+    }
+    
+    // Nếu không, sử dụng thời gian hiện tại
     return new Date().toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',

@@ -1,82 +1,146 @@
-'use client';
+import React from 'react';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import ProductComparisonPage from '../../components/ProductComparisonPage';
+import { getProductPageData } from '../../lib/getProductPageData';
 
-import { useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useGoogleAnalytics } from '../../hooks/useGoogleAnalytics';
+export const dynamic = "force-static";
+export const revalidate = 3600; // Revalidate every hour
 
-// Import data từ các file data
-import { vitaminD3K2Data } from '../../data/vitaminD3K2Data';
-import { airPurifiersData } from '../../data/airPurifiersData';
-import { steamCleanersData } from '../../data/steamCleanersData';
+interface CategoryPageProps {
+  params: {
+    category: string;
+    productSlug: string;
+  };
+}
 
-// Map category với data tương ứng
-const categoryDataMap: Record<string, any> = {
-  'vitamin-d3-k2': vitaminD3K2Data,
-  'air-purifiers': airPurifiersData,
-  'steam-cleaners': steamCleanersData,
-};
-
-export default function ProductSlugPage() {
-  const params = useParams();
-  const router = useRouter();
-  const { trackEvent, trackPageView } = useGoogleAnalytics();
-  
-  const category = params.category as string;
-  const productSlug = params.productSlug as string;
-
-  useEffect(() => {
-    // Track page view
-    trackPageView(`/${category}/${productSlug}`);
-    
-    // Tìm sản phẩm dựa trên slug
-    const categoryData = categoryDataMap[category];
-    if (!categoryData) {
-      console.error('Category not found:', category);
-      return;
-    }
-
-    const product = categoryData.items.find((item: any) => {
-      const itemSlug = createProductSlug(item.title);
-      return itemSlug === productSlug;
+// Generate static params for known categories
+export async function generateStaticParams() {
+  try {
+    // Get all categories from database
+    const { db } = await import('../../lib/db');
+    const categories = await db.category.findMany({
+      where: {
+        products: {
+          some: {} // Only categories that have products
+        }
+      },
+      select: {
+        slug: true
+      }
     });
 
-    if (product) {
-      // Track sự kiện sản phẩm được xem qua slug
-      trackEvent('product_view_via_slug', 'ecommerce', product.title);
-      
-      // Redirect sang URL thực tế sau 1 giây (để user có thể thấy slug)
-      setTimeout(() => {
-        window.location.href = product.url;
-      }, 500);
-    } else {
-      console.error('Product not found for slug:', productSlug);
-      // Redirect về trang chủ nếu không tìm thấy sản phẩm
-      router.push('/');
+    // Generate params for database categories
+    const dynamicParams = categories.map(category => ({
+      category: category.slug,
+      productSlug: category.slug
+    }));
+
+    // Add fallback static params for compatibility
+    const staticParams = [
+      { category: 'air-purifiers', productSlug: 'air-purifiers' },
+      { category: 'steam-cleaners', productSlug: 'steam-cleaners' }, 
+      { category: 'vitamin-d3-k2', productSlug: 'vitamin-d3-k2' },
+    ];
+
+    // Combine and deduplicate
+    const allParams = [...dynamicParams, ...staticParams];
+    const uniqueParams = allParams.filter((param, index, self) => 
+      index === self.findIndex(p => p.category === param.category && p.productSlug === param.productSlug)
+    );
+
+    return uniqueParams;
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    // Fallback to static params if database is not available
+    return [
+      { category: 'air-purifiers', productSlug: 'air-purifiers' },
+      { category: 'steam-cleaners', productSlug: 'steam-cleaners' }, 
+      { category: 'vitamin-d3-k2', productSlug: 'vitamin-d3-k2' },
+    ];
+  }
+}
+
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const data = await getProductPageData(params.category);
+  
+  if (!data) {
+    return {
+      title: 'Product Not Found',
+      description: 'The requested product page could not be found.',
+    };
+  }
+
+  const categoryDisplayName = data.categoryTitle.replace(/^\d+\s+/, ''); // Remove number prefix
+  
+  return {
+    title: `${data.categoryTitle} - Compare Top Rated Models | BuyeReviews`,
+    description: data.categoryDescription,
+    keywords: `${params.category}, best ${params.category.replace('-', ' ')}, ${params.category.replace('-', ' ')} reviews, ${params.category.replace('-', ' ')} comparison`,
+    openGraph: {
+      title: `${data.categoryTitle} - Compare Top Rated Models`,
+      description: data.categoryDescription,
+      type: "website",
+      url: `https://buyereview.com/${params.category}`,
+      images: [
+        {
+          url: data.items[0]?.image || `/categories/${params.category}.webp`,
+          width: 1200,
+          height: 630,
+          alt: categoryDisplayName
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${data.categoryTitle} - Compare Top Rated Models`,
+      description: data.categoryDescription,
+      images: [data.items[0]?.image || `/categories/${params.category}.webp`]
+    },
+    alternates: {
+      canonical: `https://buyereview.com/${params.category}`
     }
-  }, [category, productSlug, trackEvent, trackPageView, router]);
-
-  // Function để tạo slug từ tên sản phẩm (giống như trong ProductComparisonPage)
-  const createProductSlug = (title: string): string => {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '') // Loại bỏ ký tự đặc biệt
-      .replace(/\s+/g, '-') // Thay thế khoảng trắng bằng dấu gạch ngang
-      .replace(/-+/g, '-') // Loại bỏ dấu gạch ngang liên tiếp
-      .trim(); // Loại bỏ khoảng trắng đầu cuối
   };
+}
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center p-8">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">
-          Đang chuyển hướng...
-        </h1>
-        <p className="text-gray-600">
-          Bạn sẽ được chuyển đến trang sản phẩm trong giây lát
-        </p>
-       
-      </div>
-    </div>
-  );
+export default async function CategoryProductPage({ params }: CategoryPageProps) {
+  // First try to get data from database
+  let data = await getProductPageData(params.category);
+
+  // If no data from database, fallback to static data
+  if (!data) {
+    try {
+      // Import static data as fallback
+      let staticData;
+      switch (params.category) {
+        case 'air-purifiers':
+          const { airPurifiersData } = await import('../../data/airPurifiersData');
+          staticData = airPurifiersData;
+          break;
+        case 'steam-cleaners':
+          const { steamCleanersData } = await import('../../data/steamCleanersData');
+          staticData = steamCleanersData;
+          break;
+        case 'vitamin-d3-k2':
+          const { vitaminD3K2Data } = await import('../../data/vitaminD3K2Data');
+          staticData = vitaminD3K2Data;
+          break;
+        default:
+          notFound();
+      }
+      
+      if (staticData) {
+        data = staticData;
+      }
+    } catch (error) {
+      console.error('Error loading static data:', error);
+      notFound();
+    }
+  }
+
+  if (!data) {
+    notFound();
+  }
+
+  return <ProductComparisonPage {...data} />;
 }
