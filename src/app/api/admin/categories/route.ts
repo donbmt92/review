@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating category:', error);
     return NextResponse.json(
-      { message: 'Lỗi khi tạo danh mục' },
+      { message: 'Lỗi khi tạo danh mục ', error: error },
       { status: 500 }
     );
   }
