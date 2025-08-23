@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/db';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params;
     const product = await db.product.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         category: true,
         highlights: true,
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params;
     const {
       title,
       imageUrl,
@@ -55,7 +57,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // Check if product exists
     const existingProduct = await db.product.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!existingProduct) {
@@ -112,7 +114,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         where: {
           categoryId,
           rank: Number(rank),
-          NOT: { id: params.id }
+          NOT: { id }
         }
       });
 
@@ -128,16 +130,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const updatedProduct = await db.$transaction(async (tx) => {
       // Delete existing highlights and offers
       await tx.highlight.deleteMany({
-        where: { productId: params.id }
+        where: { productId: id }
       });
 
       await tx.offer.deleteMany({
-        where: { productId: params.id }
+        where: { productId: id }
       });
 
       // Update product with new data
       return await tx.product.update({
-        where: { id: params.id },
+        where: { id },
         data: {
           title: title.trim(),
           imageUrl: imageUrl.trim(),
@@ -183,9 +185,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params;
+    
     // Check if product exists
     const product = await db.product.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!product) {
@@ -197,7 +201,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     // Delete product (cascading deletes will handle related data)
     await db.product.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ message: 'Xóa sản phẩm thành công' });

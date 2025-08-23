@@ -8,9 +8,9 @@ export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 }
 
 // Generate static params for known categories

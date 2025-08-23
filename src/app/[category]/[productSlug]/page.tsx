@@ -8,10 +8,10 @@ export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     category: string;
     productSlug: string;
-  };
+  }>;
 }
 
 // Generate static params for known categories
@@ -62,7 +62,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const data = await getProductPageData(params.category);
+  const { category } = await params;
+  const data = await getProductPageData(category);
   
   if (!data) {
     return {
@@ -76,15 +77,15 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   return {
     title: `${data.categoryTitle} - Compare Top Rated Models | BuyeReviews`,
     description: data.categoryDescription,
-    keywords: `${params.category}, best ${params.category.replace('-', ' ')}, ${params.category.replace('-', ' ')} reviews, ${params.category.replace('-', ' ')} comparison`,
+    keywords: `${category}, best ${category.replace('-', ' ')}, ${category.replace('-', ' ')} reviews, ${category.replace('-', ' ')} comparison`,
     openGraph: {
       title: `${data.categoryTitle} - Compare Top Rated Models`,
       description: data.categoryDescription,
       type: "website",
-      url: `https://buyereview.com/${params.category}`,
+      url: `https://buyereview.com/${category}`,
       images: [
         {
-          url: data.items[0]?.image || `/categories/${params.category}.webp`,
+          url: data.items[0]?.image || `/categories/${category}.webp`,
           width: 1200,
           height: 630,
           alt: categoryDisplayName
@@ -95,24 +96,26 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       card: "summary_large_image",
       title: `${data.categoryTitle} - Compare Top Rated Models`,
       description: data.categoryDescription,
-      images: [data.items[0]?.image || `/categories/${params.category}.webp`]
+      images: [data.items[0]?.image || `/categories/${category}.webp`]
     },
     alternates: {
-      canonical: `https://buyereview.com/${params.category}`
+      canonical: `https://buyereview.com/${category}`
     }
   };
 }
 
 export default async function CategoryProductPage({ params }: CategoryPageProps) {
+  const { category } = await params;
+  
   // First try to get data from database
-  let data = await getProductPageData(params.category);
+  let data = await getProductPageData(category);
 
   // If no data from database, fallback to static data
   if (!data) {
     try {
       // Import static data as fallback
       let staticData;
-      switch (params.category) {
+      switch (category) {
         case 'air-purifiers':
           const { airPurifiersData } = await import('../../data/airPurifiersData');
           staticData = airPurifiersData;

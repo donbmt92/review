@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../../lib/db';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params;
     const category = await db.category.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: { products: true }
@@ -37,6 +38,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params;
     const { name, slug, icon } = await request.json();
 
     // Validation
@@ -56,13 +58,13 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // Check if category exists
     const existingCategory = await db.category.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!existingCategory) {
       return NextResponse.json(
         { message: 'Không tìm thấy danh mục' },
-        { status: 404 }
+        { status: 400 }
       );
     }
 
@@ -70,7 +72,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const duplicateSlug = await db.category.findFirst({
       where: { 
         slug: slug.trim(),
-        NOT: { id: params.id }
+        NOT: { id }
       }
     });
 
@@ -85,7 +87,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const duplicateName = await db.category.findFirst({
       where: { 
         name: name.trim(),
-        NOT: { id: params.id }
+        NOT: { id }
       }
     });
 
@@ -97,7 +99,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     const updatedCategory = await db.category.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name: name.trim(),
         slug: slug.trim(),
@@ -117,9 +119,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params;
+    
     // Check if category exists
     const category = await db.category.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: { products: true }
@@ -143,7 +147,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     await db.category.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ message: 'Xóa danh mục thành công' });
