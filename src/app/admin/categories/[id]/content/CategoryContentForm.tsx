@@ -151,21 +151,15 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
 
   return (
     <form onSubmit={handleSubmit} className="admin-form">
-      {/* SEO & Meta Section */}
-      <div className="form-section" style={{ 
-        border: '1px solid #e2e8f0', 
-        borderRadius: '0.5rem', 
-        padding: '1.5rem',
-        marginBottom: '1.5rem'
-      }}>
-        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.125rem', fontWeight: '600' }}>
-          🔍 SEO & Meta Tags
-        </h3>
+             {/* SEO & Meta Section */}
+       <div className="form-section">
+         <h3>🔍 SEO & Meta Tags</h3>
         
         <div className="form-group">
-          <label>Tiêu đề tùy chỉnh (để trống để dùng mặc định)</label>
+          <label className="form-label">Tiêu đề tùy chỉnh (để trống để dùng mặc định)</label>
           <input
             type="text"
+            className="form-input"
             value={formData.customTitle}
             onChange={(e) => handleInputChange('customTitle', e.target.value)}
             placeholder="Ví dụ: 5 Best Gaming Laptops 2024"
@@ -174,8 +168,9 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </div>
 
         <div className="form-group">
-          <label>Mô tả tùy chỉnh</label>
+          <label className="form-label">Mô tả tùy chỉnh</label>
           <textarea
+            className="form-textarea"
             value={formData.customDescription}
             onChange={(e) => handleInputChange('customDescription', e.target.value)}
             placeholder="Mô tả ngắn gọn về danh mục này..."
@@ -184,9 +179,10 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </div>
 
         <div className="form-group">
-          <label>Breadcrumb tùy chỉnh</label>
+          <label className="form-label">Breadcrumb tùy chỉnh</label>
           <input
             type="text"
+            className="form-input"
             value={formData.customBreadcrumb}
             onChange={(e) => handleInputChange('customBreadcrumb', e.target.value)}
             placeholder="Ví dụ: ELECTRONICS GAMING"
@@ -194,9 +190,10 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </div>
 
         <div className="form-group">
-          <label>Từ khóa SEO</label>
+          <label className="form-label">Từ khóa SEO</label>
           <input
             type="text"
+            className="form-input"
             value={formData.keywords}
             onChange={(e) => handleInputChange('keywords', e.target.value)}
             placeholder="từ khóa 1, từ khóa 2, từ khóa 3"
@@ -204,49 +201,43 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </div>
       </div>
 
-      {/* Overview Content Section */}
-      <div className="form-section" style={{ 
-        border: '1px solid #e2e8f0', 
-        borderRadius: '0.5rem', 
-        padding: '1.5rem',
-        marginBottom: '1.5rem'
-      }}>
-        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.125rem', fontWeight: '600' }}>
-          📝 Nội dung tổng quan
-        </h3>
+             {/* Overview Content Section */}
+       <div className="form-section">
+         <h3>📝 Nội dung tổng quan</h3>
         
         <div className="form-group">
-          <label>Tiêu đề phần tổng quan</label>
+          <label className="form-label">Tiêu đề phần tổng quan</label>
           <input
             type="text"
+            className="form-input"
             value={formData.overviewTitle}
             onChange={(e) => handleInputChange('overviewTitle', e.target.value)}
             placeholder={`Tổng quan về ${category.name}`}
           />
         </div>
 
-        <div className="form-group">
-          <label>Đoạn văn tổng quan</label>
-          {(formData.overviewParagraphs as string[] || []).map((paragraph, index) => (
-            <div key={index} style={{ marginBottom: '1rem' }}>
-              <textarea
-                value={paragraph || ''}
-                onChange={(e) => handleArrayChange('overviewParagraphs', index, e.target.value)}
-                placeholder={`Đoạn văn ${index + 1}...`}
-                rows={3}
-              />
-              {(formData.overviewParagraphs as string[] || []).length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('overviewParagraphs', index)}
-                  className="btn btn-danger"
-                  style={{ marginLeft: '0.5rem' }}
-                >
-                  Xóa
-                </button>
-              )}
-            </div>
-          ))}
+                 <div className="form-group">
+           <label className="form-label">Đoạn văn tổng quan</label>
+                     {(formData.overviewParagraphs as string[] || []).map((paragraph, index) => (
+             <div key={index} className="array-item">
+               <textarea
+                 className="form-textarea"
+                 value={paragraph || ''}
+                 onChange={(e) => handleArrayChange('overviewParagraphs', index, e.target.value)}
+                 placeholder={`Đoạn văn ${index + 1}...`}
+                 rows={3}
+               />
+               {(formData.overviewParagraphs as string[] || []).length > 1 && (
+                 <button
+                   type="button"
+                   onClick={() => removeArrayItem('overviewParagraphs', index)}
+                   className="btn btn-danger"
+                 >
+                   Xóa
+                 </button>
+               )}
+             </div>
+           ))}
           <button
             type="button"
             onClick={() => addArrayItem('overviewParagraphs')}
@@ -257,49 +248,43 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </div>
       </div>
 
-      {/* Top Products Content Section */}
-      <div className="form-section" style={{ 
-        border: '1px solid #e2e8f0', 
-        borderRadius: '0.5rem', 
-        padding: '1.5rem',
-        marginBottom: '1.5rem'
-      }}>
-        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.125rem', fontWeight: '600' }}>
-          🏆 Nội dung sản phẩm hàng đầu
-        </h3>
+             {/* Top Products Content Section */}
+       <div className="form-section">
+         <h3>🏆 Nội dung sản phẩm hàng đầu</h3>
         
         <div className="form-group">
-          <label>Tiêu đề phần sản phẩm hàng đầu</label>
+          <label className="form-label">Tiêu đề phần sản phẩm hàng đầu</label>
           <input
             type="text"
+            className="form-input"
             value={formData.topProductsTitle}
             onChange={(e) => handleInputChange('topProductsTitle', e.target.value)}
             placeholder={`Sản phẩm ${category.name} hàng đầu`}
           />
         </div>
 
-        <div className="form-group">
-          <label>Đoạn văn về sản phẩm hàng đầu</label>
-          {(formData.topProductsParagraphs as string[] || []).map((paragraph, index) => (
-            <div key={index} style={{ marginBottom: '1rem' }}>
-              <textarea
-                value={paragraph || ''}
-                onChange={(e) => handleArrayChange('topProductsParagraphs', index, e.target.value)}
-                placeholder={`Đoạn văn ${index + 1}...`}
-                rows={3}
-              />
-              {(formData.topProductsParagraphs as string[] || []).length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeArrayItem('topProductsParagraphs', index)}
-                  className="btn btn-danger"
-                  style={{ marginLeft: '0.5rem' }}
-                >
-                  Xóa
-                </button>
-              )}
-            </div>
-          ))}
+                 <div className="form-group">
+           <label className="form-label">Đoạn văn về sản phẩm hàng đầu</label>
+                     {(formData.topProductsParagraphs as string[] || []).map((paragraph, index) => (
+             <div key={index} className="array-item">
+               <textarea
+                 className="form-textarea"
+                 value={paragraph || ''}
+                 onChange={(e) => handleArrayChange('topProductsParagraphs', index, e.target.value)}
+                 placeholder={`Đoạn văn ${index + 1}...`}
+                 rows={3}
+               />
+               {(formData.topProductsParagraphs as string[] || []).length > 1 && (
+                 <button
+                   type="button"
+                   onClick={() => removeArrayItem('topProductsParagraphs', index)}
+                   className="btn btn-danger"
+                 >
+                   Xóa
+                 </button>
+               )}
+             </div>
+           ))}
           <button
             type="button"
             onClick={() => addArrayItem('topProductsParagraphs')}
@@ -310,57 +295,46 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </div>
       </div>
 
-      {/* FAQ Section */}
-      <div className="form-section" style={{ 
-        border: '1px solid #e2e8f0', 
-        borderRadius: '0.5rem', 
-        padding: '1.5rem',
-        marginBottom: '1.5rem'
-      }}>
-        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.125rem', fontWeight: '600' }}>
-          ❓ Câu hỏi thường gặp (FAQ)
-        </h3>
+             {/* FAQ Section */}
+       <div className="form-section">
+         <h3>❓ Câu hỏi thường gặp (FAQ)</h3>
         
-        {(formData.faqItems as { question: string; answer: string }[] || []).map((faq, index) => (
-          <div key={index} className="faq-item" style={{ 
-            border: '1px solid #e2e8f0', 
-            padding: '1rem', 
-            marginBottom: '1rem',
-            borderRadius: '0.5rem'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <strong>FAQ #{index + 1}</strong>
-              {(formData.faqItems as { question: string; answer: string }[] || []).length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeFAQItem(index)}
-                  className="btn btn-danger"
-                  style={{ fontSize: '0.75rem' }}
-                >
-                  Xóa
-                </button>
-              )}
-            </div>
+                 {(formData.faqItems as { question: string; answer: string }[] || []).map((faq, index) => (
+           <div key={index} className="faq-item">
+                         <div className="faq-header">
+               <strong>FAQ #{index + 1}</strong>
+               {(formData.faqItems as { question: string; answer: string }[] || []).length > 1 && (
+                 <button
+                   type="button"
+                   onClick={() => removeFAQItem(index)}
+                   className="btn btn-danger"
+                 >
+                   Xóa
+                 </button>
+               )}
+             </div>
             
-            <div className="form-group">
-              <label>Câu hỏi</label>
-              <input
-                type="text"
-                value={faq.question || ''}
-                onChange={(e) => handleFAQChange(index, 'question', e.target.value)}
-                placeholder="Câu hỏi..."
-              />
-            </div>
+                         <div className="form-group">
+               <label className="form-label">Câu hỏi</label>
+               <input
+                 type="text"
+                 className="form-input"
+                 value={faq.question || ''}
+                 onChange={(e) => handleFAQChange(index, 'question', e.target.value)}
+                 placeholder="Câu hỏi..."
+               />
+             </div>
             
-            <div className="form-group">
-              <label>Câu trả lời</label>
-              <textarea
-                value={faq.answer || ''}
-                onChange={(e) => handleFAQChange(index, 'answer', e.target.value)}
-                placeholder="Câu trả lời..."
-                rows={3}
-              />
-            </div>
+                         <div className="form-group">
+               <label className="form-label">Câu trả lời</label>
+               <textarea
+                 className="form-textarea"
+                 value={faq.answer || ''}
+                 onChange={(e) => handleFAQChange(index, 'answer', e.target.value)}
+                 placeholder="Câu trả lời..."
+                 rows={3}
+               />
+             </div>
           </div>
         ))}
         
@@ -373,12 +347,8 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </button>
       </div>
 
-      {/* Submit Button */}
-      <div className="form-actions" style={{ 
-        borderTop: '1px solid #e2e8f0', 
-        paddingTop: '1.5rem',
-        marginTop: '1.5rem'
-      }}>
+             {/* Submit Button */}
+       <div className="form-actions">
         <button
           type="submit"
           disabled={isLoading}
@@ -387,9 +357,9 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
           {isLoading ? 'Đang lưu...' : '💾 Lưu nội dung'}
         </button>
         
-        <small style={{ marginLeft: '1rem', color: '#6b7280' }}>
-          💡 Nội dung sẽ được lưu riêng biệt với thông tin danh mục
-        </small>
+                 <small>
+           💡 Nội dung sẽ được lưu riêng biệt với thông tin danh mục
+         </small>
       </div>
     </form>
   );
