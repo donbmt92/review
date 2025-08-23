@@ -30,7 +30,7 @@ async function getProducts() {
       },
       orderBy: { name: 'asc' }
     });
-
+    console.log(categories);
     return categories;
   } catch (error) {
     console.error('Error fetching products:', error);
