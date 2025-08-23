@@ -8,8 +8,9 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
-// Revalidate every 10 seconds for admin panel
-export const revalidate = 10;
+// Force dynamic rendering for admin panel
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function getCategories() {
   try {

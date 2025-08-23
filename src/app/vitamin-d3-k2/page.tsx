@@ -3,7 +3,9 @@ import { Metadata } from 'next';
 import ProductComparisonPage from '../components/ProductComparisonPage';
 import { vitaminD3K2Data } from '../data/vitaminD3K2Data';
 
-export const dynamic = "force-static";
+// Force dynamic rendering for real-time data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Best Vitamin D3 + K2 Supplements 2024 - Compare Top Rated | BuyeReviews",

@@ -3,7 +3,9 @@ import { Metadata } from 'next';
 import ProductComparisonPage from '../components/ProductComparisonPage';
 import { steamCleanersData } from '../data/steamCleanersData';
 
-export const dynamic = "force-static";
+// Force dynamic rendering for real-time data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Best Steam Cleaners 2024 - Compare Top Rated Models | BuyeReviews",

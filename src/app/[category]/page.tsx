@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation';
 import ProductComparisonPage from '../components/ProductComparisonPage';
 import { getProductPageData } from '../lib/getProductPageData';
 
-export const dynamic = "force-static";
-export const revalidate = 3600; // Revalidate every hour
+// Force dynamic rendering for real-time data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface CategoryPageProps {
   params: Promise<{
