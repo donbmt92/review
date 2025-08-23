@@ -44,3 +44,29 @@ next-env.d.ts
 .vercel
 
 /src/generated/prisma
+
+# Database files
+*.db
+*.db-journal
+prisma/dev.db
+prisma/prisma/dev.db
+prisma/migrations/*/migration.sql
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
