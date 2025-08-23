@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
+// Revalidate every 10 seconds for admin panel
+export const revalidate = 10;
+
 async function getCategories() {
   try {
     return await db.category.findMany({

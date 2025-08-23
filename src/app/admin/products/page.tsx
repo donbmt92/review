@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
+// Revalidate every 10 seconds for admin panel
+export const revalidate = 10;
+
 async function getProducts() {
   try {
     // Lấy tất cả danh mục với sản phẩm
