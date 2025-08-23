@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
+// Force dynamic rendering để lấy categories mới nhất
+export const dynamic = 'force-dynamic';
+
 async function getCategories() {
   try {
     console.log('🔍 Đang lấy categories...');
