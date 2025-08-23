@@ -126,19 +126,27 @@ async function main() {
   for (const product of products) {
     const { highlights, offers, ...productData } = product
     
-    await prisma.product.upsert({
-      where: { title: productData.title },
-      update: {},
-      create: {
-        ...productData,
-        highlights: {
-          create: highlights.map(text => ({ text }))
-        },
-        offers: {
-          create: offers
+    // Kiểm tra product có tồn tại không trước khi tạo
+    const existingProduct = await prisma.product.findFirst({
+      where: { title: productData.title }
+    });
+
+    if (!existingProduct) {
+      await prisma.product.create({
+        data: {
+          ...productData,
+          highlights: {
+            create: highlights.map(text => ({ text }))
+          },
+          offers: {
+            create: offers
+          }
         }
-      }
-    })
+      });
+      console.log(`✅ Đã tạo product: ${productData.title}`);
+    } else {
+      console.log(`⏭️ Product đã tồn tại: ${productData.title}`);
+    }
   }
 
   console.log('✅ Seed database hoàn thành!')
