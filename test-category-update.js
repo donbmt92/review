@@ -2,42 +2,39 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-async function testCategoryUpdate() {
+async function testCategories() {
   try {
-    console.log('🧪 Test cập nhật category...\n');
-
-    // Lấy category pets
-    const petsCategory = await prisma.category.findUnique({
-      where: { slug: 'pets' }
+    console.log('🔍 Đang test database connection...');
+    
+    // Test connection
+    await prisma.$connect();
+    console.log('✅ Database connected successfully');
+    
+    // Test categories query
+    const categories = await prisma.category.findMany({
+      orderBy: { name: 'asc' }
     });
-
-    if (petsCategory) {
-      console.log('📝 Category trước khi update:');
-      console.log(`  - ID: ${petsCategory.id}`);
-      console.log(`  - Name: ${petsCategory.name}`);
-      console.log(`  - Description: ${petsCategory.description || 'null'}`);
-
-      // Update description
-      const updated = await prisma.category.update({
-        where: { id: petsCategory.id },
-        data: {
-          description: 'Test description updated at ' + new Date().toISOString()
-        }
+    
+    console.log('📊 Categories found:', categories.length);
+    console.log('📋 Categories:', categories);
+    
+    // Test specific category
+    if (categories.length > 0) {
+      const firstCategory = categories[0];
+      console.log('🎯 First category:', firstCategory);
+      
+      // Test products in category
+      const productsInCategory = await prisma.product.findMany({
+        where: { categoryId: firstCategory.id }
       });
-
-      console.log('\n✅ Category sau khi update:');
-      console.log(`  - ID: ${updated.id}`);
-      console.log(`  - Name: ${updated.name}`);
-      console.log(`  - Description: ${updated.description}`);
-    } else {
-      console.log('❌ Không tìm thấy category pets');
+      console.log('🛍️ Products in first category:', productsInCategory.length);
     }
-
+    
   } catch (error) {
-    console.error('❌ Lỗi:', error);
+    console.error('❌ Error:', error);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-testCategoryUpdate();
+testCategories();

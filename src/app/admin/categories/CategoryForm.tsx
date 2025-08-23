@@ -79,8 +79,8 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
       });
 
       if (response.ok) {
-        router.push('/admin/categories');
-        router.refresh();
+        // Force reload trang để lấy data mới từ database
+        window.location.href = '/admin/categories';
       } else {
         const errorData = await response.json();
         if (errorData.errors) {

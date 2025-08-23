@@ -9,11 +9,15 @@ export const metadata: Metadata = {
 
 async function getCategories() {
   try {
-    return await db.category.findMany({
+    console.log('🔍 Đang lấy categories...');
+    const categories = await db.category.findMany({
       orderBy: { name: 'asc' }
     });
+    console.log('✅ Categories đã lấy được:', categories);
+    console.log('📊 Số lượng categories:', categories.length);
+    return categories;
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('❌ Lỗi khi lấy categories:', error);
     return [];
   }
 }

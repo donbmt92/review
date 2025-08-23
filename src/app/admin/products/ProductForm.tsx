@@ -35,6 +35,9 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ categories, product, isEdit = false }: ProductFormProps) {
+  console.log('🎯 ProductForm nhận được categories:', categories);
+  console.log('📊 Số lượng categories trong form:', categories?.length || 0);
+  
   const [formData, setFormData] = useState({
     title: product?.title || '',
     imageUrl: product?.imageUrl || '',
@@ -147,8 +150,8 @@ export default function ProductForm({ categories, product, isEdit = false }: Pro
       });
 
       if (response.ok) {
-        router.push('/admin/products');
-        router.refresh();
+        // Force reload trang để lấy data mới từ database
+        window.location.href = '/admin/products';
       } else {
         const errorData = await response.json();
         if (errorData.errors) {
