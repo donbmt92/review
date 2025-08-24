@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import './admin.css';
+import AdminInfo from './components/AdminInfo';
 
 export const metadata: Metadata = {
   title: 'Admin Panel - BuyeReviews',
@@ -82,9 +83,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <main className="admin-main">
         <header className="admin-header">
           <h1>Admin Panel</h1>
-          <div className="admin-user">
-            <span>👤 Admin</span>
-          </div>
+          <AdminInfo />
         </header>
         
         <div className="admin-content">
