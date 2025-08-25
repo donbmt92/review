@@ -136,7 +136,11 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
         {/* Product List */}
         <div className="mt-7 space-y-3 sm:space-y-4 ">
           {items.map((it) => (
-            <CompareRow key={it.rank} item={it} onProductClick={handleProductClick} />
+            <CompareRow 
+              key={it.rank} 
+              item={{...it, category}} 
+              onProductClick={handleProductClick} 
+            />
           ))}
         </div>
 
@@ -297,6 +301,7 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
             prps: items[0].url.includes("prps=")
               ? items[0].url.split("prps=")[1]?.split("&")[0] || ""
               : "",
+            category: category,
           }}
         />
       )}  

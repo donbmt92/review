@@ -11,6 +11,7 @@ interface ProductData {
   asin: string;
   type: string;
   prps: string;
+  category: string;
 }
 
 interface DealPopupProps {

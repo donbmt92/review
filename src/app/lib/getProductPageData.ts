@@ -60,6 +60,7 @@ export async function getProductPageData(categorySlug: string): Promise<ProductP
       discount: product.discount || undefined,
       reviewsCount: product.reviewsCount || undefined,
       boughtNote: product.boughtNote || undefined,
+      id: product.id,
     }));
 
     // Generate dynamic content based on category - Use custom content if available

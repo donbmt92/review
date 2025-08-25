@@ -1,11 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import ProductComparisonPage from '../../components/ProductComparisonPage';
 import { getProductPageData } from '../../lib/getProductPageData';
 
-export const dynamic = "force-static";
-export const revalidate = 3600; // Revalidate every hour
+export const dynamic = "force-dynamic";
+// export const revalidate = 3600; // Revalidate every hour
 
 interface CategoryPageProps {
   params: Promise<{
@@ -14,7 +14,7 @@ interface CategoryPageProps {
   }>;
 }
 
-// Generate static params for known categories
+// Generate static params for known categories and products
 export async function generateStaticParams() {
   try {
     // Get all categories from database
@@ -25,16 +25,41 @@ export async function generateStaticParams() {
           some: {} // Only categories that have products
         }
       },
-      select: {
-        slug: true
+      include: {
+        products: {
+          select: {
+            id: true,
+            title: true
+          }
+        }
       }
     });
 
-    // Generate params for database categories
-    const dynamicParams = categories.map(category => ({
-      category: category.slug,
-      productSlug: category.slug
-    }));
+    // Function để tạo slug từ title
+    const createSlugFromTitle = (title: string): string => {
+      return title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    };
+
+    // Generate params for database categories and products
+    const dynamicParams = categories.flatMap(category => {
+      const categoryParams = [{
+        category: category.slug,
+        productSlug: category.slug
+      }];
+      
+      // Add individual product params using title slug
+      const productParams = category.products.map(product => ({
+        category: category.slug,
+        productSlug: createSlugFromTitle(product.title)
+      }));
+      
+      return [...categoryParams, ...productParams];
+    });
 
     // Add fallback static params for compatibility
     const staticParams = [
@@ -62,7 +87,75 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const { category } = await params;
+  const { category, productSlug } = await params;
+  
+  // If productSlug is different from category, try to find specific product
+  if (productSlug !== category) {
+    try {
+      const { db } = await import('../../lib/db');
+      
+      // Function để tạo slug từ title
+      const createSlugFromTitle = (title: string): string => {
+        return title
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .trim();
+      };
+      
+      // Tìm tất cả products trong category
+      const products = await db.product.findMany({
+        where: {
+          category: {
+            slug: category
+          }
+        },
+        include: {
+          category: true
+        }
+      });
+      
+      // Tìm product có slug khớp với productSlug
+      const product = products.find(p => createSlugFromTitle(p.title) === productSlug);
+
+      if (product) {
+        // Generate metadata for specific product
+        return {
+          title: `${product.title} - ${product.category.name} | BuyeReviews`,
+          description: `Buy ${product.title} - Best price, reviews, and deals. Compare with other ${product.category.name.toLowerCase()} products.`,
+          keywords: `${product.title}, ${product.category.name}, best price, reviews, deals`,
+          openGraph: {
+            title: `${product.title} - ${product.category.name}`,
+            description: `Buy ${product.title} - Best price, reviews, and deals.`,
+            type: "website",
+            url: `https://buyereview.com/${category}/${productSlug}`,
+            images: [
+              {
+                url: product.imageUrl,
+                width: 1200,
+                height: 630,
+                alt: product.title
+              }
+            ]
+          },
+          twitter: {
+            card: "summary_large_image",
+            title: `${product.title} - ${product.category.name}`,
+            description: `Buy ${product.title} - Best price, reviews, and deals.`,
+            images: [product.imageUrl]
+          },
+          alternates: {
+            canonical: `https://buyereview.com/${category}/${productSlug}`
+          }
+        };
+      }
+    } catch (error) {
+      console.error('Error finding product for metadata:', error);
+    }
+  }
+
+  // Fallback to category metadata
   const data = await getProductPageData(category);
   
   if (!data) {
@@ -105,8 +198,92 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 }
 
 export default async function CategoryProductPage({ params }: CategoryPageProps) {
-  const { category } = await params;
+  const { category, productSlug } = await params;
   
+  console.log("=== PRODUCT PAGE DEBUG ===");
+  console.log("category:", category);
+  console.log("productSlug:", productSlug);
+  console.log("productSlug !== category:", productSlug !== category);
+  
+  // If productSlug is different from category, try to find specific product and redirect
+  if (productSlug !== category) {
+    console.log("Looking for product with slug:", productSlug, "in category:", category);
+    
+    try {
+      const { db } = await import('../../lib/db');
+      
+      // Function để tạo slug từ title (giống như trong CompareRow)
+      const createSlugFromTitle = (title: string): string => {
+        return title
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .trim();
+      };
+      
+      // Tìm tất cả products trong category
+      const products = await db.product.findMany({
+        where: {
+          category: {
+            slug: category
+          }
+        },
+        include: {
+          offers: true
+        }
+      });
+      
+      console.log("Found", products.length, "products in category");
+      console.log("Product titles:", products.map(p => p.title));
+      console.log("Product slugs:", products.map(p => createSlugFromTitle(p.title)));
+      
+      // Tìm product có slug khớp với productSlug
+      const product = products.find(p => createSlugFromTitle(p.title) === productSlug);
+      
+      console.log("Matched product:", product);
+             if (product && product.offers.length > 0) {
+         console.log("product.offers[0].url", product.offers[0].url);
+         
+         // Redirect to the actual product URL (first offer)
+         const productUrl = product.offers[0].url;
+         console.log("About to redirect to:", productUrl);
+         
+         // Return a redirect component instead of using Next.js redirect
+         return (
+           <html>
+             <head>
+               <meta httpEquiv="refresh" content={`0;url=${productUrl}`} />
+               <title>Redirecting to Amazon...</title>
+             </head>
+             <body>
+               <div style={{ 
+                 textAlign: 'center', 
+                 padding: '50px', 
+                 fontFamily: 'Arial, sans-serif' 
+               }}>
+                 <h2>Redirecting to Amazon...</h2>
+                 <p>You will be redirected to the product page in a few seconds.</p>
+                 <p>If you are not redirected automatically, <a href={productUrl}>click here</a>.</p>
+               </div>
+               <script dangerouslySetInnerHTML={{
+                 __html: `
+                   console.log('Redirecting to: ${productUrl}');
+                   window.location.href = '${productUrl}';
+                 `
+               }} />
+             </body>
+           </html>
+         );
+       } else {
+         console.log("No product found or no offers available");
+       }
+    } catch (error) {
+      console.error('Error finding product for redirect:', error);
+    }
+  }
+  
+  // If no specific product found or redirect failed, show category comparison page
   // First try to get data from database
   let data = await getProductPageData(category);
 

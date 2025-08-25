@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export type CompareItem = {
   rank: number;
@@ -13,6 +14,8 @@ export type CompareItem = {
   discount?: string;
   reviewsCount?: number;
   boughtNote?: string;
+  category?: string;
+  id?: string;
 };
 
 interface CompareRowProps {
@@ -38,6 +41,20 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
     : [];
   console.log("item",item);
   
+  // Function để tạo slug từ tên sản phẩm
+  const createProductSlug = (item: CompareItem): string => {
+    return item.title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Loại bỏ ký tự đặc biệt
+      .replace(/\s+/g, '-') // Thay thế khoảng trắng bằng dấu gạch ngang
+      .replace(/-+/g, '-') // Loại bỏ dấu gạch ngang liên tiếp
+      .trim(); // Loại bỏ khoảng trắng đầu cuối
+  };
+  
+  // Tạo đường dẫn cho sản phẩm
+  const productSlug = createProductSlug(item);
+  const productPath = item.category ? `/${item.category}/${productSlug}` : `#`;
+  
   return (
     <div className={`compare-row`}>
       <div className="corner-left mb-4">
@@ -52,10 +69,11 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
         <span className="discount-ribbon">{item.discount}</span>
       ) : null}
       <div className="image-wrapper">
-        <button
-          onClick={() => onProductClick(item, 'image')}
-          className="cursor-pointer border-none bg-transparent p-0"
+        <Link
+          href={productPath}
+          className="cursor-pointer border-none bg-transparent p-0 block"
           aria-label={`View details for ${item.title}`}
+          onClick={() => onProductClick(item, 'image')}
         >
           <Image
             src={item.image}
@@ -64,19 +82,20 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
             height={160}
             className="product-image-container"
           />
-        </button>
+        </Link>
       </div>
 
       <div className="info-container">
-        <button
-          onClick={() => onProductClick(item, 'title')}
-          className="product-title cursor-pointer border-none bg-transparent p-0 text-left hover:underline"
+        <Link
+          href={productPath}
+          className="product-title cursor-pointer border-none bg-transparent p-0 text-left hover:underline block"
           aria-label={`View details for ${item.title}`}
+          onClick={() => onProductClick(item, 'title')}
         >
           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-left">
             {item.title}
           </h3>
-        </button>
+        </Link>
 
         <div className="info-list">
           {safeHighlights.slice(0, 3).map((text, index) => (
@@ -124,14 +143,14 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
       </div>
 
       <div className="compare-actions">
-        <a
+        <Link
+          href={productPath}
           rel="nofollow sponsored noopener"
-          target="_blank"
           className="action-button"
           onClick={() => onProductClick(item, 'button')}
         >
           Check Out Lastest Price
-        </a>
+        </Link>
         <div className="retailer-row">
           <Image
             src="/Amazon_logo.svg"

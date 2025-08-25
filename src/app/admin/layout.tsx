@@ -46,6 +46,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <span className="nav-icon">➕</span>
               Thêm sản phẩm
             </Link>
+            <Link href="/admin/products/import" className="nav-link">
+              <span className="nav-icon">🔄</span>
+              Import từ BuyeReviews
+            </Link>
           </div>
 
           <div className="nav-section">

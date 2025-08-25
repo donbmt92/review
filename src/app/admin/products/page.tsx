@@ -53,6 +53,9 @@ export default async function ProductsPage() {
           <Link href="/admin/products/create" className="btn btn-primary">
             + Thêm sản phẩm
           </Link>
+          <Link href="/admin/products/import" className="btn btn-outline">
+            🔄 Import từ BuyeReviews
+          </Link>
         </div>
       </div>
 
