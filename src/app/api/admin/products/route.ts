@@ -121,14 +121,26 @@ export async function POST(request: NextRequest) {
         discount: discount?.trim() || null,
         retailer: retailer?.trim() || null,
         highlights: {
-          create: highlights?.filter((h: string) => h.trim()).map((text: string) => ({
-            text: text.trim()
+          create: highlights?.filter((h: any) => {
+            if (typeof h === 'string') {
+              return h.trim();
+            } else if (h && typeof h === 'object' && h.text) {
+              return h.text.trim();
+            }
+            return false;
+          }).map((h: any) => ({
+            text: typeof h === 'string' ? h.trim() : h.text.trim()
           })) || []
         },
         offers: {
-          create: offers?.filter((o: any) => o.retailer?.trim() && o.url?.trim()).map((offer: any) => ({
+          create: offers?.filter((o: any) => {
+            if (o && typeof o === 'object') {
+              return o.retailer?.trim();
+            }
+            return false;
+          }).map((offer: any) => ({
             retailer: offer.retailer.trim(),
-            url: offer.url.trim(),
+            url: offer.url?.trim() || 'https://amazon.com',
             badge: offer.badge?.trim() || null,
             discount: offer.discount?.trim() || null,
           })) || []
