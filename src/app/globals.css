@@ -112,6 +112,19 @@ body {
   border-radius: 8px;
 }
 
+/* Placeholder cho ảnh bị lỗi */
+.compare-row .product-image-container.bg-gray-200 {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+  padding: 8px;
+}
+
 /* Yellow skewed ribbon (badge) */
 .compare-row .skewed-ribbon { position: relative; top: 0; left: 0; z-index: 20; }
 

@@ -175,14 +175,7 @@ const DealPopup: React.FC<DealPopupProps> = ({
                     decoding="async"
                     data-nimg={1}
                     className="ui image"
-                    srcSet={`/_next/image?url=${encodeURIComponent(
-                      product.image
-                    )}&w=640&q=75 1x, /_next/image?url=${encodeURIComponent(
-                      product.image
-                    )}&w=1080&q=75 2x`}
-                    src={`/_next/image?url=${encodeURIComponent(
-                      product.image
-                    )}&w=1080&q=75`}
+                    srcSet={`${product.image}`}
                     style={{ color: "transparent", height: "100%" }}
                   />
                 </div>

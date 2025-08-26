@@ -30,10 +30,27 @@ export async function generateStaticParams() {
       }
     });
 
-    // Generate params for database categories
-    const dynamicParams = categories.map(category => ({
-      category: category.slug
-    }));
+    // Generate params for database categories - filter out invalid ones
+    const dynamicParams = categories
+      .filter(cat => {
+        const slug = cat.slug;
+        return slug && 
+               !slug.includes('.') && 
+               slug !== 'manifest.json' && 
+               slug !== 'favicon.ico' &&
+               slug !== 'robots.txt' &&
+               slug !== 'sitemap.xml' &&
+               slug !== '_next' &&
+               slug !== 'api' &&
+               slug !== 'admin' &&
+               !slug.startsWith('_') &&
+               !slug.startsWith('.') &&
+               !slug.includes(' ') &&
+               slug.length >= 2;
+      })
+      .map(category => ({
+        category: category.slug
+      }));
 
     // Add fallback static params for compatibility
     const staticParams = [
@@ -49,6 +66,7 @@ export async function generateStaticParams() {
       index === self.findIndex(p => p.category === param.category)
     );
 
+    console.log("Generated static params:", uniqueParams);
     return uniqueParams;
   } catch (error) {
     console.error('Error generating static params:', error);
@@ -64,6 +82,15 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
+  
+  // Kiểm tra category có hợp lệ không
+  if (!category || category.includes('.') || category === 'manifest.json' || category === 'favicon.ico') {
+    return {
+      title: 'Invalid Category',
+      description: 'The requested category is not valid.',
+    };
+  }
+  
   const data = await getProductPageData(category);
   
   if (!data) {
@@ -107,12 +134,47 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
+  
+  console.log("=== CATEGORY PAGE DEBUG ===");
+  console.log("category:", category);
+  console.log("params:", params);
+  console.log("This is the CATEGORY page, NOT the product slug page");
+  console.log("URL path should be:", `/${category}`);
+  
+  // Kiểm tra category có hợp lệ không
+  if (!category || 
+      category.includes('.') || 
+      category === 'manifest.json' || 
+      category === 'favicon.ico' ||
+      category === 'robots.txt' ||
+      category === 'sitemap.xml' ||
+      category === '_next' ||
+      category === 'api' ||
+      category === 'admin' ||
+      category.startsWith('_') ||
+      category.startsWith('.') ||
+      category.includes(' ') ||
+      category.length < 2) {
+    console.log("Invalid category:", category, "- showing notFound()");
+    notFound();
+  }
+  
   const data = await getProductPageData(category);
   
+  console.log("data from getProductPageData:", data ? "Found" : "Not found");
+  if (data) {
+    console.log("Number of items:", data.items.length);
+    console.log("First item URL:", data.items[0]?.url);
+    console.log("Category title:", data.categoryTitle);
+  }
+  
   if (!data) {
+    console.log("No data found, showing notFound()");
     notFound();
   }
 
+  console.log("Rendering ProductComparisonPage with data - NO REDIRECT SHOULD HAPPEN HERE");
+  
   return (
     <ProductComparisonPage 
       category={data.category}

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export type CompareItem = {
   rank: number;
@@ -36,10 +36,16 @@ function gradeFromScore(score: number): number {
 }
 
 export default function CompareRow({ item, onProductClick }: CompareRowProps) {
+  const [imageError, setImageError] = useState(false);
   const safeHighlights = Array.isArray(item.highlights)
     ? item.highlights.filter(Boolean)
     : [];
   console.log("item",item);
+  
+  // Reset imageError khi item.image thay đổi
+  useEffect(() => {
+    setImageError(false);
+  }, [item.image]);
   
   // Function để tạo slug từ tên sản phẩm
   const createProductSlug = (item: CompareItem): string => {
@@ -51,9 +57,8 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
       .trim(); // Loại bỏ khoảng trắng đầu cuối
   };
   
-  // Tạo đường dẫn cho sản phẩm
+  // Tạo slug cho sản phẩm (chỉ để log, không dùng cho navigation)
   const productSlug = createProductSlug(item);
-  const productPath = item.category ? `/${item.category}/${productSlug}` : `#`;
   
   return (
     <div className={`compare-row`}>
@@ -69,33 +74,59 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
         <span className="discount-ribbon">{item.discount}</span>
       ) : null}
       <div className="image-wrapper">
-        <Link
-          href={productPath}
+        <div
           className="cursor-pointer border-none bg-transparent p-0 block"
           aria-label={`View details for ${item.title}`}
           onClick={() => onProductClick(item, 'image')}
+          style={{ cursor: 'pointer' }}
         >
-          <Image
-            src={item.image}
-            alt={item.title}
-            width={160}
-            height={160}
-            className="product-image-container"
-          />
-        </Link>
+          {item.image ? (
+            item.image.startsWith('http') ? (
+              // External images - sử dụng img tag thông thường
+              imageError ? (
+                // Placeholder khi ảnh lỗi
+                <div className="product-image-container bg-gray-200">
+                  <span>Ảnh không khả dụng</span>
+                </div>
+              ) : (
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="product-image-container"
+                  onError={() => setImageError(true)}
+                  onLoad={() => setImageError(false)}
+                />
+              )
+            ) : (
+              // Local images - sử dụng Next.js Image
+              <img
+                src={item.image}
+                alt={item.title}
+                // width={160}
+                // height={160}
+                className="product-image-container"
+              />
+            )
+          ) : (
+            // Không có ảnh - hiển thị placeholder
+            <div className="product-image-container bg-gray-200">
+              <span>Không có ảnh</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="info-container">
-        <Link
-          href={productPath}
+        <div
           className="product-title cursor-pointer border-none bg-transparent p-0 text-left hover:underline block"
           aria-label={`View details for ${item.title}`}
           onClick={() => onProductClick(item, 'title')}
+          style={{ cursor: 'pointer' }}
         >
           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-left">
             {item.title}
           </h3>
-        </Link>
+        </div>
 
         <div className="info-list">
           {safeHighlights.slice(0, 3).map((text, index) => (
@@ -143,14 +174,13 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
       </div>
 
       <div className="compare-actions">
-        <Link
-          href={productPath}
-          rel="nofollow sponsored noopener"
+        <button
           className="action-button"
           onClick={() => onProductClick(item, 'button')}
+          style={{ cursor: 'pointer' }}
         >
           Check Out Lastest Price
-        </Link>
+        </button>
         <div className="retailer-row">
           <Image
             src="/Amazon_logo.svg"

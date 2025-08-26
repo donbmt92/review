@@ -82,15 +82,23 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
     // Track sự kiện click sản phẩm với loại click
     trackEvent('product_click', 'ecommerce', `${product.title} - ${clickType}`);
     
-    // Tạo slug từ tên sản phẩm
-    const productSlug = createProductSlug(product.title);
-    
-    // Tạo URL với slug
-    const slugUrl = `/${category}/${productSlug}`;
-    console.log(slugUrl);
+    // Kiểm tra xem có URL hợp lệ không
+    if (product.url && product.url !== '#' && product.url.startsWith('http')) {
+      console.log('Opening external URL:', product.url);
+      // Mở URL bên ngoài trực tiếp
+      window.open(product.url, '_blank');
+    } else {
+      console.log('Creating slug URL for internal navigation');
+      // Tạo slug từ tên sản phẩm cho internal navigation
+      const productSlug = createProductSlug(product.title);
       
-    // Mở tab mới với slug page
-    window.open(slugUrl, '_blank');
+      // Tạo URL với slug
+      const slugUrl = `/${category}/${productSlug}`;
+      console.log('Opening internal slug URL:', slugUrl);
+        
+      // Mở tab mới với slug page
+      window.open(slugUrl, '_blank');
+    }
   };
 
   return (
