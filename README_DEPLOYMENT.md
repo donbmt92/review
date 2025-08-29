@@ -460,6 +460,6 @@ Nếu gặp vấn đề trong quá trình deploy:
 
 **Lưu ý**: Đảm bảo thay đổi tất cả password mặc định và cấu hình bảo mật phù hợp cho production environment.
 cd /var/www/buyereview
-git pull
-npm run build
-pm2 restart buyereview
+  git pull
+  npm run build
+  pm2 restart buyereview

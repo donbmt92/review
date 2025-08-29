@@ -20,16 +20,18 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
     console.log('- Current pathname:', pathname);
     console.log('- Search params:', searchParams.toString());
     
-    // Wait for gtag to be available
-    const checkGtag = () => {
+    // Wait for gtag to be available with retry mechanism
+    const checkGtag = (retryCount = 0) => {
       if (window.gtag) {
         console.log('✅ gtag is now available, tracking page view...');
         window.gtag('config', GA_MEASUREMENT_ID, {
           page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
         });
+      } else if (retryCount < 50) { // Max 5 seconds (50 * 100ms)
+        console.log(`⏳ gtag not ready yet, retrying in 100ms... (attempt ${retryCount + 1}/50)`);
+        setTimeout(() => checkGtag(retryCount + 1), 100);
       } else {
-        console.log('⏳ gtag not ready yet, retrying in 100ms...');
-        setTimeout(checkGtag, 100);
+        console.error('❌ gtag failed to load after 5 seconds');
       }
     };
     
@@ -62,11 +64,7 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
              gtag('js', new Date());
              
              console.log('✅ gtag js initialized');
-             gtag('config', '${GA_MEASUREMENT_ID}', {
-               anonymize_ip: true,
-               allow_google_signals: false,
-               allow_ad_personalization_signals: false
-             });
+             gtag('config', '${GA_MEASUREMENT_ID}');
              
              console.log('✅ gtag config completed');
              console.log('Window gtag available:', !!window.gtag);
