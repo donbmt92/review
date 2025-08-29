@@ -14,7 +14,17 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
 
   // Track SPA page views
   useEffect(() => {
-    if (!GA_MEASUREMENT_ID || !window.gtag) return;
+    console.log('🔍 GoogleAnalytics Debug:');
+    console.log('- GA_MEASUREMENT_ID:', GA_MEASUREMENT_ID);
+    console.log('- Window gtag available:', !!window.gtag);
+    console.log('- Current pathname:', pathname);
+    
+    if (!GA_MEASUREMENT_ID || !window.gtag) {
+      console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID or gtag');
+      return;
+    }
+    
+    console.log('✅ Tracking page view...');
     window.gtag('config', GA_MEASUREMENT_ID, {
       page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
     });
@@ -29,12 +39,21 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
       <Script
         id="google-analytics"
         strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
+                 dangerouslySetInnerHTML={{
+           __html: `
+             console.log('🚀 Google Analytics Script Starting...');
+             
+             window.dataLayer = window.dataLayer || [];
+             function gtag(){dataLayer.push(arguments);}
+             
+             console.log('✅ gtag function defined');
+             gtag('js', new Date());
+             
+             console.log('✅ gtag js initialized');
+             gtag('config', '${GA_MEASUREMENT_ID}');
+             
+             console.log('✅ gtag config completed');
+             console.log('Window gtag available:', !!window.gtag);
 
             // Track scroll depth
             let maxScrollDepth = 0;
