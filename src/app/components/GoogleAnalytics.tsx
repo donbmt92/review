@@ -1,5 +1,16 @@
 'use client';
 
+declare global {
+  interface Window {
+    gtag: (
+      command: 'config' | 'event' | 'set',
+      targetId: string,
+      config?: Record<string, any>
+    ) => void;
+    gaScriptLoaded?: boolean;
+  }
+}
+
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, Suspense } from 'react';
@@ -19,20 +30,25 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
     console.log('- Window gtag available:', !!window.gtag);
     console.log('- Current pathname:', pathname);
     
-    // Wait for gtag to be available with retry mechanism
-    const checkGtag = (retryCount = 0) => {
-      if (window.gtag) {
-        console.log('✅ gtag is now available, tracking page view...');
-        window.gtag('config', GA_MEASUREMENT_ID, {
-          page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
-        });
-      } else if (retryCount < 30) { // Max 3 seconds (30 * 100ms)
-        console.log(`⏳ gtag not ready yet, retrying in 100ms... (attempt ${retryCount + 1}/30)`);
-        setTimeout(() => checkGtag(retryCount + 1), 100);
-      } else {
-        console.error('❌ gtag failed to load after 3 seconds');
-      }
-    };
+         // Wait for gtag to be available with retry mechanism
+     const checkGtag = (retryCount = 0) => {
+       if (window.gtag && window.gaScriptLoaded) {
+         console.log('✅ gtag is now available, tracking page view...');
+         window.gtag('config', GA_MEASUREMENT_ID, {
+           page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
+         });
+       } else if (retryCount < 30) { // Max 3 seconds (30 * 100ms)
+         console.log(`⏳ gtag not ready yet, retrying in 100ms... (attempt ${retryCount + 1}/30)`);
+         console.log('- gtag available:', !!window.gtag);
+         console.log('- script loaded:', !!window.gaScriptLoaded);
+         setTimeout(() => checkGtag(retryCount + 1), 100);
+       } else {
+         console.error('❌ gtag failed to load after 3 seconds');
+         console.error('- Final status:');
+         console.error('- gtag available:', !!window.gtag);
+         console.error('- script loaded:', !!window.gaScriptLoaded);
+       }
+     };
     
     if (!GA_MEASUREMENT_ID) {
       console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID');
@@ -57,27 +73,36 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
          onError={(e) => console.error('❌ Failed to load Google Analytics config script:', e)}
          dangerouslySetInnerHTML={{
            __html: `
-             console.log('🚀 Google Analytics Script Starting...');
-             
-             window.dataLayer = window.dataLayer || [];
-             function gtag(){dataLayer.push(arguments);}
-             
-             console.log('✅ gtag function defined');
-             gtag('js', new Date());
-             
-             console.log('✅ gtag js initialized');
-             gtag('config', '${GA_MEASUREMENT_ID}');
-             
-             console.log('✅ gtag config completed');
-             console.log('Window gtag available:', !!window.gtag);
-             
-             // Test if gtag is working
+             try {
+               console.log('🚀 Google Analytics Script Starting...');
+               console.log('GA_MEASUREMENT_ID:', '${GA_MEASUREMENT_ID}');
+               
+               window.dataLayer = window.dataLayer || [];
+               function gtag(){dataLayer.push(arguments);}
+               
+               console.log('✅ gtag function defined');
+               gtag('js', new Date());
+               
+               console.log('✅ gtag js initialized');
+               gtag('config', '${GA_MEASUREMENT_ID}');
+               
+               console.log('✅ gtag config completed');
+               console.log('Window gtag available:', !!window.gtag);
+               
+                            // Test if gtag is working
              try {
                gtag('event', 'test_event', { event_category: 'debug', event_label: 'script_loaded' });
                console.log('✅ gtag event test successful');
              } catch (error) {
                console.error('❌ gtag event test failed:', error);
              }
+             
+             // Set a flag to indicate script has loaded
+             window.gaScriptLoaded = true;
+             console.log('✅ Google Analytics script fully loaded');
+           } catch (error) {
+             console.error('❌ Google Analytics Script Error:', error);
+           }
 
             // Track scroll depth
             let maxScrollDepth = 0;
