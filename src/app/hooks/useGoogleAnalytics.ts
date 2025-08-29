@@ -20,6 +20,21 @@ export const useGoogleAnalytics = () => {
     console.log('- Current URL:', window.location.href);
   }
 
+  // Helper function to wait for gtag to be available
+  const waitForGtag = (callback: () => void, maxRetries = 30) => {
+    if (typeof window.gtag === 'function') {
+      callback();
+      return;
+    }
+    
+    if (maxRetries > 0) {
+      console.log(`⏳ Waiting for gtag... (${maxRetries} retries left)`);
+      setTimeout(() => waitForGtag(callback, maxRetries - 1), 100);
+    } else {
+      console.error('❌ gtag not available after waiting');
+    }
+  };
+
   const trackEvent = (
     action: string,
     category: string,
@@ -34,19 +49,22 @@ export const useGoogleAnalytics = () => {
     console.log('- Value:', value);
     console.log('- GA Measurement ID available:', !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
     
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (typeof window !== 'undefined') {
       if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
-        console.log('✅ Tracking event...');
-        window.gtag('event', action, {
-          event_category: category,
-          event_label: label,
-          value: value,
+        // Wait for gtag to be available, then track
+        waitForGtag(() => {
+          console.log('✅ gtag ready, tracking event...');
+          window.gtag('event', action, {
+            event_category: category,
+            event_label: label,
+            value: value,
+          });
         });
       } else {
         console.error('❌ Cannot track event: NEXT_PUBLIC_GA_MEASUREMENT_ID not defined');
       }
     } else {
-      console.log('⚠️ Window or gtag not available for event tracking');
+      console.log('⚠️ Window not available for event tracking');
     }
   };
 
@@ -58,18 +76,21 @@ export const useGoogleAnalytics = () => {
     console.log('- Length:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.length);
     console.log('- URL being tracked:', url);
     
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (typeof window !== 'undefined') {
       if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
-        console.log('✅ GA Measurement ID found, tracking page view...');
-        window.gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
-          page_path: url,
+        // Wait for gtag to be available, then track
+        waitForGtag(() => {
+          console.log('✅ gtag ready, tracking page view...');
+          window.gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!, {
+            page_path: url,
+          });
         });
       } else {
         console.error('❌ NEXT_PUBLIC_GA_MEASUREMENT_ID is not defined!');
         console.error('Please check your .env.local file');
       }
     } else {
-      console.log('⚠️ Window or gtag not available');
+      console.log('⚠️ Window not available');
     }
   };
 
