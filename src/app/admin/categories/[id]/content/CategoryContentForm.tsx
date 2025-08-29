@@ -198,6 +198,33 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
             onChange={(e) => handleInputChange('keywords', e.target.value)}
             placeholder="từ khóa 1, từ khóa 2, từ khóa 3"
           />
+          <small className="form-help">Các từ khóa chính, phân cách bằng dấu phẩy. Giúp tối ưu hóa tìm kiếm.</small>
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Meta Title</label>
+          <input
+            type="text"
+            className="form-input"
+            value={formData.metaTitle}
+            onChange={(e) => handleInputChange('metaTitle', e.target.value)}
+            placeholder={`${category.name} tốt nhất 2025 - Đánh giá & So sánh`}
+            maxLength={60}
+          />
+          <small className="form-help">Tiêu đề hiển thị trên kết quả tìm kiếm (tối đa 60 ký tự)</small>
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Meta Description</label>
+          <textarea
+            className="form-textarea"
+            value={formData.metaDescription}
+            onChange={(e) => handleInputChange('metaDescription', e.target.value)}
+            placeholder={`Khám phá top ${category.name} tốt nhất 2025. So sánh tính năng, giá cả và đánh giá từ người dùng thực tế.`}
+            rows={3}
+            maxLength={160}
+          />
+          <small className="form-help">Mô tả hiển thị trên kết quả tìm kiếm (tối đa 160 ký tự)</small>
         </div>
       </div>
 
@@ -347,8 +374,26 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
         </button>
       </div>
 
-             {/* Submit Button */}
-       <div className="form-actions">
+      {/* SEO Preview */}
+      {(formData.metaTitle || formData.metaDescription) && (
+        <div className="form-section">
+          <h3>🔍 Xem trước kết quả tìm kiếm</h3>
+          <div className="seo-preview">
+            <div className="seo-preview-title">
+              {formData.metaTitle || `Tên danh mục: ${category.name}`}
+            </div>
+            <div className="seo-preview-url">
+              /{category.slug}
+            </div>
+            <div className="seo-preview-description">
+              {formData.metaDescription || 'Mô tả sẽ hiển thị ở đây...'}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <div className="form-actions">
         <button
           type="submit"
           disabled={isLoading}
@@ -357,9 +402,9 @@ export default function CategoryContentForm({ category }: CategoryContentFormPro
           {isLoading ? 'Đang lưu...' : '💾 Lưu nội dung'}
         </button>
         
-                 <small>
-           💡 Nội dung sẽ được lưu riêng biệt với thông tin danh mục
-         </small>
+        <small>
+          💡 Nội dung sẽ được lưu riêng biệt với thông tin danh mục
+        </small>
       </div>
     </form>
   );

@@ -157,12 +157,12 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const categoryDisplayName = data.categoryTitle.replace(/^\d+\s+/, ''); // Remove number prefix
   
   return {
-    title: `${data.categoryTitle} - Compare Top Rated Models | BuyeReviews`,
-    description: data.categoryDescription,
-    keywords: `${category}, best ${category.replace('-', ' ')}, ${category.replace('-', ' ')} reviews, ${category.replace('-', ' ')} comparison`,
+    title: data.metaTitle || `${data.categoryTitle} - Compare Top Rated Models | BuyeReviews`,
+    description: data.metaDescription || data.categoryDescription,
+    keywords: data.keywords || `${category}, best ${category.replace('-', ' ')}, ${category.replace('-', ' ')} reviews, ${category.replace('-', ' ')} comparison`,
     openGraph: {
-      title: `${data.categoryTitle} - Compare Top Rated Models`,
-      description: data.categoryDescription,
+      title: data.metaTitle || `${data.categoryTitle} - Compare Top Rated Models`,
+      description: data.metaDescription || data.categoryDescription,
       type: "website",
       url: `https://buyereview.com/${category}`,
       images: [
@@ -176,8 +176,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     },
     twitter: {
       card: "summary_large_image",
-      title: `${data.categoryTitle} - Compare Top Rated Models`,
-      description: data.categoryDescription,
+      title: data.metaTitle || `${data.categoryTitle} - Compare Top Rated Models`,
+      description: data.metaDescription || data.categoryDescription,
       images: [data.items[0]?.image || `/categories/${category}.webp`]
     },
     alternates: {

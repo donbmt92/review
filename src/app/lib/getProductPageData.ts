@@ -20,6 +20,10 @@ export interface ProductPageData {
     question: string;
     answer: string;
   }[];
+  // SEO fields
+  keywords?: string;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export async function getProductPageData(categorySlug: string): Promise<ProductPageData | null> {
@@ -104,7 +108,11 @@ export async function getProductPageData(categorySlug: string): Promise<ProductP
         title: topProductsTitle,
         paragraphs: topProductsParagraphs
       },
-      faqItems
+      faqItems,
+      // SEO fields from CategoryContent
+      keywords: category.content?.keywords || undefined,
+      metaTitle: category.content?.metaTitle || undefined,
+      metaDescription: category.content?.metaDescription || undefined
     };
 
   } catch (error) {
