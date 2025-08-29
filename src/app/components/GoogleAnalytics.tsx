@@ -19,15 +19,27 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
     console.log('- Window gtag available:', !!window.gtag);
     console.log('- Current pathname:', pathname);
     
-    if (!GA_MEASUREMENT_ID || !window.gtag) {
-      console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID or gtag');
+    // Wait for gtag to be available with retry mechanism
+    const checkGtag = (retryCount = 0) => {
+      if (window.gtag) {
+        console.log('✅ gtag is now available, tracking page view...');
+        window.gtag('config', GA_MEASUREMENT_ID, {
+          page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
+        });
+      } else if (retryCount < 30) { // Max 3 seconds (30 * 100ms)
+        console.log(`⏳ gtag not ready yet, retrying in 100ms... (attempt ${retryCount + 1}/30)`);
+        setTimeout(() => checkGtag(retryCount + 1), 100);
+      } else {
+        console.error('❌ gtag failed to load after 3 seconds');
+      }
+    };
+    
+    if (!GA_MEASUREMENT_ID) {
+      console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID');
       return;
     }
     
-    console.log('✅ Tracking page view...');
-    window.gtag('config', GA_MEASUREMENT_ID, {
-      page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
-    });
+    checkGtag();
   }, [pathname, searchParams, GA_MEASUREMENT_ID]);
 
   return (
