@@ -20,15 +20,25 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
     console.log('- Current pathname:', pathname);
     console.log('- Search params:', searchParams.toString());
     
-    if (!GA_MEASUREMENT_ID || !window.gtag) {
-      console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID or gtag');
+    // Wait for gtag to be available
+    const checkGtag = () => {
+      if (window.gtag) {
+        console.log('✅ gtag is now available, tracking page view...');
+        window.gtag('config', GA_MEASUREMENT_ID, {
+          page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
+        });
+      } else {
+        console.log('⏳ gtag not ready yet, retrying in 100ms...');
+        setTimeout(checkGtag, 100);
+      }
+    };
+    
+    if (!GA_MEASUREMENT_ID) {
+      console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID');
       return;
     }
     
-    console.log('✅ Tracking page view...');
-    window.gtag('config', GA_MEASUREMENT_ID, {
-      page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
-    });
+    checkGtag();
   }, [pathname, searchParams, GA_MEASUREMENT_ID]);
 
   return (
@@ -40,16 +50,26 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
       <Script
         id="google-analytics"
         strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}', {
-              anonymize_ip: true,
-              allow_google_signals: false,
-              allow_ad_personalization_signals: false
-            });
+                 dangerouslySetInnerHTML={{
+           __html: `
+             console.log('🚀 Google Analytics Script Loading...');
+             console.log('GA_MEASUREMENT_ID:', '${GA_MEASUREMENT_ID}');
+             
+             window.dataLayer = window.dataLayer || [];
+             function gtag(){dataLayer.push(arguments);}
+             
+             console.log('✅ gtag function defined');
+             gtag('js', new Date());
+             
+             console.log('✅ gtag js initialized');
+             gtag('config', '${GA_MEASUREMENT_ID}', {
+               anonymize_ip: true,
+               allow_google_signals: false,
+               allow_ad_personalization_signals: false
+             });
+             
+             console.log('✅ gtag config completed');
+             console.log('Window gtag available:', !!window.gtag);
 
             // Track scroll depth
             let maxScrollDepth = 0;
