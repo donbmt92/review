@@ -1,146 +1,94 @@
 'use client';
 
-declare global {
-  interface Window {
-    gtag: (
-      command: 'config' | 'event' | 'set',
-      targetId: string,
-      config?: Record<string, any>
-    ) => void;
-    gaScriptLoaded?: boolean;
-  }
-}
-
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import { useEffect } from 'react';
 
 interface GoogleAnalyticsProps {
   GA_MEASUREMENT_ID: string;
 }
 
-function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
+export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // Track SPA page views
   useEffect(() => {
-    console.log('🔍 GoogleAnalytics Debug:');
-    console.log('- GA_MEASUREMENT_ID:', GA_MEASUREMENT_ID);
-    console.log('- Window gtag available:', !!window.gtag);
-    console.log('- Current pathname:', pathname);
-    
-         // Wait for gtag to be available with retry mechanism
-     const checkGtag = (retryCount = 0) => {
-       if (window.gtag && window.gaScriptLoaded) {
-         console.log('✅ gtag is now available, tracking page view...');
-         window.gtag('config', GA_MEASUREMENT_ID, {
-           page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
-         });
-       } else if (retryCount < 30) { // Max 3 seconds (30 * 100ms)
-         console.log(`⏳ gtag not ready yet, retrying in 100ms... (attempt ${retryCount + 1}/30)`);
-         console.log('- gtag available:', !!window.gtag);
-         console.log('- script loaded:', !!window.gaScriptLoaded);
-         setTimeout(() => checkGtag(retryCount + 1), 100);
-       } else {
-         console.error('❌ gtag failed to load after 3 seconds');
-         console.error('- Final status:');
-         console.error('- gtag available:', !!window.gtag);
-         console.error('- script loaded:', !!window.gaScriptLoaded);
-       }
-     };
-    
-    if (!GA_MEASUREMENT_ID) {
-      console.log('❌ Cannot track: Missing GA_MEASUREMENT_ID');
-      return;
-    }
-    
-    checkGtag();
+    const tryGtag = () => {
+      if (typeof window.gtag === 'function') {
+        window.gtag('config', GA_MEASUREMENT_ID, {
+          page_path: pathname + (searchParams.toString() ? '?' + searchParams.toString() : ''),
+        });
+      } else {
+        // Retry sau 100ms nếu gtag chưa load
+        setTimeout(tryGtag, 100);
+      }
+    };
+    tryGtag();
   }, [pathname, searchParams, GA_MEASUREMENT_ID]);
+
+  useEffect(() => {
+    // Scroll depth
+    let maxScroll = 0;
+    const scrollHandler = () => {
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      if (docHeight <= 0) return;
+      const percent = Math.round((window.scrollY / docHeight) * 100);
+      if (percent > maxScroll && percent % 25 === 0) {
+        maxScroll = percent;
+        window.gtag?.('event', 'scroll_depth', { scroll_percentage: percent });
+      }
+    };
+    window.addEventListener('scroll', scrollHandler);
+
+    // Outbound links
+    const clickHandler = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (target && target.hostname !== window.location.hostname) {
+        window.gtag?.('event', 'click_external_link', { link_url: target.href });
+      }
+    };
+    document.addEventListener('click', clickHandler);
+
+    // Time on page
+    const startTime = Date.now();
+    const unloadHandler = () => {
+      const seconds = Math.round((Date.now() - startTime) / 1000);
+      window.gtag?.('event', 'time_on_page', { seconds });
+    };
+    window.addEventListener('beforeunload', unloadHandler);
+
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+      document.removeEventListener('click', clickHandler);
+      window.removeEventListener('beforeunload', unloadHandler);
+    };
+  }, []);
 
   return (
     <>
-             <Script
-         strategy="afterInteractive"
-         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-         onLoad={() => console.log('✅ Google Analytics script loaded successfully')}
-         onError={(e) => console.error('❌ Failed to load Google Analytics script:', e)}
-       />
-             <Script
-         id="google-analytics"
-         strategy="afterInteractive"
-         onLoad={() => console.log('✅ Google Analytics config script loaded successfully')}
-         onError={(e) => console.error('❌ Failed to load Google Analytics config script:', e)}
-         dangerouslySetInnerHTML={{
-           __html: `
-             try {
-               console.log('🚀 Google Analytics Script Starting...');
-               console.log('GA_MEASUREMENT_ID:', '${GA_MEASUREMENT_ID}');
-               
-               window.dataLayer = window.dataLayer || [];
-               function gtag(){dataLayer.push(arguments);}
-               
-               console.log('✅ gtag function defined');
-               gtag('js', new Date());
-               
-               console.log('✅ gtag js initialized');
-               gtag('config', '${GA_MEASUREMENT_ID}');
-               
-               console.log('✅ gtag config completed');
-               console.log('Window gtag available:', !!window.gtag);
-               
-                            // Test if gtag is working
-             try {
-               gtag('event', 'test_event', { event_category: 'debug', event_label: 'script_loaded' });
-               console.log('✅ gtag event test successful');
-             } catch (error) {
-               console.error('❌ gtag event test failed:', error);
-             }
-             
-             // Set a flag to indicate script has loaded
-             window.gaScriptLoaded = true;
-             console.log('✅ Google Analytics script fully loaded');
-           } catch (error) {
-             console.error('❌ Google Analytics Script Error:', error);
-           }
-
-            // Track scroll depth
-            let maxScrollDepth = 0;
-            window.addEventListener('scroll', () => {
-              const docHeight = document.body.scrollHeight - window.innerHeight;
-              if (docHeight <= 0) return;
-              const scrollPercent = Math.round((window.scrollY / docHeight) * 100);
-              if (scrollPercent > maxScrollDepth && scrollPercent % 25 === 0) {
-                maxScrollDepth = scrollPercent;
-                gtag('event', 'scroll_depth', { scroll_percentage: scrollPercent });
-              }
-            });
-
-            // Track outbound links
-            document.addEventListener('click', (e) => {
-              const link = (e.target as HTMLElement).closest?.('a');
-              if (link && link.hostname !== window.location.hostname) {
-                gtag('event', 'click_external_link', { link_url: link.href });
-              }
-            });
-
-            // Track time on page
-            let startTime = Date.now();
-            window.addEventListener('beforeunload', () => {
-              const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-              gtag('event', 'time_on_page', { seconds: timeOnPage });
+      {/* Load GA script */}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script
+        id="google-analytics-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = window.gtag || gtag;
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}', {
+              anonymize_ip: true,
+              allow_google_signals: false,
+              allow_ad_personalization_signals: false
             });
           `,
         }}
       />
     </>
-  );
-}
-
-export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
-  return (
-    <Suspense fallback={null}>
-      <GoogleAnalyticsInner GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
-    </Suspense>
   );
 }
