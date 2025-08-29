@@ -44,14 +44,18 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
 
   return (
     <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-                 dangerouslySetInnerHTML={{
+             <Script
+         strategy="afterInteractive"
+         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+         onLoad={() => console.log('✅ Google Analytics script loaded successfully')}
+         onError={(e) => console.error('❌ Failed to load Google Analytics script:', e)}
+       />
+             <Script
+         id="google-analytics"
+         strategy="afterInteractive"
+         onLoad={() => console.log('✅ Google Analytics config script loaded successfully')}
+         onError={(e) => console.error('❌ Failed to load Google Analytics config script:', e)}
+         dangerouslySetInnerHTML={{
            __html: `
              console.log('🚀 Google Analytics Script Starting...');
              
@@ -66,6 +70,14 @@ function GoogleAnalyticsInner({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
              
              console.log('✅ gtag config completed');
              console.log('Window gtag available:', !!window.gtag);
+             
+             // Test if gtag is working
+             try {
+               gtag('event', 'test_event', { event_category: 'debug', event_label: 'script_loaded' });
+               console.log('✅ gtag event test successful');
+             } catch (error) {
+               console.error('❌ gtag event test failed:', error);
+             }
 
             // Track scroll depth
             let maxScrollDepth = 0;
