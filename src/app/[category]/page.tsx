@@ -135,12 +135,6 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
   
-  console.log("=== CATEGORY PAGE DEBUG ===");
-  console.log("category:", category);
-  console.log("params:", params);
-  console.log("This is the CATEGORY page, NOT the product slug page");
-  console.log("URL path should be:", `/${category}`);
-  
   // Kiểm tra category có hợp lệ không
   if (!category || 
       category.includes('.') || 
@@ -155,7 +149,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       category.startsWith('.') ||
       category.includes(' ') ||
       category.length < 2) {
-    console.log("Invalid category:", category, "- showing notFound()");
+    // console.log("Invalid category:", category, "- showing notFound()");
     notFound();
   }
   

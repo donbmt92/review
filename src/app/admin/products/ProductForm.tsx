@@ -131,6 +131,9 @@ export default function ProductForm({ categories, product, isEdit = false }: Pro
         score: Number(formData.score),
         rank: formData.rank ? Number(formData.rank) : null,
         reviewsCount: formData.reviewsCount ? Number(formData.reviewsCount) : null,
+        // Nếu retailer bị xóa (chuỗi rỗng), giữ giá trị cũ từ database
+        // Chỉ khi nhập dấu cách ' ' thì mới thực sự xóa (set thành '#')
+        retailer: formData.retailer === '' ? '#' : (formData.retailer.trim() || product?.retailer || null),
         highlights: validHighlights,
         offers: validOffers.map(o => ({
           retailer: o.retailer.trim(),

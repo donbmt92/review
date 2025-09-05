@@ -12,13 +12,13 @@ declare global {
 
 export const useGoogleAnalytics = () => {
   // Log GA status when hook is initialized
-  if (typeof window !== 'undefined') {
-    console.log('🚀 Google Analytics Hook Initialized:');
-    console.log('- Environment:', process.env.NODE_ENV);
-    console.log('- NEXT_PUBLIC_GA_MEASUREMENT_ID:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
-    console.log('- Window gtag available:', !!window.gtag);
-    console.log('- Current URL:', window.location.href);
-  }
+  // if (typeof window !== 'undefined') {
+  //   console.log('🚀 Google Analytics Hook Initialized:');
+  //   console.log('- Environment:', process.env.NODE_ENV);
+  //   console.log('- NEXT_PUBLIC_GA_MEASUREMENT_ID:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+  //   console.log('- Window gtag available:', !!window.gtag);
+  //   console.log('- Current URL:', window.location.href);
+  // }
 
   // Helper function to wait for gtag to be available
   const waitForGtag = (callback: () => void, maxRetries = 30) => {
@@ -70,17 +70,17 @@ export const useGoogleAnalytics = () => {
 
   const trackPageView = (url: string) => {
     // Log GA Measurement ID for debugging
-    console.log('🔍 GA Debug Info:');
-    console.log('- NEXT_PUBLIC_GA_MEASUREMENT_ID:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
-    console.log('- Type:', typeof process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
-    console.log('- Length:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.length);
-    console.log('- URL being tracked:', url);
+    // console.log('🔍 GA Debug Info:');
+    // console.log('- NEXT_PUBLIC_GA_MEASUREMENT_ID:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+    // console.log('- Type:', typeof process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+    // console.log('- Length:', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.length);
+    // console.log('- URL being tracked:', url);
     
     if (typeof window !== 'undefined') {
       if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
         // Wait for gtag to be available, then track
         waitForGtag(() => {
-          console.log('✅ gtag ready, tracking page view...');
+          // console.log('✅ gtag ready, tracking page view...');
           window.gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!, {
             page_path: url,
           });

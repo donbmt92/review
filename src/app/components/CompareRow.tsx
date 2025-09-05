@@ -181,15 +181,17 @@ export default function CompareRow({ item, onProductClick }: CompareRowProps) {
         >
           Check Out Lastest Price
         </button>
-        <div className="retailer-row">
-          <Image
-            src="/Amazon_logo.svg"
-            alt={item.retailer}
-            width={70}
-            height={22}
-            className="retailer-logo"
-          />
-        </div>
+        {item.retailer && item.retailer.toLowerCase() === 'amazon' && (
+          <div className="retailer-row">
+            <Image
+              src="/Amazon_logo.svg"
+              alt={item.retailer}
+              width={70}
+              height={22}
+              className="retailer-logo"
+            />
+          </div>
+        )}
         {item.boughtNote ? (
           <div className="coupon-label">{item.boughtNote}</div>
         ) : null}
