@@ -8,6 +8,19 @@ export interface ProductPageData {
   updatedDate: string;
   breadcrumbPath: string;
   items: CompareItem[];
+  subCategories?: Array<{
+    id: string;
+    name: string;
+    slug: string;
+    productCount: number;
+    icon?: string;
+    iconImage?: string;
+  }>;
+  parentCategory?: {
+    id: string;
+    name: string;
+    slug: string;
+  };
   overviewContent: {
     title: string;
     paragraphs: string[];
@@ -28,7 +41,7 @@ export interface ProductPageData {
 
 export async function getProductPageData(categorySlug: string): Promise<ProductPageData | null> {
   try {
-    // Get category with products and content - with caching
+    // Get category with products, children, parent and content
     const category = await db.category.findUnique({
       where: { slug: categorySlug },
       include: {
@@ -43,11 +56,32 @@ export async function getProductPageData(categorySlug: string): Promise<ProductP
             { createdAt: 'desc' }
           ]
         },
+        children: {
+          include: {
+            _count: {
+              select: { products: true }
+            }
+          },
+          orderBy: { name: 'asc' }
+        },
+        parent: {
+          select: { id: true, name: true, slug: true }
+        },
         content: true // Lấy CategoryContent
       }
     });
 
-    if (!category || category.products.length === 0) {
+    if (!category) {
+      return null;
+    }
+
+    // If this is a parent category with children, show sub-categories instead of products
+    if (!category.parentId && category.children.length > 0) {
+      return generateParentCategoryData(category, categorySlug);
+    }
+
+    // If this is a sub-category or parent category without children, show products
+    if (category.products.length === 0) {
       return null;
     }
 
@@ -100,6 +134,11 @@ export async function getProductPageData(categorySlug: string): Promise<ProductP
         }),
       breadcrumbPath: breadcrumbPath,
       items,
+      parentCategory: category.parent ? {
+        id: category.parent.id,
+        name: category.parent.name,
+        slug: category.parent.slug
+      } : undefined,
       overviewContent: {
         title: overviewTitle,
         paragraphs: overviewParagraphs
@@ -429,4 +468,72 @@ function guessCategoryType(categorySlug: string, categoryName: string): string {
 
   // Default fallback
   return 'HOME LIFESTYLE';
+}
+
+// Generate data for parent categories that show sub-categories
+function generateParentCategoryData(category: any, categorySlug: string): ProductPageData {
+  const subCategories = category.children.map((child: any) => ({
+    id: child.id,
+    name: child.name,
+    slug: child.slug,
+    productCount: child._count.products,
+    icon: child.icon,
+    iconImage: child.iconImage
+  }));
+
+  const categoryTitle = category.content?.customTitle || `${category.name} Categories`;
+  const categoryDescription = category.content?.customDescription || `Explore our comprehensive collection of ${category.name.toLowerCase()} categories. Find the perfect products for your specific needs.`;
+  const breadcrumbPath = category.content?.customBreadcrumb || generateBreadcrumbPath(categorySlug, category.name);
+
+  return {
+    category: categorySlug,
+    categoryTitle,
+    categoryDescription,
+    updatedDate: category.content?.updatedAt ? 
+      new Date(category.content.updatedAt).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      }) : 
+      new Date().toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      }),
+    breadcrumbPath,
+    items: [], // No products for parent categories
+    subCategories,
+    overviewContent: {
+      title: category.content?.overviewTitle || `About ${category.name}`,
+      paragraphs: (category.content?.overviewParagraphs as string[]) || [
+        `Welcome to our comprehensive ${category.name.toLowerCase()} section. We've organized our products into specialized categories to help you find exactly what you're looking for.`,
+        `Each category below contains carefully curated products that have been tested and reviewed by our experts. Whether you're a beginner or an experienced user, you'll find options that suit your needs and budget.`,
+        `Click on any category to explore our detailed product comparisons, expert reviews, and buying guides.`
+      ]
+    },
+    topProductsContent: {
+      title: category.content?.topProductsTitle || `Featured ${category.name} Categories`,
+      paragraphs: (category.content?.topProductsParagraphs as string[]) || [
+        `Our featured categories represent the most popular and highly-rated ${category.name.toLowerCase()} products. These categories have been selected based on customer satisfaction, expert reviews, and market demand.`,
+        `Each category includes detailed product comparisons, pros and cons, and buying recommendations to help you make an informed decision.`
+      ]
+    },
+    faqItems: (category.content?.faqItems as Array<{question: string; answer: string}>) || [
+      {
+        question: `What types of ${category.name.toLowerCase()} are available?`,
+        answer: `We offer a wide range of ${category.name.toLowerCase()} categories, each specializing in different aspects and use cases. Browse through our categories to find the one that best matches your needs.`
+      },
+      {
+        question: `How do I choose the right category?`,
+        answer: `Consider your specific needs, budget, and intended use. Each category page provides detailed information about the products and their features to help you make an informed decision.`
+      },
+      {
+        question: `Are all products in each category tested?`,
+        answer: `Yes, all products featured in our categories have been thoroughly tested and reviewed by our expert team. We provide honest, unbiased reviews to help you make the best choice.`
+      }
+    ],
+    keywords: category.content?.keywords || `${category.name.toLowerCase()}, ${category.name.toLowerCase()} categories, best ${category.name.toLowerCase()}`,
+    metaTitle: category.content?.metaTitle || `${category.name} Categories - Compare & Choose | BuyeReviews`,
+    metaDescription: category.content?.metaDescription || `Explore our ${category.name.toLowerCase()} categories and find the perfect products for your needs. Expert reviews and detailed comparisons.`
+  };
 }

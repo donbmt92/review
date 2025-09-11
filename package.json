@@ -9,14 +9,16 @@
     "postinstall": "prisma generate",
     "studio": "prisma studio",
     "prisma:generate": "prisma generate",
+    "db:seed": "tsx prisma/seed.ts",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.13.0",
-    "prisma": "^6.13.0",
     "next": "15.4.6",
+    "node-fetch": "^3.3.2",
+    "prisma": "^6.13.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
@@ -26,6 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
+    "tsx": "^4.20.5",
     "typescript": "^5"
   }
 }
