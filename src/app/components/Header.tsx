@@ -277,7 +277,7 @@ export default function Header() {
         </div>
       </div>
 
-      {isOpen && (
+      {isOpen && (  
         <div className="md:hidden border-t border-white/10 bg-black text-white">
           <div className="mx-auto px-4 py-3 flex flex-col gap-3">
             {primaryNav.map((item) => (

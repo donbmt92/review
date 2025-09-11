@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { db } from '../lib/db';
+import BackupManager from './components/BackupManager';
 
 export const metadata: Metadata = {
   title: 'Dashboard - Admin Panel',
@@ -252,6 +253,11 @@ export default async function AdminDashboard() {
             🐕 Tạo Pets
           </Link>
         </div>
+      </div>
+
+      {/* Backup Manager */}
+      <div style={{ marginTop: '2rem' }}>
+        <BackupManager />
       </div>
     </div>
   );

@@ -64,17 +64,22 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </Link>
           </div>
 
-          {/* <div className="nav-section">
+          <div className="nav-section">
             <h3>Công cụ</h3>
             <Link href="/admin/import" className="nav-link">
               <span className="nav-icon">⬆️</span>
               Import dữ liệu
             </Link>
+            <Link href="/admin/seed-pets" className="nav-link">
+              <span className="nav-icon">🐕</span>
+              Tạo Pets
+            </Link>
             <Link href="/admin/settings" className="nav-link">
               <span className="nav-icon">⚙️</span>
               Cài đặt
             </Link>
-          </div> */}
+          </div>
+
         </nav>
 
         <div className="admin-footer">
