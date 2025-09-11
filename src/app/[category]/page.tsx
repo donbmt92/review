@@ -177,6 +177,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       items={data.items}
       updatedDate={data.updatedDate}
       breadcrumbPath={data.breadcrumbPath}
+      subCategories={data.subCategories}
+      parentCategory={data.parentCategory}
       overviewContent={data.overviewContent}
       topProductsContent={data.topProductsContent}
       faqItems={data.faqItems}

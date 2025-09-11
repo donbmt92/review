@@ -17,7 +17,13 @@ async function getCategories() {
     return await db.category.findMany({
       include: {
         _count: {
-          select: { products: true }
+          select: { products: true, children: true }
+        },
+        parent: {
+          select: { id: true, name: true, slug: true }
+        },
+        children: {
+          select: { id: true, name: true, slug: true }
         }
       },
       orderBy: { createdAt: 'desc' }
@@ -47,9 +53,11 @@ export default async function CategoriesPage() {
           <thead>
             <tr>
               <th>Tên danh mục</th>
+              <th>Loại</th>
               <th>Slug</th>
               <th>Icon</th>
               <th>Số sản phẩm</th>
+              <th>Sub-categories</th>
               <th>Ngày tạo</th>
               <th>Thao tác</th>
             </tr>
@@ -59,7 +67,35 @@ export default async function CategoriesPage() {
               categories.map((category) => (
                 <tr key={category.id}>
                   <td>
-                    <strong>{category.name}</strong>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      {category.parent && (
+                        <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>└─</span>
+                      )}
+                      <strong>{category.name}</strong>
+                    </div>
+                  </td>
+                  <td>
+                    {category.parent ? (
+                      <span style={{ 
+                        fontSize: '0.75rem', 
+                        backgroundColor: '#e0f2fe', 
+                        color: '#0369a1', 
+                        padding: '0.25rem 0.5rem', 
+                        borderRadius: '0.25rem'
+                      }}>
+                        Sub-category
+                      </span>
+                    ) : (
+                      <span style={{ 
+                        fontSize: '0.75rem', 
+                        backgroundColor: '#f0f9ff', 
+                        color: '#0c4a6e', 
+                        padding: '0.25rem 0.5rem', 
+                        borderRadius: '0.25rem'
+                      }}>
+                        Parent
+                      </span>
+                    )}
                   </td>
                   <td>
                     <code style={{ 
@@ -83,6 +119,15 @@ export default async function CategoriesPage() {
                       {category._count.products} sản phẩm
                     </span>
                   </td>
+                  <td>
+                    {category._count.children > 0 ? (
+                      <span className="status-badge active">
+                        {category._count.children} sub-categories
+                      </span>
+                    ) : (
+                      <span style={{ color: '#6b7280' }}>—</span>
+                    )}
+                  </td>
                   <td style={{ color: '#6b7280', fontSize: '0.875rem' }}>
                     {new Date(category.createdAt).toLocaleDateString('vi-VN')}
                   </td>
@@ -102,7 +147,7 @@ export default async function CategoriesPage() {
                       >
                         Xem
                       </Link>
-                      {category._count.products === 0 && (
+                      {category._count.products === 0 && category._count.children === 0 && (
                         <DeleteCategoryButton categoryId={category.id} />
                       )}
                     </div>
@@ -111,7 +156,7 @@ export default async function CategoriesPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={6} style={{ textAlign: 'center', padding: '3rem', color: '#6b7280' }}>
+                <td colSpan={8} style={{ textAlign: 'center', padding: '3rem', color: '#6b7280' }}>
                   <div className="empty-state">
                     <h3>Chưa có danh mục nào</h3>
                     <p>Hãy tạo danh mục đầu tiên để bắt đầu quản lý sản phẩm.</p>

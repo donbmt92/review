@@ -5,8 +5,10 @@ declare global {
   var prismaGlobal: PrismaClient | undefined;
 }
 
-export const prisma: PrismaClient = global.prismaGlobal ?? new PrismaClient();
+// Force create new instance to avoid cache issues
+export const prisma: PrismaClient = new PrismaClient();
 export const db = prisma; // Alias for easier imports
+console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV !== "production") {
   global.prismaGlobal = prisma;
@@ -14,3 +16,4 @@ if (process.env.NODE_ENV !== "production") {
 
 
 
+  

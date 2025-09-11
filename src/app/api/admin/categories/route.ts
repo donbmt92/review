@@ -6,13 +6,19 @@ export async function GET() {
     const categories = await db.category.findMany({
       include: {
         _count: {
-          select: { products: true }
+          select: { products: true, children: true }
+        },
+        parent: {
+          select: { id: true, name: true, slug: true }
+        },
+        children: {
+          select: { id: true, name: true, slug: true }
         }
       },
       orderBy: { createdAt: 'desc' }
     });
 
-    return NextResponse.json(categories);
+    return NextResponse.json({ categories });
   } catch (error) {
     console.error('Error fetching categories:', error);
     return NextResponse.json(
@@ -24,7 +30,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, slug, icon, iconImage } = await request.json();
+    const { name, slug, icon, iconImage, parentId } = await request.json();
 
     // Validation
     if (!name?.trim()) {
@@ -71,6 +77,7 @@ export async function POST(request: NextRequest) {
         slug: slug.trim(),
         icon: icon?.trim() || null,
         iconImage: iconImage?.trim() || null,
+        parentId: parentId?.trim() || null,
       }
     });
 

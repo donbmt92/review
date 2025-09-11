@@ -15,6 +15,19 @@ interface ProductComparisonPageProps {
   items: CompareItem[];
   updatedDate: string;
   breadcrumbPath: string;
+  subCategories?: Array<{
+    id: string;
+    name: string;
+    slug: string;
+    productCount: number;
+    icon?: string;
+    iconImage?: string;
+  }>;
+  parentCategory?: {
+    id: string;
+    name: string;
+    slug: string;
+  };
   overviewContent: {
     title: string;
     paragraphs: string[];
@@ -42,6 +55,8 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   items,
   updatedDate,
   breadcrumbPath,
+  subCategories,
+  parentCategory,
   overviewContent,
   topProductsContent,
   faqItems,
@@ -51,7 +66,6 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
   const [email, setEmail] = useState('');
   const { trackEvent } = useGoogleAnalytics();
   const router = useRouter();
-  console.log(overviewContent);
   // Format updatedDate theo thời gian thực "Aug 3, 2025"
   const formatUpdatedDate = () => {
     // Nếu có updatedDate từ props, sử dụng nó
@@ -106,98 +120,155 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
       {/* Deal Popup */}
 
       <div className="mx-auto max-w-6xl px-3 sm:px-5 py-4 sm:py-8 text-sm sm:text-base">
-        {/* Breadcrumb */}
-        <div className="text-xs sm:text-sm text-black/60">
-          {breadcrumbPath} /{" "}
-          <span className="font-bold">{category.toUpperCase()}</span>
-        </div>
+        {/* Breadcrumb - Only show when there are products */}
+        {items.length > 0 && (
+          <div className="text-xs sm:text-sm text-black/60">
+            {parentCategory ? (
+              <>
+                {breadcrumbPath} /{" "}
+                <a href={`/${parentCategory.slug}`} className="hover:underline">
+                  {parentCategory.name}
+                </a>{" "}
+                / <span className="font-bold">{category.toUpperCase()}</span>
+              </>
+            ) : (
+              <>
+                {breadcrumbPath} /{" "}
+                <span className="font-bold">{category.toUpperCase()}</span>
+              </>
+            )}
+          </div>
+        )}
 
-        {/* Title card */}
-        <div className="mt-2 rounded-t-xl border-t border-sky-100 bg-sky-50 p-4 sm:p-6 shadow-sm">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
-            <span className="inline-block border-b border-black/20 pb-1">
-              {categoryTitle}
-            </span>
-          </h1>
-          <p
-            style={{
-              marginTop: "20px",
-              fontSize: "1.2rem",
-              lineHeight: "1.8rem",
-              color: "dimgray",
-              whiteSpace: "pre-wrap",
-              fontWeight: 600,
-              textAlign: "left",
-            }}
-          >
-            {categoryDescription}
-          </p>
-          <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
-            <AdvertisingDisclosure />
-            <div className="text-xs sm:text-sm italic text-black/60">
-              Updated At{" "}
-              <span className="not-italic font-medium">{formatUpdatedDate()}</span>
+        {/* Title card - Only show when there are products */}
+        {items.length > 0 && (
+          <div className="mt-2 rounded-t-xl border-t border-sky-100 bg-sky-50 p-4 sm:p-6 shadow-sm">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
+              <span className="inline-block border-b border-black/20 pb-1">
+                {categoryTitle}
+              </span>
+            </h1>
+            <p
+              style={{
+                marginTop: "20px",
+                fontSize: "1.2rem",
+                lineHeight: "1.8rem",
+                color: "dimgray",
+                whiteSpace: "pre-wrap",
+                fontWeight: 600,
+                textAlign: "left",
+              }}
+            >
+              {categoryDescription}
+            </p>
+            <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+              <AdvertisingDisclosure />
+              <div className="text-xs sm:text-sm italic text-black/60">
+                Updated At{" "}
+                <span className="not-italic font-medium">{formatUpdatedDate()}</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Product List */}
-        <div className="mt-7 space-y-3 sm:space-y-4 ">
-          {items.map((it) => (
-            <CompareRow 
-              key={it.rank} 
-              item={{...it, category}} 
-              onProductClick={handleProductClick} 
-            />
-          ))}
-        </div>
-
-        {/* Newsletter Subscription Form */}
-        <div className="BeeHiveSubscriptionForm_beehive-subscription-form__bZco3">
-          <div className="beehive-container">
-            <div className="beehive-title-1">Tired of Hunting for Deals?</div>
-            <div className="beehive-title-2">
-              Get the best daily discounts delivered straight to your inbox
+        {/* Sub-categories or Product List */}
+        {subCategories && subCategories.length > 0 ? (
+          <div className="mt-7">
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Browse Categories</h2>
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+              {subCategories.map((subCategory) => (
+                <a
+                  key={subCategory.id}
+                  href={`/${subCategory.slug}`}
+                  className="flex flex-col items-center gap-3 p-4 rounded-lg hover:bg-gray-50 transition-colors group"
+                >
+                  <div className="w-16 h-16 flex items-center justify-center">
+                    {subCategory.iconImage ? (
+                      <img
+                        src={subCategory.iconImage}
+                        alt={subCategory.name}
+                        width={48}
+                        height={48}
+                        className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-200"
+                      />
+                    ) : subCategory.icon ? (
+                      <span className="text-4xl group-hover:scale-110 transition-transform duration-200">{subCategory.icon}</span>
+                    ) : (
+                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                        <span className="text-gray-400 text-lg">📁</span>
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 text-center leading-tight">
+                    {subCategory.name}
+                  </span>
+                  <span className="text-xs text-gray-500 text-center">
+                    {subCategory.productCount} {subCategory.productCount === 1 ? 'product' : 'products'}
+                  </span>
+                </a>
+              ))}
             </div>
-            <div className="beehive-subscription-form-container">
-              <input
-                className="beehive-subscription-form-input"
-                type="email"
-                placeholder="Your Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+          </div>
+        ) : (
+          <div className="mt-7 space-y-3 sm:space-y-4 ">
+            {items.map((it) => (
+              <CompareRow 
+                key={it.rank} 
+                item={{...it, category}} 
+                onProductClick={handleProductClick} 
               />
-              <button 
-                className="beehive-subscription-form-button"
-                onClick={() => {
-                  if (email) {
-                    // Track event
-                    trackEvent('newsletter_signup', 'engagement', email);
-                    
-                    // Lưu email vào localStorage
-                    const existingEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
-                    if (!existingEmails.includes(email)) {
-                      existingEmails.push(email);
-                      localStorage.setItem('newsletter_emails', JSON.stringify(existingEmails));
+            ))}
+          </div>
+        )}
+
+        {/* Newsletter Subscription Form - Only show when there are products */}
+        {items.length > 0 && (
+          <div className="BeeHiveSubscriptionForm_beehive-subscription-form__bZco3">
+            <div className="beehive-container">
+              <div className="beehive-title-1">Tired of Hunting for Deals?</div>
+              <div className="beehive-title-2">
+                Get the best daily discounts delivered straight to your inbox
+              </div>
+              <div className="beehive-subscription-form-container">
+                <input
+                  className="beehive-subscription-form-input"
+                  type="email"
+                  placeholder="Your Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button 
+                  className="beehive-subscription-form-button"
+                  onClick={() => {
+                    if (email) {
+                      // Track event
+                      trackEvent('newsletter_signup', 'engagement', email);
+                      
+                      // Lưu email vào localStorage
+                      const existingEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
+                      if (!existingEmails.includes(email)) {
+                        existingEmails.push(email);
+                        localStorage.setItem('newsletter_emails', JSON.stringify(existingEmails));
+                      }
+                      
+                      // Lưu vào database (nếu có API)
+                      fetch('/api/newsletter', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, category, source: 'product_page' })
+                      }).catch(console.error);
+                      
+                      setEmail('');
+                      alert('Thank you for subscribing! Your email has been saved.');
                     }
-                    
-                    // Lưu vào database (nếu có API)
-                    fetch('/api/newsletter', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ email, category, source: 'product_page' })
-                    }).catch(console.error);
-                    
-                    setEmail('');
-                    alert('Thank you for subscribing! Your email has been saved.');
-                  }
-                }}
-              >
-                Send Me Deals
-              </button>
+                  }}
+                >
+                  Send Me Deals
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Deal Popup Trigger Button */}
         {/* <div className="mt-6 text-center">
@@ -238,56 +309,62 @@ const ProductComparisonPage: React.FC<ProductComparisonPageProps> = ({
           </section>
         )}
 
-        {/* Overview */}
-        <section className="prose prose-sm sm:prose-lg mt-6 sm:mt-8 max-w-none prose-p:my-2 sm:prose-p:my-3 prose-h3:mt-4 sm:prose-h3:mt-6">
-          <h3 className="also-like-title">{overviewContent.title}</h3>
-          {overviewContent.paragraphs.map((paragraph, index) => (
-            <p key={index} className="section-lead">
-              {paragraph}
-            </p>
-          ))}
-        </section>
-
-        {/* Top Products */}
-        <section className="mt-4 sm:mt-6">
-          <h3 className="also-like-title">{topProductsContent.title}</h3>
-          <ul className="mt-2 list-disc pl-4 sm:pl-5 text-sm sm:text-base text-black/80">
-            {items.slice(0, 3).map((it) => (
-              <li key={it.rank}>
-                <button
-                  onClick={() => handleProductClick(it, 'list')}
-                  className="one-line-title text-left hover:underline cursor-pointer"
-                >
-                  {it.title}
-                </button>
-              </li>
+        {/* Overview - Only show when there are products */}
+        {items.length > 0 && (
+          <section className="prose prose-sm sm:prose-lg mt-6 sm:mt-8 max-w-none prose-p:my-2 sm:prose-p:my-3 prose-h3:mt-4 sm:prose-h3:mt-6">
+            <h3 className="also-like-title">{overviewContent.title}</h3>
+            {overviewContent.paragraphs.map((paragraph, index) => (
+              <p key={index} className="section-lead">
+                {paragraph}
+              </p>
             ))}
-          </ul>
-          {topProductsContent.paragraphs.map((paragraph, index) => (
-            <p key={index} className="section-lead">
-              {paragraph}
-            </p>
-          ))}
-        </section>
+          </section>
+        )}
+
+        {/* Top Products - Only show when there are products */}
+        {items.length > 0 && (
+          <section className="mt-4 sm:mt-6">
+            <h3 className="also-like-title">{topProductsContent.title}</h3>
+            <ul className="mt-2 list-disc pl-4 sm:pl-5 text-sm sm:text-base text-black/80">
+              {items.slice(0, 3).map((it) => (
+                <li key={it.rank}>
+                  <button
+                    onClick={() => handleProductClick(it, 'list')}
+                    className="one-line-title text-left hover:underline cursor-pointer"
+                  >
+                    {it.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {topProductsContent.paragraphs.map((paragraph, index) => (
+              <p key={index} className="section-lead">
+                {paragraph}
+              </p>
+            ))}
+          </section>
+        )}
         {/* Deal Popup - Hidden when not open */}
     
 
-        {/* FAQ */}
-        <section className="mt-6 sm:mt-8">
-          <h3 className="also-like-title">FAQ</h3>
-          <div className="mt-2 space-y-2 sm:space-y-3">
-            {faqItems.map((faq, index) => (
-              <div key={index}>
-                <div className="text-sm sm:text-base font-semibold one-line-title">
-                  Q: {faq.question}
+        {/* FAQ - Only show when there are products */}
+        {items.length > 0 && (
+          <section className="mt-6 sm:mt-8">
+            <h3 className="also-like-title">FAQ</h3>
+            <div className="mt-2 space-y-2 sm:space-y-3">
+              {faqItems.map((faq, index) => (
+                <div key={index}>
+                  <div className="text-sm sm:text-base font-semibold one-line-title">
+                    Q: {faq.question}
+                  </div>
+                  <p className="text-sm sm:text-base text-black/70 section-lead">
+                    A: {faq.answer}
+                  </p>
                 </div>
-                <p className="text-sm sm:text-base text-black/70 section-lead">
-                  A: {faq.answer}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
         
       </div>
       {/* Deal Popup - Always render but control visibility internally */}

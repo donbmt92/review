@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ImageUpload from '../components/ImageUpload';
@@ -12,6 +12,7 @@ interface CategoryFormProps {
     slug: string;
     icon?: string | null;
     iconImage?: string | null;
+    parentId?: string | null;
   };
   isEdit?: boolean;
 }
@@ -22,10 +23,32 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
     slug: category?.slug || '',
     icon: category?.icon || '',
     iconImage: category?.iconImage || '',
+    parentId: category?.parentId || '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [parentCategories, setParentCategories] = useState<Array<{id: string, name: string}>>([]);
   const router = useRouter();
+
+  // Load parent categories on component mount
+  useEffect(() => {
+    const loadParentCategories = async () => {
+      try {
+        const response = await fetch('/api/admin/categories');
+        if (response.ok) {
+          const data = await response.json();
+          // Filter out sub-categories and current category (if editing)
+          const parents = data.categories.filter((cat: any) => 
+            !cat.parentId && cat.id !== category?.id
+          );
+          setParentCategories(parents);
+        }
+      } catch (error) {
+        console.error('Error loading parent categories:', error);
+      }
+    };
+    loadParentCategories();
+  }, [category?.id]);
 
   // Auto generate slug from name
   const generateSlug = (name: string) => {
@@ -133,6 +156,28 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
           </div>
         </div>
 
+        <div className="form-group">
+          <label htmlFor="parentId" className="form-label">
+            Danh mục cha (tùy chọn)
+          </label>
+          <select
+            id="parentId"
+            className="form-input"
+            value={formData.parentId}
+            onChange={(e) => setFormData(prev => ({ ...prev, parentId: e.target.value }))}
+          >
+            <option value="">-- Chọn danh mục cha (để trống nếu là danh mục chính) --</option>
+            {parentCategories.map((parent) => (
+              <option key={parent.id} value={parent.id}>
+                {parent.name}
+              </option>
+            ))}
+          </select>
+          <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+            Để trống nếu muốn tạo danh mục chính. Chọn danh mục cha để tạo sub-category.
+          </div>
+        </div>
+
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div className="form-group">
             <label htmlFor="icon" className="form-label">
@@ -203,9 +248,26 @@ export default function CategoryForm({ category, isEdit = false }: CategoryFormP
               <span style={{ fontSize: '1.5rem' }}>{formData.icon}</span>
             ) : null}
             <strong>{formData.name}</strong>
+            {formData.parentId && (
+              <span style={{ 
+                fontSize: '0.75rem', 
+                backgroundColor: '#e0f2fe', 
+                color: '#0369a1', 
+                padding: '0.25rem 0.5rem', 
+                borderRadius: '0.25rem',
+                marginLeft: '0.5rem'
+              }}>
+                Sub-category
+              </span>
+            )}
           </div>
           <div style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '0.5rem' }}>
             URL: <code>/{formData.slug}</code>
+            {formData.parentId && (
+              <div style={{ marginTop: '0.25rem' }}>
+                Parent: {parentCategories.find(p => p.id === formData.parentId)?.name || 'Loading...'}
+              </div>
+            )}
           </div>
         </div>
       )}

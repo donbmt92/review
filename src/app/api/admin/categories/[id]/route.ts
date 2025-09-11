@@ -14,7 +14,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       where: { id },
       include: {
         _count: {
-          select: { products: true }
+          select: { products: true, children: true }
+        },
+        parent: {
+          select: { id: true, name: true, slug: true }
+        },
+        children: {
+          select: { id: true, name: true, slug: true }
         }
       }
     });
@@ -39,7 +45,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params;
-    const { name, slug, icon, iconImage } = await request.json();
+    const { name, slug, icon, iconImage, parentId } = await request.json();
 
     // Validation
     if (!name?.trim()) {
@@ -105,6 +111,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         slug: slug.trim(),
         icon: icon?.trim() || null,
         iconImage: iconImage?.trim() || null,
+        parentId: parentId?.trim() || null,
       }
     });
 
@@ -139,10 +146,17 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Check if category has products
+    // Check if category has products or children
     if (category._count.products > 0) {
       return NextResponse.json(
         { message: 'Không thể xóa danh mục có sản phẩm. Hãy xóa hoặc chuyển sản phẩm sang danh mục khác trước.' },
+        { status: 400 }
+      );
+    }
+
+    if (category._count.children > 0) {
+      return NextResponse.json(
+        { message: 'Không thể xóa danh mục có sub-categories. Hãy xóa hoặc chuyển sub-categories trước.' },
         { status: 400 }
       );
     }
