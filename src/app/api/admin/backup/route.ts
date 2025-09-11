@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Lấy tất cả dữ liệu từ database
-.    const [categories, products, offers, highlights, reviewMeta, newsletterSubscriptions] = await Promise.all([
+    const [categories, products, offers, highlights, reviewMeta, newsletterSubscriptions] = await Promise.all([
       db.category.findMany({
         include: {
           products: true,
