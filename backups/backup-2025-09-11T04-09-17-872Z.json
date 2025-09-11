@@ -1,0 +1,225 @@
+{
+  "timestamp": "2025-09-11T04:09:17.875Z",
+  "version": "1.0",
+  "data": {
+    "categories": [
+      {
+        "id": "cmfdtf4my0000cdxws04af57g",
+        "name": "Home & Kitchen",
+        "slug": "home-kitchen",
+        "icon": null,
+        "iconImage": "/uploads/1757561581444-9z0j0fc2no.png",
+        "parentId": null,
+        "createdAt": "2025-09-10T10:07:00.154Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4na0001cdxw7f7u40yg",
+        "name": "Electronics",
+        "slug": "electronics",
+        "icon": "📱",
+        "iconImage": null,
+        "parentId": null,
+        "createdAt": "2025-09-10T10:07:00.166Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4nk0002cdxwdvsn9xf2",
+        "name": "Health & Beauty",
+        "slug": "health-beauty",
+        "icon": "🏥",
+        "iconImage": null,
+        "parentId": null,
+        "createdAt": "2025-09-10T10:07:00.176Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4nu0003cdxwkjiz5e1x",
+        "name": "Sports & Fitness",
+        "slug": "sports-fitness",
+        "icon": "⚽",
+        "iconImage": null,
+        "parentId": null,
+        "createdAt": "2025-09-10T10:07:00.186Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4o50005cdxwrbkjsc7j",
+        "name": "Air Purifiers",
+        "slug": "air-purifiers",
+        "icon": "💨",
+        "iconImage": null,
+        "parentId": "cmfdtf4my0000cdxws04af57g",
+        "createdAt": "2025-09-10T10:07:00.197Z",
+        "products": [
+          {
+            "id": "cmfdtf4qq000ncdxwwmklvjuz",
+            "title": "Máy lọc không khí PuroAir 1115",
+            "imageUrl": "/air-purifier.webp",
+            "score": 9.5,
+            "categoryId": "cmfdtf4o50005cdxwrbkjsc7j",
+            "createdAt": "2025-09-10T10:07:00.290Z",
+            "list": null,
+            "badge": "Best Overall",
+            "boughtNote": "9K+ bought in past month",
+            "discount": "20% off",
+            "rank": 1,
+            "retailer": "amazon",
+            "reviewsCount": 13721
+          }
+        ]
+      },
+      {
+        "id": "cmfdtf4of0007cdxw5x2871m4",
+        "name": "Vacuum Cleaners",
+        "slug": "vacuum-cleaners",
+        "icon": "🧹",
+        "iconImage": null,
+        "parentId": "cmfdtf4my0000cdxws04af57g",
+        "createdAt": "2025-09-10T10:07:00.207Z",
+        "products": [
+          {
+            "id": "cmfdtf4r1000ucdxw0ibjjn86",
+            "title": "Máy hút bụi robot iRobot Roomba j7+",
+            "imageUrl": "/pool-cleaner.webp",
+            "score": 9.2,
+            "categoryId": "cmfdtf4of0007cdxw5x2871m4",
+            "createdAt": "2025-09-10T10:07:00.301Z",
+            "list": null,
+            "badge": "Smart Choice",
+            "boughtNote": "5K+ bought in past month",
+            "discount": "15% off",
+            "rank": 1,
+            "retailer": "amazon",
+            "reviewsCount": 8923
+          }
+        ]
+      },
+      {
+        "id": "cmfdtf4op0009cdxw0nwynbs0",
+        "name": "Kitchen Appliances",
+        "slug": "kitchen-appliances",
+        "icon": "🍳",
+        "iconImage": null,
+        "parentId": "cmfdtf4my0000cdxws04af57g",
+        "createdAt": "2025-09-10T10:07:00.217Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4oz000bcdxwwk5p49v5",
+        "name": "Smartphones",
+        "slug": "smartphones",
+        "icon": "📱",
+        "iconImage": null,
+        "parentId": "cmfdtf4na0001cdxw7f7u40yg",
+        "createdAt": "2025-09-10T10:07:00.227Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4p9000dcdxw3aglurz1",
+        "name": "Laptops",
+        "slug": "laptops",
+        "icon": "💻",
+        "iconImage": null,
+        "parentId": "cmfdtf4na0001cdxw7f7u40yg",
+        "createdAt": "2025-09-10T10:07:00.238Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4pj000fcdxwdkoc2u4v",
+        "name": "Vitamins & Supplements",
+        "slug": "vitamins-supplements",
+        "icon": "💊",
+        "iconImage": null,
+        "parentId": "cmfdtf4nk0002cdxwdvsn9xf2",
+        "createdAt": "2025-09-10T10:07:00.248Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4pt000hcdxwce87ww78",
+        "name": "Skincare",
+        "slug": "skincare",
+        "icon": "🧴",
+        "iconImage": null,
+        "parentId": "cmfdtf4nk0002cdxwdvsn9xf2",
+        "createdAt": "2025-09-10T10:07:00.257Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4q3000jcdxwjicn3fat",
+        "name": "Fitness Equipment",
+        "slug": "fitness-equipment",
+        "icon": "🏋️",
+        "iconImage": null,
+        "parentId": "cmfdtf4nu0003cdxwkjiz5e1x",
+        "createdAt": "2025-09-10T10:07:00.267Z",
+        "products": []
+      },
+      {
+        "id": "cmfdtf4qd000lcdxwjovanwjt",
+        "name": "Outdoor Gear",
+        "slug": "outdoor-gear",
+        "icon": "🏕️",
+        "iconImage": null,
+        "parentId": "cmfdtf4nu0003cdxwkjiz5e1x",
+        "createdAt": "2025-09-10T10:07:00.277Z",
+        "products": []
+      }
+    ],
+    "products": [
+      {
+        "id": "cmfdtf4qq000ncdxwwmklvjuz",
+        "title": "Máy lọc không khí PuroAir 1115",
+        "imageUrl": "/air-purifier.webp",
+        "score": 9.5,
+        "categoryId": "cmfdtf4o50005cdxwrbkjsc7j",
+        "createdAt": "2025-09-10T10:07:00.290Z",
+        "list": null,
+        "badge": "Best Overall",
+        "boughtNote": "9K+ bought in past month",
+        "discount": "20% off",
+        "rank": 1,
+        "retailer": "amazon",
+        "reviewsCount": 13721,
+        "category": {
+          "id": "cmfdtf4o50005cdxwrbkjsc7j",
+          "name": "Air Purifiers",
+          "slug": "air-purifiers",
+          "icon": "💨",
+          "iconImage": null,
+          "parentId": "cmfdtf4my0000cdxws04af57g",
+          "createdAt": "2025-09-10T10:07:00.197Z"
+        }
+      },
+      {
+        "id": "cmfdtf4r1000ucdxw0ibjjn86",
+        "title": "Máy hút bụi robot iRobot Roomba j7+",
+        "imageUrl": "/pool-cleaner.webp",
+        "score": 9.2,
+        "categoryId": "cmfdtf4of0007cdxw5x2871m4",
+        "createdAt": "2025-09-10T10:07:00.301Z",
+        "list": null,
+        "badge": "Smart Choice",
+        "boughtNote": "5K+ bought in past month",
+        "discount": "15% off",
+        "rank": 1,
+        "retailer": "amazon",
+        "reviewsCount": 8923,
+        "category": {
+          "id": "cmfdtf4of0007cdxw5x2871m4",
+          "name": "Vacuum Cleaners",
+          "slug": "vacuum-cleaners",
+          "icon": "🧹",
+          "iconImage": null,
+          "parentId": "cmfdtf4my0000cdxws04af57g",
+          "createdAt": "2025-09-10T10:07:00.207Z"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "categoriesCount": 13,
+    "productsCount": 2,
+    "totalRecords": 15
+  }
+}

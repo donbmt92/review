@@ -24,17 +24,25 @@ export async function POST(request: NextRequest) {
     }
 
     // Lấy tất cả dữ liệu từ database
-    const [categories, products] = await Promise.all([
+.    const [categories, products, offers, highlights, reviewMeta, newsletterSubscriptions] = await Promise.all([
       db.category.findMany({
         include: {
-          products: true
+          products: true,
+          content: true
         }
       }),
       db.product.findMany({
         include: {
-          category: true
+          category: true,
+          offers: true,
+          highlights: true,
+          reviewMeta: true
         }
-      })
+      }),
+      db.offer.findMany(),
+      db.highlight.findMany(),
+      db.reviewMeta.findMany(),
+      db.newsletterSubscription.findMany()
     ]);
 
     // Tạo object backup
@@ -43,12 +51,20 @@ export async function POST(request: NextRequest) {
       version: '1.0',
       data: {
         categories,
-        products
+        products,
+        offers,
+        highlights,
+        reviewMeta,
+        newsletterSubscriptions
       },
       metadata: {
         categoriesCount: categories.length,
         productsCount: products.length,
-        totalRecords: categories.length + products.length
+        offersCount: offers.length,
+        highlightsCount: highlights.length,
+        reviewMetaCount: reviewMeta.length,
+        newsletterSubscriptionsCount: newsletterSubscriptions.length,
+        totalRecords: categories.length + products.length + offers.length + highlights.length + reviewMeta.length + newsletterSubscriptions.length
       }
     };
 
